@@ -43,7 +43,7 @@
     <div class="sidebar-menu">
         <div class="sidebar-header">
             <div class="logo">
-                <a href="index.html"><img src="<?=base_url()?>assets/images/icon/logo.png" alt="logo"></a>
+                <a href="index.html"><img src="<?=base_url()?>img/logo.png" alt="logo"></a>
             </div>
         </div>
         <div class="main-menu">
@@ -52,19 +52,19 @@
                     <ul class="metismenu" id="menu">
                         <li>
                             <a href="<?=base_url()?>Paciente" aria-expanded="true">
-                                <i class="ti-dashboard"></i><span>Pacientes </span>
+                                <i class="ti-user"></i><span>Clientes </span>
                             </a>
                         </li>
                         <li>
-                            <a href="<?=base_url()?>Reserva" aria-expanded="true">
-                                <i class="ti-time"></i><span> Reservas </span>
+                            <a href="<?=base_url()?>Productos" aria-expanded="true">
+                                <i class="ti-briefcase"></i><span>Productos </span>
                             </a>
                         </li>
-                        <li>
-                            <a href="<?=base_url()?>Consulta" aria-expanded="true">
-                                <i class="ti-tag"></i><span>Reporte diario </span>
-                            </a>
-                        </li>
+<!--                        <li>-->
+<!--                            <a href="--><?//=base_url()?><!--Consulta" aria-expanded="true">-->
+<!--                                <i class="ti-tag"></i><span>Reporte diario </span>-->
+<!--                            </a>-->
+<!--                        </li>-->
                         <li>
                             <a href="<?=base_url()?>Venta" aria-expanded="true">
                                 <i class="ti-bag"></i><span> Ventas</span>

@@ -19,7 +19,7 @@
 </style>
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target=".bs-example-modal-lg">
-    <i class="fa fa-battery-0"></i> Registrar Producto
+    <i class="fa fa-plus"></i> Registrar Producto
 </button>
 <div class="mt-1"></div>
 <table id="example" class="display nowrap" style="width:100%">
@@ -28,7 +28,8 @@
         <th>Idtratamiento</th>
         <th>Nombre</th>
         <th>Precio</th>
-        <th>Stock</th>
+        <th>Cantidad</th>
+        <th>Estado</th>
         <th>Opciones</th>
     </tr>
     </thead>
@@ -37,16 +38,23 @@
     $query=$this->db->query("SELECT * FROM producto
 ");
     foreach ($query->result() as $row){
-
+        if($row->estado=="ACTIVO"){
+            $t="<div class='p-0 text-center bg-success text-white'>ACTIVO</div>";
+            $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-danger eli  p-1' ><i class='fa fa-trash-o'></i> INACTIVAR</a>";
+        }else{
+            $t="<div class='p-0 text-center bg-warning text-white'>INACTIVO</div>";
+            $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-success  p-1' ><i class='fa fa-check'></i> ACTIVAR</a>";
+        }
         echo "
         <tr>
             <td>".$row->idproducto."</td>
             <td>".$row->nombre."</td>
             <td>".$row->precio."</td>
-            <td>".$row->stock."</td>
+            <td>".$row->cantidad."</td>
+            <td>$t</td>
             <td> 
-            <button  class='btn btn-sm btn-warning text-white sinespaciotexto' data-idusuario='$row->idproducto' data-toggle=\"modal\" data-target=\"#modificar\" ><i class='fa fa-pencil'></i> Actualizar</button>
-            <a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-danger sinespaciotexto eli' ><i class='fa fa-trash-o'></i> Eliminar</a>
+            <button  class='btn btn-sm btn-warning text-white p-1' data-idusuario='$row->idproducto' data-toggle=\"modal\" data-target=\"#modificar\" ><i class='fa fa-pencil'></i> Actualizar</button>
+           $b
             </td>
         </tr>";
     }
@@ -57,7 +65,7 @@
     var eli=document.getElementsByClassName("eli");
     for (var i=0;i<eli.length;i++){
         eli[i].addEventListener('click',function (e) {
-            if (!confirm("Seguro de eliminar?")){
+            if (!confirm("Seguro de inactivar?, no esta disponible para ventas")){
                 e.preventDefault();
             }
         })
@@ -78,17 +86,17 @@
             <div class="modal-body">
                 <form method="post" action="<?=base_url()?>Productos/insert" style="padding: 0px;margin: 0px;border: 0px">
                     <div class="form-row" style="padding: 0px;margin: 0px;border: 0px">
-                        <div class="form-group col-md-12" style="padding: 0px;margin: 0px;border: 0px" >
-                            <label for="nombre" style="padding: 0px;margin: 0px;border: 0px">nombre</label>
-                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="nombre" placeholder="nombre" name="nombre" required>
+                        <div class="form-group col-md-12"  >
+                            <label for="nombre" >nombre</label>
+                            <input type="text"  class="form-control" id="nombre" placeholder="nombre" name="nombre" required>
                         </div>
-                        <div class="form-group col-md-12" style="padding: 0px;margin: 0px;border: 0px" >
-                            <label for="precio" style="padding: 0px;margin: 0px;border: 0px">precio</label>
-                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="precio" value="0" placeholder="precio" name="precio" required>
+                        <div class="form-group col-md-12"  >
+                            <label for="precio" >precio</label>
+                            <input type="text"  class="form-control" id="precio" value="0" placeholder="precio" name="precio" required>
                         </div>
-                        <div class="form-group col-md-12" style="padding: 0px;margin: 0px;border: 0px" >
-                            <label for="stock" style="padding: 0px;margin: 0px;border: 0px">stock</label>
-                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="stock" value="0" placeholder="stock" name="stock" required>
+                        <div class="form-group col-md-12"  >
+                            <label for="stock" >stock</label>
+                            <input type="text"  class="form-control" id="stock" value="0" placeholder="stock" name="stock" required>
                         </div>
                     </div>
                     <div class="modal-footer">

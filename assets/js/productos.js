@@ -25,7 +25,7 @@ $(document).ready(function() {
                 $('#idproducto2').val(datos.idproducto);
                 $('#nombre2').val(datos.nombre);
                 $('#precio2').val(datos.precio);
-                $('#stock2').val(datos.stock);
+                $('#stock2').val(datos.cantidad);
             }
         })
     })

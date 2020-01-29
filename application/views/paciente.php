@@ -19,14 +19,14 @@
 </style>
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target=".bs-example-modal-lg">
-    <i class="fa fa-file"></i> Registrar Paciente
+    <i class="fa fa-user-plus"></i> Registrar Cliente
 </button>
 <div class="mt-1"></div>
 <table id="example1" class="display nowrap" style="width:100%">
     <thead>
     <tr>
-        <th>Idpaciente</th>
-        <th>Nombre</th>
+        <th>CI/NIT</th>
+        <th>Razon o apellido</th>
         <th>Direccion</th>
         <th>Edad</th>
         <th>Telefono</th>
@@ -42,24 +42,24 @@
         $annos = $hoy->diff($cumpleanos);
         echo "
         <tr>
-            <td>".$row->idpaciente."</td>
-            <td>".$row->nombres." ".$row->apellidos."</td>
+            <td>".$row->ci."</td>
+            <td>".$row->apellidos."</td>
             <td>".$row->direccion."</td>
             <td>".$annos->y."</td>
             <td><a target='_blank' href='https://wa.me/591".$row->celular."?text='>".$row->celular."</a></td>
             <td> 
-            <a href='".base_url()."Paciente/reghistorial/".$row->idpaciente."' class='btn btn-sm btn-success text-white sinespaciotexto' ><i class='fa fa-file-archive-o'></i> Reg. Historial</a> <br>
-            <a type='button'  class='btn btn-warning btn-sm sinespaciotexto' href='".base_url()."Paciente/escoger/".$row->idpaciente."' > <i class=\"fa fa-align-justify\"></i>Historiales</a> <br>
+            <!--a href='".base_url()."Paciente/reghistorial/".$row->idpaciente."' class='btn btn-sm btn-success text-white sinespaciotexto' ><i class='fa fa-file-archive-o'></i> Reg. Historial</a> <br>
+            <a type='button'  class='btn btn-warning btn-sm sinespaciotexto' href='".base_url()."Paciente/escoger/".$row->idpaciente."' > <i class=\"fa fa-align-justify\"></i>Historiales</a> <br-->
             <button type='button' class='btn btn-warning sinespaciotexto' data-idpaciente='$row->idpaciente' data-toggle='modal' data-target='#modificar'>
                 <i class='fa fa-pencil'></i> Modificar
             </button> <br>
-            <a  class='btn btn-info sinespaciotexto' href='".base_url()."photo/index/$row->idpaciente'>
+            <!-- a  class='btn btn-info sinespaciotexto' href='".base_url()."photo/index/$row->idpaciente'>
                 <i class='fa fa-photo'></i> Subir fotografia
             </a>
             </button> <br>
             <a  class='btn btn-danger sinespaciotexto eli' href='".base_url()."Paciente/delete/$row->idpaciente'>
                 <i class='fa fa-trash'></i> Eliminar
-            </a>
+            </a-->
              </td>
         </tr>";
     }
@@ -87,7 +87,7 @@
                     var dato=JSON.parse(e)[0];
                     //console.log(dato);
                     $('#apellidos2').val(dato.apellidos);
-                    $('#nombres2').val(dato.nombres);
+                    // $('#nombres2').val(dato.nombres);
                     $('#ci2').val(dato.ci);
                     $('#zona2').val(dato.zona);
                     $('#direccion2').val(dato.direccion);
@@ -121,10 +121,10 @@
                             <label for="apellidos2" style="padding: 0px;margin: 0px;border: 0px">apellidos</label>
                             <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="apellidos2" placeholder="apellidos" name="apellidos" required>
                         </div>
-                        <div class="form-group col-md-2" style="padding: 0px;margin: 0px;border: 0px" >
-                            <label for="nombres2" style="padding: 0px;margin: 0px;border: 0px">nombres</label>
-                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="nombres2" placeholder="nombres" name="nombres" >
-                        </div>
+<!--                        <div class="form-group col-md-2" style="padding: 0px;margin: 0px;border: 0px" >-->
+<!--                            <label for="nombres2" style="padding: 0px;margin: 0px;border: 0px">nombres</label>-->
+<!--                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="nombres2" placeholder="nombres" name="nombres" >-->
+<!--                        </div>-->
                         <div class="form-group col-md-3" style="padding: 0px;margin: 0px;border: 0px">
                             <label for="ci2">ci</label>
                             <input type="text" style="padding: 0px;margin: 0px" class="form-control" id="ci2" placeholder="ci" name="ci">
@@ -192,10 +192,10 @@
                             <label for="apellidos" style="padding: 0px;margin: 0px;border: 0px">apellidos</label>
                             <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="apellidos" placeholder="apellidos" name="apellidos" required>
                         </div>
-                        <div class="form-group col-md-2" style="padding: 0px;margin: 0px;border: 0px" >
-                            <label for="nombres" style="padding: 0px;margin: 0px;border: 0px">nombres</label>
-                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="nombres" placeholder="nombres" name="nombres" >
-                        </div>
+<!--                        <div class="form-group col-md-2" style="padding: 0px;margin: 0px;border: 0px" >-->
+<!--                            <label for="nombres" style="padding: 0px;margin: 0px;border: 0px">nombres</label>-->
+<!--                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="nombres" placeholder="nombres" name="nombres" >-->
+<!--                        </div>-->
                         <div class="form-group col-md-3" style="padding: 0px;margin: 0px;border: 0px">
                             <label for="ci">ci</label>
                             <input type="text" style="padding: 0px;margin: 0px" class="form-control" id="ci" placeholder="ci" name="ci">

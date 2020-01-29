@@ -42,13 +42,12 @@
         <div class="login-box ptb--100">
             <form method="post" action="<?=base_url()?>Welcome/login">
                 <div class="login-form-head">
-                    <h4>Escencia</h4>
-                    <p>Spa Medico Ltda</p>
+                    <img src="<?=base_url()?>img/logo.png" alt="">
                 </div>
                 <div class="login-form-body">
                     <div class="form-gp">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" id="exampleInputEmail1" name="email">
+                        <label for="exampleInputEmail1">Usuario</label>
+                        <input type="text" id="exampleInputEmail1" name="email">
                         <i class="ti-email"></i>
                     </div>
                     <div class="form-gp">

@@ -32,7 +32,7 @@ class Productos extends CI_Controller{
         $nombre = strtoupper($_POST['nombre']);
         $precio = $_POST['precio'];
         $stock = $_POST['stock'];
-        $query = $this->db->query("INSERT INTO producto(nombre,precio,stock) 
+        $query = $this->db->query("INSERT INTO producto(nombre,precio,cantidad) 
 VALUES ('$nombre','$precio','$stock');");
         header("Location: ".base_url().'Productos');
     }
@@ -53,7 +53,7 @@ VALUES ('$nombre','$precio','$stock');");
         $query = $this->db->query("UPDATE producto SET 
         nombre='$nombre',
         precio='$precio',
-        stock='$stock'
+        cantidad='$stock'
         WHERE
         idproducto='$idproducto';
 ");
@@ -63,9 +63,13 @@ VALUES ('$nombre','$precio','$stock');");
         if ($_SESSION['tipo'] == "") {
             header("Location: " . base_url());
         }
-
-        $query = $this->db->query("DELETE FROM detallefactura WHERE idproducto='$id'");
-        $query = $this->db->query("DELETE FROM producto WHERE idproducto='$id'");
+        $query=$this->db->query("SELECT * FROM producto WHERE idproducto='$id'");
+        $estado=$query->row()->estado;
+        if($estado=='ACTIVO')
+            $query = $this->db->query("UPDATE producto SET ESTADO='INACTIVO' WHERE idproducto='$id'");
+        else
+            $query = $this->db->query("UPDATE producto SET ESTADO='ACTIVO' WHERE idproducto='$id'");
+//        $query = $this->db->query("DELETE FROM producto WHERE idproducto='$id'");
         header("Location: ".base_url().'Productos');
     }
 }

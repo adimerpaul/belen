@@ -851,7 +851,7 @@ unas) VALUES (
         if ($_SESSION['tipo']==""){
             header("Location: ".base_url());
         }
-        $nombres= strtoupper( $_POST['nombres']);
+//        $nombres= strtoupper( $_POST['nombres']);
         $apellidos= strtoupper( $_POST['apellidos']);
         $zona=$_POST['zona'];
         $direccion=$_POST['direccion'];
@@ -860,8 +860,8 @@ unas) VALUES (
         $telefono=$_POST['telefono'];
         $referencia=$_POST['referencia'];
         $ci=$_POST['ci'];
-         $query=$this->db->query("INSERT INTO paciente(ci,nombres,apellidos,zona,direccion,fechanac,celular,telefono,idusuario,referencia) 
-VALUES ('$ci','$nombres', '$apellidos', '$zona', '$direccion', '$fechanac', '$celular','$telefono', '".$_SESSION['idusuario']."','$referencia');");
+         $query=$this->db->query("INSERT INTO paciente(ci,apellidos,zona,direccion,fechanac,celular,telefono,idusuario,referencia) 
+VALUES ('$ci', '$apellidos', '$zona', '$direccion', '$fechanac', '$celular','$telefono', '".$_SESSION['idusuario']."','$referencia');");
 
         header("Location: ".base_url()."Paciente");
     }
