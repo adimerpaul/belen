@@ -1,8 +1,4 @@
 <?php
-
-
-
-
 require('mc_table.php');
 require('NumeroALetras.php');
 require "phpqrcode/qrlib.php";
@@ -11,9 +7,6 @@ require "autoload.php";
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
-
-
-
 class Venta extends CI_Controller{
     function index(){
         if ($_SESSION['tipo']==""){
@@ -87,34 +80,47 @@ VALUES ('$nombre','$tipo');");
     function imprimir(){
         $query=$this->db->query("SELECT * FROM dosificacion WHERE estado='ACTIVO' ORDER BY iddosificacion desc");
         $row=$query->row();
+        if(!isset($row->desde)){
+            echo "No exite dosificacion, no se puede realizar la venta";
+            exit;
+        }
         $desde = $row->desde;
         $hasta = $row->hasta;
+        $fecha=date("Y-m-d");
+        if(($fecha >= $desde) && ($fecha <= $hasta)) {
+        } else {
+            echo "No se puede completar por que las fecha de dosificacion no corresponde a este dia ";
+            exit;
+        }
         $nrotramite = $row->nrotramite;
         $nroautorizacion = $row->nroautorizacion;
         $nrofactura = $row->nrofacturai;
         $llave = $row->llave;
         $leyenda = $row->leyenda;
         $iddosificacion = $row->iddosificacion;
-        $query=$this->db->query("SELECT count(*)+1 as cantidad FROM factura WHERE iddosificacion=$iddosificacion");
+        $query=$this->db->query("SELECT count(*) as cantidad FROM factura WHERE iddosificacion=$iddosificacion");
         $row=$query->row();
-        $numerodefactura=$row->cantidad;
+        $numerodefactura=$row->cantidad+$nrofactura;
         $class2 = new ControlCode();
         $nitci="170444028";
         $fecha=date("Ymd");
         //$monto="120.50";
-
         $query=$this->db->query("SELECT *  FROM paciente WHERE ci='".$_POST['ci']."'");
         //$row=$query->row();
         //$nombres=$row->nombres;
         //$apellidos=$row->apellidos;
         $total= number_format( $_POST['total'],2);
         $monto=$total;
+        $razon=$_POST['razon'];
+        $row=$query->row();
         if ($query->num_rows()==0){
-            $nombres=$_POST['nombres'];
-            $apellidos=$_POST['apellidos'];
-            $query=$this->db->query("INSERT INTO paciente(ci,apellidos,nombres) VALUES('".$_POST['ci']."','$apellidos','$nombres')");
+            $this->db->query("INSERT INTO paciente(ci,apellidos) VALUES('".$_POST['ci']."','$razon')");
+        }else{
+            $apellido=$row->apellidos;
+            if ($apellido!=$razon)
+            $this->db->query("UPDATE paciente SET apellidos='$razon' WHERE ci='".$_POST['ci']."'");
         }
-        $idpaciente=$this->User->consulta('idpaciente','paciente','ci',$_POST['ci']);
+        $idpaciente=$row->idpaciente;
         $codigo=$class2->generate($nroautorizacion, $numerodefactura, $nitci,$fecha, $monto, $llave);
         //echo $codigo;
         $query=$this->db->query("INSERT INTO factura(
@@ -132,11 +138,12 @@ idusuario) VALUES(
 '".$_SESSION['idusuario']."')");
 
         $idfacura=$this->db->insert_id();
+
         $query=$this->db->query("SELECT * FROM producto");
         foreach ($query->result() as $row){
             if(isset($_POST['p'.$row->idproducto])){
-                $query=$this->db->query("UPDATE producto SET stock=stock-".$_POST['c'.$row->idproducto]." WHERE idproducto='$row->idproducto'");
-                $query=$this->db->query("INSERT INTO detallefactura(
+                $this->db->query("UPDATE producto SET cantidad=cantidad-".$_POST['c'.$row->idproducto]." WHERE idproducto='$row->idproducto'");
+                $this->db->query("INSERT INTO detallefactura(
 idfactura,
 idproducto,
 precio,
@@ -153,143 +160,9 @@ VALUES(
         }
         header("Location: ".base_url()."Venta/printfactura2/".$idfacura);
 
-
-
-
-
-/*
-
-        //$total="7841.98";
-        $pdf=new PDF_MC_Table('P','mm',array(250,80));
-        $pdf->AddPage();
-        $pdf->SetFont('Courier','B',8);
-        $pdf->Cell(0,3,utf8_decode('ESCENCIA SPA MEDICO LTDA.'),0,0,'C');
-        $pdf->Ln();
-        $pdf->SetFont('Courier','',7);
-        $pdf->Cell(0,3,utf8_decode('Lo ultimo en tecnologia estetica sin cirugia'),0,0,'C');
-        $pdf->Ln();
-        $pdf->Cell(0,3,utf8_decode('CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE '),0,0,'C');
-        $pdf->Ln();
-        $pdf->Cell(0,3,utf8_decode('NRO. 440(ZONA: CENTRAL)'),0,0,'C');
-        $pdf->Ln();
-        $pdf->Cell(0,3,utf8_decode('Teléfono 5210229 Celular: 60413300'),0,0,'C');
-        $pdf->Ln();
-        $pdf->Cell(0,3,utf8_decode('ORURO-BOLIVIA'),0,0,'C');
-
-        $pdf->Ln();
-        $pdf->SetFont('Courier','B',8);
-        $pdf->Cell(0,3,utf8_decode('FACTURA'),0,0,'C');
-        $pdf->Ln();
-        $pdf->SetFont('Courier','B',7);
-        $pdf->Cell(30,3,utf8_decode('NIT:'),0,0,'L');
-        $pdf->SetFont('Courier','',7);
-        $pdf->Cell(30,3,utf8_decode('170444028'),0,0,'R');
-        $pdf->Ln();
-        $pdf->SetFont('Courier','B',7);
-        $pdf->Cell(30,3,utf8_decode('Nro. Factura:'),0,0,'L');
-        $pdf->SetFont('Courier','',7);
-        $pdf->Cell(30,3,utf8_decode($numerodefactura),0,0,'R');
-        $pdf->Ln();
-        $pdf->SetFont('Courier','B',7);
-        $pdf->Cell(30,3,utf8_decode('Nro. Autorización:'),0,0,'L');
-        $pdf->SetFont('Courier','',7);
-        $pdf->Cell(30,3,utf8_decode($nroautorizacion),0,0,'R');
-        $pdf->Ln();
-        //$pdf->SetFont('Courier','',7);
-       // $pdf->Cell(0,3,utf8_decode('Venta al por menor de productos farmaceuticos,'),0,0,'C');
-        //$pdf->Ln();
-        //$pdf->Cell(0,3,utf8_decode('Medicinales, cosméticos y articulos de tocador'),0,0,'C');
-        //$pdf->SetFont('Courier','B',7);
-
-        //$pdf->Ln();
-        $pdf->Cell(15,3,utf8_decode('Fecha:'),0,0,'L');
-        $pdf->SetFont('Courier','',7);
-        $pdf->Cell(15,3,utf8_decode(date('d/m/Y')),0,0,'R');
-        $pdf->SetFont('Courier','B',7);
-        $pdf->Cell(15,3,utf8_decode('Hora:'),0,0,'L');
-        $pdf->SetFont('Courier','',7);
-        $pdf->Cell(15,3,utf8_decode(date('H:i')),0,0,'R');
-        $pdf->Ln();
-        $pdf->SetFont('Courier','B',7);
-        $pdf->Cell(15,3,utf8_decode('Señor(es):'),0,0,'L');
-        $pdf->SetFont('Courier','',7);
-        $pdf->Cell(30,3,utf8_decode($apellidos." ".$nombres),0,0,'L');
-
-        $pdf->Ln(4);
-        $pdf->SetFont('Courier','B',7);
-        $pdf->Cell(8,3,utf8_decode('Cant.'),0,0,'C');
-        $pdf->Cell(32,3,utf8_decode('DETALLE '),0,0,'C');
-        $pdf->Cell(10,3,utf8_decode('P/U '),0,0,'C');
-        $pdf->Cell(13,3,utf8_decode('Subtotal '),0,0,'C');
-
-        $query=$this->db->query("SELECT * FROM detallefactura d
-        INNER JOIN producto p ON d.idproducto=p.idproducto
- WHERE idfactura='$idfacura'");
-        $yi=55;
-        foreach ($query->result() as $row){
-            $yi=$yi+15;
-            $pdf->Ln();
-            $pdf->SetFont('Courier','',7);
-            $pdf->SetWidths(array(8,32,10,13));
-            $pdf->Row(array("$row->cantidad",utf8_decode("$row->nombre"),"$row->precio","$row->subtotal"));
-        }
-
-        $pdf->SetFont('Courier','B',7);
-        $pdf->Cell(30,3,utf8_decode('TOTAL BS.: '),0,0,'R');
-        $pdf->Cell(30,3,utf8_decode($total),0,0,'R');
-        $pdf->Ln();
-        $pdf->SetFont('Courier','',7);
-        $pdf->Cell(30,3,utf8_decode('DESCUENTO : '),0,0,'R');
-        $pdf->Cell(30,3,utf8_decode(0),0,0,'R');
-        $decimales = explode('.',$total);
-
-        $letras = (string)NumeroALetras::convertir($decimales[0]);
-
-        $pdf->Ln();
-        $pdf->SetFont('Courier','B',7);
-        $pdf->Cell(30,3,utf8_decode('TOTAL NETO BS.: '),0,0,'R');
-        $pdf->Cell(30,3,utf8_decode($total),0,0,'R');
-
-        $pdf->Ln(4);
-        $pdf->SetFont('Courier','B',7);
-        $pdf->Cell(8,3,utf8_decode('Son : '),0,0,'L');
-        $pdf->SetFont('Courier','',7);
-        $pdf->MultiCell(52,3,utf8_decode(ucfirst(strtolower($letras))).$decimales[1]."/100 Bolivianos");
-
-        //Declaramos una carpeta temporal para guardar la imagenes generadas
-        $dir = 'temp/';
-        //Si no existe la carpeta la creamos
-        if (!file_exists($dir))
-            mkdir($dir);
-        //Declaramos la ruta y nombre del archivo a generar
-        $filename = $dir.'test.png';
-        //Parametros de Condiguración
-
-        $tamaño = 10; //Tamaño de Pixel
-        $level = 'L'; //Precisión Baja
-        $framSize = 3; //Tamaño en blanco
-        $contenido = "http://codigosdeprogramacion.com"; //Texto
-        //Enviamos los parametros a la Función para generar código QR
-        QRcode::png($contenido, $filename, $level, $tamaño, $framSize);
-        //Mostramos la imagen generada
-        //echo '<img src="'.base_url().$dir.basename($filename).'" />';
-
-        $pdf->Image(base_url().$dir.basename($filename),25,$yi,30);
-        $pdf->Ln(30);
-        $pdf->SetFont('Courier','',7);
-        $pdf->MultiCell(0,3,utf8_decode("LEY Nº 453 Está prohibido importar, distribuir o comercializar productos expirados o prontos a expirar."));
-        $pdf->MultiCell(0,3,utf8_decode("Ud. fue atendido por: ".$_SESSION['nombre']));
-        $pdf->MultiCell(0,3,utf8_decode("Si desea comentar sobre la atencion, llame al 69002326."));
-        $pdf->MultiCell(0,3,utf8_decode("GRACIAS POR SU PREFERENCIA."),0,'C');
-        $pdf->Output();*/
-
     }
     public function printfactura($idfactura){
         $nombre_impresora = "POS";
-
-
-
-
         /*
             Intentaremos cargar e imprimir
             el logo
@@ -462,7 +335,7 @@ INNER JOIN producto p ON p.idproducto=d.idproducto
 WHERE d.idfactura='$idfactura'");
         $t="";
         foreach ($query->result() as $row){
-            $t='<tr>
+            $t=$t.'<tr>
                 <td>'.$row->idproducto.'</td>
                 <td>'.$row->nombre.'</td>
                 <td>'.$row->cantidad.'</td>
@@ -504,7 +377,7 @@ AUTORIZACION N° '.$nroautorizacion.' <br>
 <tr>
 <td>
  <b>Oruro:</b> '.$fecha.' <br>
- <b>Señores (es)</b> '.$apellidos.' '.$nombres.'
+ <b>Señores (es)</b> '.$apellidos.' 
 </td>
 <td>
  <b>CI/NIT:</b> '.$ci.'

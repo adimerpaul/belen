@@ -2,21 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9831907-148d-43e4-9aba-ae62fe6b29e2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/.htaccess" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/config/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/config/database.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Paciente.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Paciente.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Productos.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Productos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/Dosificacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Dosificacion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/controllers/Listaventa.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Listaventa.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/Venta.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Venta.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/paciente.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/paciente.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/productos.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/productos.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/dosificacion.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/dosificacion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/views/listadoventa.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/listadoventa.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/templates/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/templates/header.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/venta.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/venta.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/welcome_message.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/welcome_message.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/productos.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/productos.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/venta.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/venta.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/temp/test.png" beforeDir="false" afterPath="$PROJECT_DIR$/temp/test.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1579890812407</updated>
       <workItem from="1579890813868" duration="1288000" />
-      <workItem from="1580239816298" duration="9730000" />
+      <workItem from="1580239816298" duration="22732000" />
     </task>
     <servers />
   </component>

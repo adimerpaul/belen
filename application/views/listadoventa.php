@@ -82,6 +82,10 @@ WHERE MONTH(f.fecha)='$mes' AND YEAR(f.fecha)='$anio'
         $c++;
         if ($row->estado=="A"){
             $row->total=0;
+            $print="";
+        }else{
+            $print="<a href='".base_url()."Venta/printfactura2/$row->idfactura' class='btn btn-sm btn-outline-info sinespaciotexto' ><i class='fa fa-print'></i> Imprimir</a>
+<a href='".base_url()."Listaventa/anular/$row->idfactura' class='btn btn-sm btn-outline-danger sinespaciotexto eli' ><i class='fa fa-trash-o'></i> Anular</a>";
         }
         //for ($i=0;$i<10000;$i++)
         echo "
@@ -103,8 +107,8 @@ WHERE MONTH(f.fecha)='$mes' AND YEAR(f.fecha)='$anio'
             <td>".number_format($row->total*0.13,2)."</td>
             <td>$row->codigocontrol</td>
             <td> 
-           <a href='".base_url()."Venta/printfactura2/$row->idfactura' class='btn btn-sm btn-outline-info sinespaciotexto' ><i class='fa fa-print'></i> Imprimir</a>
-           <a href='".base_url()."Listaventa/anular/$row->idfactura' class='btn btn-sm btn-outline-danger sinespaciotexto eli' ><i class='fa fa-trash-o'></i> Anular</a>
+           $print
+      
             </td>
         </tr>";
     }

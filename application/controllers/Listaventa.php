@@ -50,15 +50,15 @@ class Listaventa extends CI_Controller{
         if ($_SESSION['tipo'] == "") {
             header("Location: " . base_url());
         }
-        $query=$this->db->query("UPDATE factura SET total=0 WHERE idfactura='$id'");
+        $this->db->query("UPDATE factura SET total=0,estado='A' WHERE idfactura='$id'");
+        $query=$this->db->query("SELECT * FROM detallefactura WHERE idfactura='$id'");
+        foreach ($query->result() AS $row){
+            $this->db->query("UPDATE producto SET cantidad=cantidad+$row->cantidad WHERE idproducto='$row->idproducto'");
+        }
         header("Location: " . base_url()."Listaventa");
-
     }
     function printfactura($idfactura){
         $nombre_impresora = "POS";
-
-
-
 
         /*
             Intentaremos cargar e imprimir

@@ -41,9 +41,9 @@
 ");
     foreach ($query->result() as $row){
         if ($row->estado=="ACTIVO"){
-            $t="<span class='btn-success'>ACTIVO</span>";
+            $t="<div class='bg p-1 bg-success text-center text-white'>ACTIVO</div>";
         }else{
-            $t="<span class='btn-warning'>INACTIVO</span>";
+            $t="<div class='bg p-1 bg-warning text-center text-white'>INACTIVO</div>";
         }
 
         echo "
@@ -53,11 +53,10 @@
             <td>".$row->nrotramite."</td>
             <td>".$row->nroautorizacion."</td>
             <td>".$row->nrofacturai."</td>
-
             <td> ".$t."</td>
             <td> 
-            <button  class='btn btn-sm btn-warning text-white sinespaciotexto' data-idusuario='$row->iddosificacion' data-toggle=\"modal\" data-target=\"#modificar\" ><i class='fa fa-pencil'></i> Actualizar</button>
-            <a href='".base_url()."Dosificacion/delete/$row->iddosificacion' class='btn btn-sm btn-danger sinespaciotexto eli' ><i class='fa fa-trash-o'></i> Eliminar</a>
+            <button  class='btn btn-sm btn-warning text-white p-1' data-idusuario='$row->iddosificacion' data-toggle=\"modal\" data-target=\"#modificar\" ><i class='fa fa-pencil'></i> Actualizar</button>
+            <!--a href='".base_url()."Dosificacion/delete/$row->iddosificacion' class='btn btn-sm btn-danger sinespaciotexto eli' ><i class='fa fa-trash-o'></i> Eliminar</a-->
             </td>
         </tr>";
     }

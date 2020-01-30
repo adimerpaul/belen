@@ -60,6 +60,11 @@
                                 <i class="ti-briefcase"></i><span>Productos </span>
                             </a>
                         </li>
+                        <li>
+                            <a href="<?= base_url() ?>Dosificacion" aria-expanded="true">
+                                <i class="ti-archive"></i><span> Dosificacion</span>
+                            </a>
+                        </li>
 <!--                        <li>-->
 <!--                            <a href="--><?//=base_url()?><!--Consulta" aria-expanded="true">-->
 <!--                                <i class="ti-tag"></i><span>Reporte diario </span>-->
@@ -78,53 +83,51 @@
                         <?php
                             if ($_SESSION['tipo']=='ADMIN') {
                                 ?>
-                                <li>
-                                    <a href="javascript:void(0)" aria-expanded="true"><i class="ti-book"></i><span>Controles</span></a>
-                                    <ul class="collapse">
+<!--                                <li>-->
+<!--                                    <a href="javascript:void(0)" aria-expanded="true"><i class="ti-book"></i><span>Controles</span></a>-->
+<!--                                    <ul class="collapse">-->
                                         <li>
                                             <a href="<?= base_url() ?>Usuarios" aria-expanded="true">
                                                 <i class="ti-user"></i><span> Usuarios</span>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="<?= base_url() ?>Consentimientos" aria-expanded="true">
-                                                <i class="ti-files"></i><span> Consentimiento</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?= base_url() ?>Indicaciones" aria-expanded="true">
-                                                <i class="ti-apple"></i><span> Indicaciones</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?= base_url() ?>Tipotratamiento" aria-expanded="true">
-                                                <i class="ti-agenda"></i><span>Tipo Tratamiento</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?= base_url() ?>Tratamientos" aria-expanded="true">
-                                                <i class="ti-rss"></i><span> Tratamientos</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?= base_url() ?>Inventario" aria-expanded="true">
-                                                <i class="ti-map"></i><span> inventario</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?= base_url() ?>Productos" aria-expanded="true">
-                                                <i class="ti-archive"></i><span> Productos</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?= base_url() ?>Dosificacion" aria-expanded="true">
-                                                <i class="ti-archive"></i><span> Dosificacion FACTURA</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-
+<!--                                        <li>-->
+<!--                                            <a href="--><?//= base_url() ?><!--Consentimientos" aria-expanded="true">-->
+<!--                                                <i class="ti-files"></i><span> Consentimiento</span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <a href="--><?//= base_url() ?><!--Indicaciones" aria-expanded="true">-->
+<!--                                                <i class="ti-apple"></i><span> Indicaciones</span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <a href="--><?//= base_url() ?><!--Tipotratamiento" aria-expanded="true">-->
+<!--                                                <i class="ti-agenda"></i><span>Tipo Tratamiento</span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <a href="--><?//= base_url() ?><!--Tratamientos" aria-expanded="true">-->
+<!--                                                <i class="ti-rss"></i><span> Tratamientos</span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <a href="--><?//= base_url() ?><!--Inventario" aria-expanded="true">-->
+<!--                                                <i class="ti-map"></i><span> inventario</span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <a href="--><?//= base_url() ?><!--Productos" aria-expanded="true">-->
+<!--                                                <i class="ti-archive"></i><span> Productos</span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <a href="--><?//= base_url() ?><!--Dosificacion" aria-expanded="true">-->
+<!--                                                <i class="ti-archive"></i><span> Dosificacion FACTURA</span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                    </ul>-->
+<!--                                </li>-->
                                 <li>
                                     <a href="<?= base_url() ?>Export" aria-expanded="true">
                                         <i class="ti-sharethis"></i><span>Exportar BD</span>
