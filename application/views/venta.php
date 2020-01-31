@@ -89,19 +89,19 @@
                     <div class="form-group row">
                         <label for="precio" class="col-sm-3 col-form-label">Precio</label>
                         <div class="col-sm-9">
-                            <input type="text" id="precio" name="precio" class="form-control" required>
+                            <input type="number" id="precio" name="precio" class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="cantidad" class="col-sm-3 col-form-label">Cantidad</label>
                         <div class="col-sm-9">
-                            <input type="text" id="cantidad" name="cantidad" value="1" class="form-control" required>
+                            <input type="number" id="cantidad" name="cantidad" value="1" class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="subtotal" class="col-sm-3 col-form-label"><b>SUBTOTAL</b></label>
                         <div class="col-sm-9">
-                            <input type="text" id="subtotal" name="subtotal" value="0" class="form-control" required>
+                            <input type="number" id="subtotal" name="subtotal" value="0" class="form-control" required>
                         </div>
                     </div>
                     <div class="modal-footer">

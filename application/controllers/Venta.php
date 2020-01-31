@@ -330,7 +330,8 @@ WHERE f.idfactura='$idfactura'");
         $pdf->AddPage();
         $pdf->SetFont('times', '', 9);
 
-        $query=$this->db->query("SELECT * FROM detallefactura d 
+        $query=$this->db->query("SELECT p.idproducto,nombre,d.cantidad,d.precio,d.subtotal 
+FROM detallefactura d 
 INNER JOIN producto p ON p.idproducto=d.idproducto
 WHERE d.idfactura='$idfactura'");
         $t="";
@@ -343,7 +344,6 @@ WHERE d.idfactura='$idfactura'");
                 <td>'.$row->subtotal.'</td>
                 </tr>';
         }
-
         $html='<table>
 <tr align="center" >
 <td>

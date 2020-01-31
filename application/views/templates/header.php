@@ -50,39 +50,44 @@
             <div class="menu-inner">
                 <nav>
                     <ul class="metismenu" id="menu">
-                        <li>
-                            <a href="<?=base_url()?>Paciente" aria-expanded="true">
-                                <i class="ti-user"></i><span>Clientes </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?=base_url()?>Productos" aria-expanded="true">
-                                <i class="ti-briefcase"></i><span>Productos </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= base_url() ?>Dosificacion" aria-expanded="true">
-                                <i class="ti-archive"></i><span> Dosificacion</span>
-                            </a>
-                        </li>
+
+
 <!--                        <li>-->
 <!--                            <a href="--><?//=base_url()?><!--Consulta" aria-expanded="true">-->
 <!--                                <i class="ti-tag"></i><span>Reporte diario </span>-->
 <!--                            </a>-->
 <!--                        </li>-->
+
+
+                        <?php if ($_SESSION['tipo']=='VENDEDOR'):?>
+                            <li>
+                                <a href="<?=base_url()?>Venta" aria-expanded="true">
+                                    <i class="ti-bag"></i><span> Ventas</span>
+                                </a>
+                            </li>
                         <li>
-                            <a href="<?=base_url()?>Venta" aria-expanded="true">
-                                <i class="ti-bag"></i><span> Ventas</span>
+                            <a href="<?=base_url()?>Informeventa" aria-expanded="true">
+                                <i class="ti-file"></i><span> Informe</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="<?=base_url()?>Listaventa" aria-expanded="true">
-                                <i class="ti-files"></i><span>Listado venta</span>
-                            </a>
-                        </li>
-                        <?php
-                            if ($_SESSION['tipo']=='ADMIN') {
-                                ?>
+                        <?php else: //header('Location: '.base_url());?>
+                        <?php endif; ?>
+                        <?php if ($_SESSION['tipo']=='ADMIN') :?>
+                            <li>
+                                <a href="<?=base_url()?>Paciente" aria-expanded="true">
+                                    <i class="ti-user"></i><span>Clientes </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?=base_url()?>Productos" aria-expanded="true">
+                                    <i class="ti-briefcase"></i><span>Productos </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= base_url() ?>Dosificacion" aria-expanded="true">
+                                    <i class="ti-archive"></i><span> Dosificacion</span>
+                                </a>
+                            </li>
 <!--                                <li>-->
 <!--                                    <a href="javascript:void(0)" aria-expanded="true"><i class="ti-book"></i><span>Controles</span></a>-->
 <!--                                    <ul class="collapse">-->
@@ -91,6 +96,17 @@
                                                 <i class="ti-user"></i><span> Usuarios</span>
                                             </a>
                                         </li>
+                            <li>
+                                <a href="<?=base_url()?>Venta" aria-expanded="true">
+                                    <i class="ti-bag"></i><span> Ventas</span>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a href="<?=base_url()?>Listaventa" aria-expanded="true">
+                                    <i class="ti-files"></i><span>Listado venta</span>
+                                </a>
+                            </li>
 <!--                                        <li>-->
 <!--                                            <a href="--><?//= base_url() ?><!--Consentimientos" aria-expanded="true">-->
 <!--                                                <i class="ti-files"></i><span> Consentimiento</span>-->
@@ -133,9 +149,8 @@
                                         <i class="ti-sharethis"></i><span>Exportar BD</span>
                                     </a>
                                 </li>
-                                <?php
-                            }
-                        ?>
+                        <?php else: //header('Location: '.base_url());?>
+                        <?php endif ?>
 
                     </ul>
                 </nav>

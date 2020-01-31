@@ -38,9 +38,9 @@
     $query=$this->db->query("SELECT * FROM usuario");
     foreach ($query->result() as $row){
         if ($row->estado=="ACTIVO"){
-            $estado="<span class='sinespacio  btn-success'>ACTIVO</span>";
+            $estado="<div class='bg text-white text-center  bg-success'>ACTIVO</div>";
         }else{
-            $estado="<span class='sinespacio  btn-danger'>INACTIVO</span>";
+            $estado="<div class='bg text-white text-center bg-danger'>INACTIVO</div>";
         }
         echo "
         <tr>
@@ -50,8 +50,8 @@
             <td>".$row->tipo."</td>
             <td>$estado</td>
             <td> 
-            <button  class='btn btn-sm btn-warning text-white sinespaciotexto' data-idusuario='$row->idusuario' data-toggle=\"modal\" data-target=\"#modificar\" ><i class='fa fa-pencil'></i> Actualizar</button>
-            <a href='".base_url()."Usuarios/delete/$row->idusuario' class='btn btn-sm btn-danger sinespaciotexto eli' ><i class='fa fa-trash-o'></i> Eliminar</a>
+            <button  class='btn btn-sm btn-warning text-white p-1' data-idusuario='$row->idusuario' data-toggle=\"modal\" data-target=\"#modificar\" ><i class='fa fa-pencil'></i> Actualizar</button>
+            <a href='".base_url()."Usuarios/delete/$row->idusuario' class='btn btn-sm btn-danger p-1 eli' ><i class='fa fa-trash-o'></i> Eliminar</a>
             </td>
         </tr>";
     }
@@ -88,8 +88,8 @@
                             <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="nombre" placeholder="nombre" name="nombre" required>
                         </div>
                         <div class="form-group col-md-3" style="padding: 0px;margin: 0px;border: 0px">
-                            <label for="email" style="padding: 0px;margin: 0px;border: 0px">email</label>
-                            <input type="email" style="padding: 0px;margin: 0px" class="form-control" id="email" placeholder="email" name="email" required>
+                            <label for="email" style="padding: 0px;margin: 0px;border: 0px">Usuario</label>
+                            <input type="text" style="padding: 0px;margin: 0px" class="form-control" id="email" placeholder="email" name="email" required>
                         </div>
 
                         <div class="form-group col-md-3" style="padding: 0px;margin: 0px;border: 0px">
@@ -97,7 +97,7 @@
                             <select required name="tipo" id="tipo" style="padding: 0px;margin: 0px;w">
                                 <option value="">Seleccionar...</option>
                                 <option value="ADMIN">ADMIN</option>
-                                <option value="DOCTOR">DOCTOR</option>
+                                <option value="VENDEDOR">VENDEDOR</option>
                             </select>
                         </div>
                         <div class="form-group col-md-3" style="padding: 0px;margin: 0px;border: 0px">
@@ -136,8 +136,8 @@
                             <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="nombre2" placeholder="nombre" name="nombre" required>
                         </div>
                         <div class="form-group col-md-3" style="padding: 0px;margin: 0px;border: 0px">
-                            <label for="email2" style="padding: 0px;margin: 0px;border: 0px">email</label>
-                            <input type="email" style="padding: 0px;margin: 0px" class="form-control" id="email2" placeholder="email" name="email" required>
+                            <label for="email2" style="padding: 0px;margin: 0px;border: 0px">Usuario</label>
+                            <input type="text" style="padding: 0px;margin: 0px" class="form-control" id="email2" placeholder="email" name="email" required>
                         </div>
 
                         <div class="form-group col-md-2" style="padding: 0px;margin: 0px;border: 0px">
@@ -145,7 +145,7 @@
                             <select required name="tipo" id="tipo2" style="padding: 0px;margin: 0px;w">
                                 <option value="">Seleccionar...</option>
                                 <option value="ADMIN">ADMIN</option>
-                                <option value="DOCTOR">DOCTOR</option>
+                                <option value="VENDEDOR">VENDEDOR</option>
                             </select>
                         </div>
                         <div class="form-group col-md-2" style="padding: 0px;margin: 0px;border: 0px">
