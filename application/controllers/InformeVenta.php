@@ -80,6 +80,7 @@ function imprimir(){
 // set some text to print
     $txt = '<div style="font-weight: bold;text-align: center">INFORME DE VENTAS DEL DÍA</div>    
 <b>Fecha: </b> '.date('d/m/Y').'<br>
+<b>Usuario:</b> '.$_SESSION['nombre'].' <br>
 <table >
     <thead class="table-dark">
     <tr>

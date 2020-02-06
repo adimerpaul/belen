@@ -1,0 +1,14 @@
+ci nit
+verificar decimal en venta
+targer de venta en factura
+verificar la venta sale por 2
+accion farmacologica(para que sirve el medicamneto)
+fecha de vencimiento
+colocar mensaje 3 meses ante que vensa
+desea factura??
+historial del pacinte del mes (iultimos 30)
+venta de productos recudir un 8% de productos
+ver pacientes cuanto compraror en precio al mes 
+arriba de 5 bs
+
+
