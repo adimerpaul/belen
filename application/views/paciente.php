@@ -126,7 +126,7 @@
 <!--                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="nombres2" placeholder="nombres" name="nombres" >-->
 <!--                        </div>-->
                         <div class="form-group col-md-3" style="padding: 0px;margin: 0px;border: 0px">
-                            <label for="ci2">ci</label>
+                            <label for="ci2">Ci / NIT</label>
                             <input type="text" style="padding: 0px;margin: 0px" class="form-control" id="ci2" placeholder="ci" name="ci">
                         </div>
                         <div class="form-group col-md-2" style="padding: 0px;margin: 0px;border: 0px">
@@ -197,7 +197,7 @@
 <!--                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="nombres" placeholder="nombres" name="nombres" >-->
 <!--                        </div>-->
                         <div class="form-group col-md-3" style="padding: 0px;margin: 0px;border: 0px">
-                            <label for="ci">ci</label>
+                            <label for="ci">Ci / NIT</label>
                             <input type="text" style="padding: 0px;margin: 0px" class="form-control" id="ci" placeholder="ci" name="ci">
                         </div>
                         <div class="form-group col-md-2" style="padding: 0px;margin: 0px;border: 0px">

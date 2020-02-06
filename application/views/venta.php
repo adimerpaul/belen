@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-6">
-        <form method="post" action="<?=base_url()?>Venta/imprimir">
+        <form method="post" action="<?=base_url()?>Venta/imprimir" target="_blank">
             <div class="form-group row">
                 <label for="ci" class="col-sm-3 col-form-label">CI/NIT</label>
                 <div class="col-sm-9">
@@ -24,6 +24,7 @@
                         <th scope="col">Detalle del Producto</th>
                         <th scope="col">Precio</th>
                         <th scope="col">Cantidad</th>
+
                         <th scope="col">subtotal</th>
                     </tr>
                     </thead>
@@ -85,11 +86,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formulario">
+                <form id="formulario" >
                     <div class="form-group row">
                         <label for="precio" class="col-sm-3 col-form-label">Precio</label>
                         <div class="col-sm-9">
-                            <input type="number" id="precio" name="precio" class="form-control" required>
+                            <input type="number" id="precio" name="precio" step="0.01" class="form-control" required>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -101,7 +102,7 @@
                     <div class="form-group row">
                         <label for="subtotal" class="col-sm-3 col-form-label"><b>SUBTOTAL</b></label>
                         <div class="col-sm-9">
-                            <input type="number" id="subtotal" name="subtotal" value="0" class="form-control" required>
+                            <input type="number" id="subtotal" name="subtotal" step="0.01" value="0" class="form-control" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -221,7 +222,7 @@
                     var subtotal=$('#subtotal').val();
                     //console.log(comprador);
                     con++;
-                    total=parseInt(total)+ parseInt(subtotal);
+                    total=parseFloat(total)+ parseFloat(subtotal);
                     $( "#detalle" ).append( "<tr>" +
                         "                <th scope='row'>"+con+"</th>" +
                         "                <td>"+producto+"</td>" +

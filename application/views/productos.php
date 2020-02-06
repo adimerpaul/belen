@@ -25,12 +25,14 @@
 <table id="example" class="display nowrap" style="width:100%">
     <thead>
     <tr>
-        <th>Idtratamiento</th>
-        <th>Nombre</th>
-        <th>Precio</th>
-        <th>Cantidad</th>
-        <th>Estado</th>
-        <th>Opciones</th>
+        <th scope="col">Idtratamiento</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Accion farmacologica</th>
+        <th scope="col">Fecha de vencimiento</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Opciones</th>
     </tr>
     </thead>
     <tbody>
@@ -51,6 +53,8 @@
             <td>".$row->nombre."</td>
             <td>".$row->precio."</td>
             <td>".$row->cantidad."</td>
+            <td>".$row->farmacologica."</td>
+            <td>".$row->fechavencimiento."</td>
             <td>$t</td>
             <td> 
             <button  class='btn btn-sm btn-warning text-white p-1' data-idusuario='$row->idproducto' data-toggle=\"modal\" data-target=\"#modificar\" ><i class='fa fa-pencil'></i> Actualizar</button>
@@ -97,6 +101,14 @@
                         <div class="form-group col-md-12"  >
                             <label for="stock" >stock</label>
                             <input type="text"  class="form-control" id="stock" value="0" placeholder="stock" name="stock" required>
+                        </div>
+                        <div class="form-group col-md-12"  >
+                            <label for="farmacologica" >farmacologica</label>
+                            <input type="text"  class="form-control" id="farmacologica" placeholder="farmacologica" name="farmacologica" required>
+                        </div>
+                        <div class="form-group col-md-12"  >
+                            <label for="fechavencimiento" >fecha vencimiento</label>
+                            <input type="text"  class="form-control" id="fechavencimiento" placeholder="fecha vencimiento" name="fechavencimiento" required>
                         </div>
                     </div>
                     <div class="modal-footer">
