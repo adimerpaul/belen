@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-01-2020 a las 20:54:22
--- Versión del servidor: 10.4.11-MariaDB
--- Versión de PHP: 7.3.13
+-- Tiempo de generación: 08-02-2020 a las 22:05:17
+-- Versión del servidor: 10.1.38-MariaDB
+-- Versión de PHP: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -57,7 +57,7 @@ CREATE TABLE `consulta` (
   `cot` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `ref` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `idmonto` int(11) NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp()
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
@@ -72,7 +72,7 @@ CREATE TABLE `corporal` (
   `obs` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `cub` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `idmonto` int(11) NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
@@ -83,7 +83,7 @@ CREATE TABLE `corporal` (
 
 CREATE TABLE `cotizacion` (
   `idcotizacion` int(11) NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idhistorial` int(11) NOT NULL,
   `diagnostico` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
   `programa` varchar(255) COLLATE utf8_spanish2_ci NOT NULL
@@ -119,7 +119,7 @@ CREATE TABLE `cotizacionconsetimeinto` (
 CREATE TABLE `cotizacionlaboratorio` (
   `idcotizacion` int(11) DEFAULT NULL,
   `idlaboratorio` int(11) DEFAULT NULL,
-  `fecha` datetime DEFAULT current_timestamp(),
+  `fecha` datetime DEFAULT CURRENT_TIMESTAMP,
   `diagnostico` varchar(255) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `otros` varchar(255) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `indicaciones` varchar(255) COLLATE utf8_spanish2_ci DEFAULT NULL,
@@ -213,12 +213,12 @@ INSERT INTO `detallefactura` (`idfactura`, `idproducto`, `cantidad`, `subtotal`,
 
 CREATE TABLE `deudas` (
   `iddeudas` int(11) NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `comprador` varchar(85) COLLATE utf8_spanish2_ci NOT NULL,
   `detalle` varchar(150) COLLATE utf8_spanish2_ci NOT NULL,
   `celular` varchar(85) COLLATE utf8_spanish2_ci NOT NULL,
   `monto` float NOT NULL,
-  `idusuario` int(11) NOT NULL DEFAULT 1,
+  `idusuario` int(11) NOT NULL DEFAULT '1',
   `tipo` varchar(25) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -266,10 +266,10 @@ INSERT INTO `dosificacion` (`iddosificacion`, `nrotramite`, `nroautorizacion`, `
 
 CREATE TABLE `egreso` (
   `idegreso` int(11) NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `monto` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL,
-  `idtratamiento` int(11) NOT NULL DEFAULT 24
+  `idtratamiento` int(11) NOT NULL DEFAULT '24'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
@@ -294,7 +294,7 @@ CREATE TABLE `events` (
   `end` datetime DEFAULT NULL,
   `title` varchar(200) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `idusuario` int(100) DEFAULT NULL,
-  `idpaciente` int(11) NOT NULL DEFAULT 1,
+  `idpaciente` int(11) NOT NULL DEFAULT '1',
   `descripcion` varchar(255) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -310,7 +310,7 @@ CREATE TABLE `facial` (
   `obs` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `cub` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `idmonto` int(11) NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp()
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
@@ -322,12 +322,12 @@ CREATE TABLE `facial` (
 CREATE TABLE `factura` (
   `idfactura` int(11) NOT NULL,
   `idpaciente` int(11) NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `total` float NOT NULL,
   `codigocontrol` varchar(20) COLLATE utf8_spanish2_ci NOT NULL,
   `iddosificacion` int(11) NOT NULL,
   `nrofactura` int(11) NOT NULL,
-  `idusuario` int(11) NOT NULL DEFAULT 1,
+  `idusuario` int(11) NOT NULL DEFAULT '1',
   `estado` varchar(5) COLLATE utf8_spanish2_ci NOT NULL DEFAULT 'D'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -366,7 +366,7 @@ INSERT INTO `factura` (`idfactura`, `idpaciente`, `fecha`, `total`, `codigocontr
 CREATE TABLE `formapresentacion` (
   `id` int(11) NOT NULL,
   `nombre` varchar(55) NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -385,7 +385,7 @@ INSERT INTO `formapresentacion` (`id`, `nombre`, `fecha`) VALUES
 CREATE TABLE `foto` (
   `idfoto` int(11) NOT NULL,
   `idcotizacion` int(11) DEFAULT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp()
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
@@ -451,7 +451,7 @@ CREATE TABLE `historial` (
   `arrugas` varchar(255) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `referencia` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
   `unas` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp()
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
@@ -472,7 +472,7 @@ INSERT INTO `historial` (`idhistorial`, `idpaciente`, `consulta`, `pa`, `fc`, `p
 
 CREATE TABLE `ingreso` (
   `idingreso` int(11) NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idusuario` int(11) NOT NULL,
   `tipo` varchar(20) COLLATE utf8_spanish2_ci NOT NULL DEFAULT 'ENTRADA'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
@@ -516,7 +516,8 @@ INSERT INTO `ingreso` (`idingreso`, `fecha`, `idusuario`, `tipo`) VALUES
 (35, '2020-01-31 15:19:21', 1, 'ENTRADA'),
 (36, '2020-01-31 15:20:04', 1, 'SALIDA'),
 (37, '2020-01-31 15:20:11', 5, 'ENTRADA'),
-(38, '2020-01-31 15:53:25', 5, 'SALIDA');
+(38, '2020-01-31 15:53:25', 5, 'SALIDA'),
+(39, '2020-02-08 17:00:05', 1, 'ENTRADA');
 
 -- --------------------------------------------------------
 
@@ -592,7 +593,7 @@ CREATE TABLE `medida` (
   `cadera` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
   `muslo` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
   `idcotizacion` int(11) NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp()
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
@@ -604,12 +605,12 @@ CREATE TABLE `medida` (
 CREATE TABLE `montos` (
   `idmonto` int(11) NOT NULL,
   `monto` float NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idcotizacion` int(11) NOT NULL,
   `idtratamiento` int(11) DEFAULT NULL,
   `obs` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `cub` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
-  `idusuario` int(11) NOT NULL DEFAULT 1
+  `idusuario` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
@@ -631,7 +632,7 @@ CREATE TABLE `paciente` (
   `idusuario` int(11) DEFAULT NULL,
   `exp` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
   `referencia` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
@@ -658,18 +659,20 @@ CREATE TABLE `producto` (
   `nombre` varchar(55) COLLATE utf8_spanish2_ci NOT NULL,
   `precio` float NOT NULL,
   `cantidad` int(11) NOT NULL,
-  `estado` varchar(55) COLLATE utf8_spanish2_ci NOT NULL DEFAULT 'ACTIVO'
+  `estado` varchar(55) COLLATE utf8_spanish2_ci NOT NULL DEFAULT 'ACTIVO',
+  `farmacologica` varchar(512) COLLATE utf8_spanish2_ci NOT NULL,
+  `fechavencimiento` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`idproducto`, `nombre`, `precio`, `cantidad`, `estado`) VALUES
-(3, 'MENTISAN', 20, 0, 'ACTIVO'),
-(5, 'PROTECTOR SOLAR COREANO', 160, 30, 'ACTIVO'),
-(8, 'BATIDORA', 20, 93, 'ACTIVO'),
-(9, 'SUERO FISIOLOGICO', 20, 114, 'ACTIVO');
+INSERT INTO `producto` (`idproducto`, `nombre`, `precio`, `cantidad`, `estado`, `farmacologica`, `fechavencimiento`) VALUES
+(3, 'MENTISAN', 20, 0, 'ACTIVO', '', '0000-00-00'),
+(5, 'PROTECTOR SOLAR COREANO', 160, 30, 'ACTIVO', '', '0000-00-00'),
+(8, 'BATIDORA', 20, 93, 'ACTIVO', '', '0000-00-00'),
+(9, 'SUERO FISIOLOGICO', 20, 114, 'ACTIVO', '', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -753,7 +756,7 @@ INSERT INTO `reactivo` (`idreactivo`, `nombre`, `cantidad`, `presentacion`) VALU
 
 CREATE TABLE `receta` (
   `idreceta` int(11) NOT NULL,
-  `fecha` datetime DEFAULT current_timestamp(),
+  `fecha` datetime DEFAULT CURRENT_TIMESTAMP,
   `idcotizacion` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
@@ -770,7 +773,7 @@ CREATE TABLE `soap` (
   `objetivo` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
   `analisis` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
   `plan` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
-  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `fecha` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idusuario` int(11) NOT NULL,
   `monto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
@@ -852,7 +855,7 @@ CREATE TABLE `tratamiento` (
   `caracteristica` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `sesiones` int(11) NOT NULL,
   `costo` int(11) NOT NULL,
-  `idtipotratamiento` int(11) NOT NULL DEFAULT 1,
+  `idtipotratamiento` int(11) NOT NULL DEFAULT '1',
   `tiempo` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `tipo` varchar(200) COLLATE utf8_spanish2_ci NOT NULL,
   `reposicion` int(11) NOT NULL
@@ -1243,7 +1246,7 @@ ALTER TABLE `historial`
 -- AUTO_INCREMENT de la tabla `ingreso`
 --
 ALTER TABLE `ingreso`
-  MODIFY `idingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `idingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de la tabla `laboratorio`
