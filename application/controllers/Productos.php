@@ -24,6 +24,29 @@ class Productos extends CI_Controller{
 <script src='".base_url()."assets/js/productos.js'></script>";
         $this->load->view('templates/footer',$data);
     }
+    function vencer(){
+        if ($_SESSION['tipo']==""){
+            header("Location: ".base_url());
+        }
+        $data['title']='Productos a vencer';
+        $data['css']="<link rel='stylesheet' href='".base_url()."assets/css/jquery.dataTables.min.css'>
+        <link rel='stylesheet' href='".base_url()."assets/css/buttons.dataTables.min.css'>";
+        $this->load->view('templates/header',$data);
+        $this->load->view('vencer');
+        $data['tipo']="warning";
+        $data['msg']="Productos a vencer";
+        $data['js']="
+<script src='".base_url()."assets/js/jquery.dataTables.min.js'></script>
+<script src='".base_url()."assets/js/dataTables.buttons.min.js'></script>
+<script src='".base_url()."assets/js/buttons.flash.min.js'></script>
+<script src='".base_url()."assets/js/jszip.min.js'></script>
+<script src='".base_url()."assets/js/pdfmake.min.js'></script>
+<script src='".base_url()."assets/js/vfs_fonts.js'></script>
+<script src='".base_url()."assets/js/buttons.html5.min.js'></script>
+<script src='".base_url()."assets/js/buttons.print.min.js'></script>
+<script src='".base_url()."assets/js/productos.js'></script>";
+        $this->load->view('templates/footer',$data);
+    }
     function insert()
     {
         if ($_SESSION['tipo'] == "") {
@@ -32,8 +55,10 @@ class Productos extends CI_Controller{
         $nombre = strtoupper($_POST['nombre']);
         $precio = $_POST['precio'];
         $stock = $_POST['stock'];
-        $query = $this->db->query("INSERT INTO producto(nombre,precio,cantidad) 
-VALUES ('$nombre','$precio','$stock');");
+        $farmacologica = $_POST['farmacologica'];
+        $fechavencimiento = $_POST['fechavencimiento'];
+        $query = $this->db->query("INSERT INTO producto(nombre,precio,cantidad,farmacologica,fechavencimiento) 
+VALUES ('$nombre','$precio','$stock','$farmacologica','$fechavencimiento');");
         header("Location: ".base_url().'Productos');
     }
     function datos(){
@@ -50,10 +75,14 @@ VALUES ('$nombre','$precio','$stock');");
         $idproducto=$_POST['idproducto'];
         $precio = $_POST['precio'];
         $stock = $_POST['stock'];
+        $farmacologica = $_POST['farmacologica'];
+        $fechavencimiento = $_POST['fechavencimiento'];
         $query = $this->db->query("UPDATE producto SET 
         nombre='$nombre',
         precio='$precio',
-        cantidad='$stock'
+        cantidad='$stock',
+        farmacologica='$farmacologica',
+        fechavencimiento='$fechavencimiento'
         WHERE
         idproducto='$idproducto';
 ");

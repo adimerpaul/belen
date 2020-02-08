@@ -78,9 +78,15 @@
                                     <i class="ti-user"></i><span>Clientes </span>
                                 </a>
                             </li>
+
                             <li>
                                 <a href="<?=base_url()?>Productos" aria-expanded="true">
                                     <i class="ti-briefcase"></i><span>Productos </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?=base_url()?>Productos/vencer" aria-expanded="true">
+                                    <i class="ti-alert"></i><span>Productos a vencer </span>
                                 </a>
                             </li>
                             <li>

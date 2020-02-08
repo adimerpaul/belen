@@ -21,11 +21,13 @@ $(document).ready(function() {
             data:datos,
             success:function (e) {
                 var datos=JSON.parse(e)[0];
-                //console.log(e);
+                console.log(datos);
                 $('#idproducto2').val(datos.idproducto);
                 $('#nombre2').val(datos.nombre);
                 $('#precio2').val(datos.precio);
                 $('#stock2').val(datos.cantidad);
+                $('#farmacologica2').val(datos.farmacologica);
+                $('#fechavencimiento2').val(datos.fechavencimiento);
             }
         })
     })

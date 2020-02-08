@@ -14,7 +14,8 @@ class Venta extends CI_Controller{
         }
         $data['title']='Gestionar Venta';
         $data['css']="<link rel='stylesheet' href='".base_url()."assets/css/jquery.dataTables.min.css'>
-        <link rel='stylesheet' href='".base_url()."assets/css/buttons.dataTables.min.css'>";
+        <link rel='stylesheet' href='".base_url()."assets/css/buttons.dataTables.min.css'>
+        ";
         $this->load->view('templates/header',$data);
         $this->load->view('venta');
         $data['tipo']="info";
@@ -28,6 +29,7 @@ class Venta extends CI_Controller{
 <script src='".base_url()."assets/js/vfs_fonts.js'></script>
 <script src='".base_url()."assets/js/buttons.html5.min.js'></script>
 <script src='".base_url()."assets/js/buttons.print.min.js'></script>
+
 <script src='".base_url()."assets/js/productos.js'></script>";
         $this->load->view('templates/footer',$data);
     }

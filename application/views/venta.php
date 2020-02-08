@@ -14,9 +14,15 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">PRODUCTOS
-                    <a href="" class="btn btn-warning"> <i class="fa fa-recycle"></i> Reiniciar </a>
-                </label>
+                <div class="row">
+                    <div class="col-3"><label for="exampleInputPassword1">PRODUCTOS </label></div>
+                    <div class="col-3"><a href="" class="btn btn-warning m-1"> <i class="fa fa-recycle"></i> Reiniciar </a></div>
+                    <div class="col-6">
+                        <div class="text-right">
+                            <input type="checkbox" checked data-toggle="toggle">
+                        </div>
+                    </div>
+                </div>
                 <table class="table">
                     <thead class="thead-dark">
                     <tr>

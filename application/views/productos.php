@@ -25,7 +25,7 @@
 <table id="example" class="display nowrap" style="width:100%">
     <thead>
     <tr>
-        <th scope="col">Idtratamiento</th>
+        <th scope="col">Idproducto</th>
         <th scope="col">Nombre</th>
         <th scope="col">Precio</th>
         <th scope="col">Cantidad</th>
@@ -52,7 +52,11 @@
             <td>".$row->idproducto."</td>
             <td>".$row->nombre."</td>
             <td>".$row->precio."</td>
-            <td>".$row->cantidad."</td>
+            <td>".$row->cantidad."
+            <div class='progress'>
+              <div class='progress-bar' role='progressbar' style='width: $row->cantidad%;' aria-valuenow='$row->cantidad' aria-valuemin='0' aria-valuemax='100'>$row->cantidad</div>
+            </div>
+            </td>
             <td>".$row->farmacologica."</td>
             <td>".$row->fechavencimiento."</td>
             <td>$t</td>
@@ -108,7 +112,7 @@
                         </div>
                         <div class="form-group col-md-12"  >
                             <label for="fechavencimiento" >fecha vencimiento</label>
-                            <input type="text"  class="form-control" id="fechavencimiento" placeholder="fecha vencimiento" name="fechavencimiento" required>
+                            <input type="date"  class="form-control" id="fechavencimiento" placeholder="fecha vencimiento" name="fechavencimiento" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -138,17 +142,25 @@
                     <div class="form-row" style="padding: 0px;margin: 0px;border: 0px">
                         <div class="form-group col-md-12" style="padding: 0px;margin: 0px;border: 0px" >
 
-                            <label for="nombre2" style="padding: 0px;margin: 0px;border: 0px">Nombre</label>
+                            <label for="nombre2" >Nombre</label>
                             <input type="text" id="idproducto2" name="idproducto">
-                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="nombre2" placeholder="nombre" name="nombre" required>
+                            <input type="text" class="form-control" id="nombre2" placeholder="nombre" name="nombre" required>
                         </div>
-                        <div class="form-group col-md-12" style="padding: 0px;margin: 0px;border: 0px" >
-                            <label for="precio2" style="padding: 0px;margin: 0px;border: 0px">Precio</label>
-                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="precio2" value="0" placeholder="precio" name="precio" required>
+                        <div class="form-group col-md-12"  >
+                            <label for="precio2" >Precio</label>
+                            <input type="text" class="form-control" id="precio2" value="0" placeholder="precio" name="precio" required>
                         </div>
-                        <div class="form-group col-md-12" style="padding: 0px;margin: 0px;border: 0px" >
-                            <label for="stock2" style="padding: 0px;margin: 0px;border: 0px">Stock</label>
-                            <input type="text" style="text-transform: uppercase;padding: 0px;margin: 0px" class="form-control" id="stock2" value="0" placeholder="stock" name="stock" required>
+                        <div class="form-group col-md-12"  >
+                            <label for="stock2" >Stock</label>
+                            <input type="text" class="form-control" id="stock2" value="0" placeholder="stock" name="stock" required>
+                        </div>
+                        <div class="form-group col-md-12"  >
+                            <label for="farmacologica2" >farmacologica</label>
+                            <input type="text"  class="form-control" id="farmacologica2" placeholder="farmacologica" name="farmacologica" required>
+                        </div>
+                        <div class="form-group col-md-12"  >
+                            <label for="fechavencimiento2" >fecha vencimiento</label>
+                            <input type="date"  class="form-control" id="fechavencimiento2" placeholder="fecha vencimiento" name="fechavencimiento" required>
                         </div>
                     </div>
                     <div class="modal-footer">

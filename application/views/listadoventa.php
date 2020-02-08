@@ -72,7 +72,8 @@
     </thead>
     <tbody>
     <?php
-    $query=$this->db->query("SELECT f.idfactura,f.fecha,f.nrofactura,d.nroautorizacion,f.estado,p.ci,p.apellidos,p.nombres,f.total,f.codigocontrol FROM factura f 
+    $query=$this->db->query("SELECT f.idfactura,f.fecha,f.nrofactura,d.nroautorizacion,f.estado,p.ci,p.apellidos,p.nombres,f.total,f.codigocontrol 
+FROM factura f 
 INNER JOIN paciente p ON f.idpaciente=p.idpaciente
 INNER JOIN dosificacion d ON f.idpaciente=p.idpaciente
 WHERE MONTH(f.fecha)='$mes' AND YEAR(f.fecha)='$anio'
