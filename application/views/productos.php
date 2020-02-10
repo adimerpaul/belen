@@ -100,7 +100,7 @@
                         </div>
                         <div class="form-group col-md-12"  >
                             <label for="precio" >precio</label>
-                            <input type="text"  class="form-control" id="precio" value="0" placeholder="precio" name="precio" required>
+                            <input type="number"  class="form-control" id="precio" min="0.10" placeholder="precio" name="precio" step="0.10" required>
                         </div>
                         <div class="form-group col-md-12"  >
                             <label for="stock" >stock</label>
@@ -148,7 +148,7 @@
                         </div>
                         <div class="form-group col-md-12"  >
                             <label for="precio2" >Precio</label>
-                            <input type="text" class="form-control" id="precio2" value="0" placeholder="precio" name="precio" required>
+                            <input type="number" step="0.10" class="form-control" id="precio2" value="0" placeholder="precio" name="precio" required>
                         </div>
                         <div class="form-group col-md-12"  >
                             <label for="stock2" >Stock</label>

@@ -92,13 +92,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formulario" >
-                    <div class="form-group row">
-                        <label for="precio" class="col-sm-3 col-form-label">Precio</label>
-                        <div class="col-sm-9">
-                            <input type="number" id="precio" name="precio" step="0.01" class="form-control" required>
+                <form id="formulario">
+                    
+                        <div class="input-group mb-3">
+                            <label for="precio" class="col-sm-3 col-form-label">Precio</label>
+                            <input type="number" id="precio" name="precio" step="0.01" class="form-control is-valid" required>
+                            <input type="number" id="descuento" name="descuento" min="0" max="100" value="0" class="form-control is-invalid" placeholder="Descuento" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text">%</span>
+                            </div>
                         </div>
-                    </div>
+                    
                     <div class="form-group row">
                         <label for="cantidad" class="col-sm-3 col-form-label">Cantidad</label>
                         <div class="col-sm-9">
@@ -199,7 +203,8 @@
             $('#precio,#cantidad').keyup(function (e) {
                 var precio=$('#precio').val();
                 var cantidad=$('#cantidad').val();
-                $('#subtotal').val(precio*cantidad);
+                var descuento=$('#descuento').val();
+                $('#subtotal').val((precio*(1.00-descuento/100))*cantidad);
             });
             $('#ci').keyup(function (e) {
                 var datos={

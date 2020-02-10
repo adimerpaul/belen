@@ -48,6 +48,8 @@
 
     </div>
 </form>
+
+<div class="table-responsive">
 <table id="example" class="display nowrap" style="width:100%">
     <thead>
     <tr>
@@ -116,6 +118,7 @@ WHERE MONTH(f.fecha)='$mes' AND YEAR(f.fecha)='$anio'
     ?>
     </tbody>
 </table>
+</div>
 
 <script !src="">
     document.addEventListener('DOMContentLoaded', function() {
