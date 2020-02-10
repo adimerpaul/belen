@@ -80,12 +80,51 @@ VALUES ('$nombre','$tipo');");
         header("Location: ".base_url().'Tratamientos');
     }
     function imprimir(){
+        if (!isset($_POST['tipo'])){
+            $tipo='ORDEN';
+        }
+
+        $query=$this->db->query("SELECT *  FROM paciente WHERE ci='".$_POST['ci']."'");
+        //$row=$query->row();
+        //$nombres=$row->nombres;
+        //$apellidos=$row->apellidos;
+        $total= number_format( $_POST['total'],2);
+        $monto=$total;
+        $razon=$_POST['razon'];
+        $row=$query->row();
+        if ($query->num_rows()==0){
+            $this->db->query("INSERT INTO paciente(ci,apellidos) VALUES('".$_POST['ci']."','$razon')");
+            $idpaciente=$this->db->insert_id();
+        }else{
+            $idpaciente=$row->idpaciente;
+            $apellido=$row->apellidos;
+            if ($apellido!=$razon)
+                $this->db->query("UPDATE paciente SET apellidos='$razon' WHERE ci='".$_POST['ci']."'");
+        }
+        if ($tipo=='ORDEN'){
+            $this->db->query("INSERT INTO factura(
+            idpaciente,
+            total,
+            codigocontrol,
+            iddosificacion,
+            nrofactura,
+            idusuario,
+            estado) VALUES(
+            '$idpaciente',
+            '$total',
+            '',
+            '',
+            '',
+            '".$_SESSION['idusuario']."',
+            '$tipo')");
+        }else{
         $query=$this->db->query("SELECT * FROM dosificacion WHERE estado='ACTIVO' ORDER BY iddosificacion desc");
         $row=$query->row();
         if(!isset($row->desde)){
             echo "No exite dosificacion, no se puede realizar la venta";
             exit;
         }
+
         $desde = $row->desde;
         $hasta = $row->hasta;
         $fecha=date("Y-m-d");
@@ -107,25 +146,12 @@ VALUES ('$nombre','$tipo');");
         $nitci="170444028";
         $fecha=date("Ymd");
         //$monto="120.50";
-        $query=$this->db->query("SELECT *  FROM paciente WHERE ci='".$_POST['ci']."'");
-        //$row=$query->row();
-        //$nombres=$row->nombres;
-        //$apellidos=$row->apellidos;
-        $total= number_format( $_POST['total'],2);
-        $monto=$total;
-        $razon=$_POST['razon'];
-        $row=$query->row();
-        if ($query->num_rows()==0){
-            $this->db->query("INSERT INTO paciente(ci,apellidos) VALUES('".$_POST['ci']."','$razon')");
-        }else{
-            $apellido=$row->apellidos;
-            if ($apellido!=$razon)
-            $this->db->query("UPDATE paciente SET apellidos='$razon' WHERE ci='".$_POST['ci']."'");
-        }
-        $idpaciente=$row->idpaciente;
+
+
         $codigo=$class2->generate($nroautorizacion, $numerodefactura, $nitci,$fecha, $monto, $llave);
         //echo $codigo;
-        $query=$this->db->query("INSERT INTO factura(
+
+        $this->db->query("INSERT INTO factura(
 idpaciente,
 total,
 codigocontrol,
@@ -138,7 +164,7 @@ idusuario) VALUES(
 '$iddosificacion',
 '$numerodefactura',
 '".$_SESSION['idusuario']."')");
-
+        }
         $idfacura=$this->db->insert_id();
 
         $query=$this->db->query("SELECT * FROM producto");
@@ -296,6 +322,7 @@ WHERE d.idfactura='$idfactura'");
         header("Location: ".base_url()."Venta");
     }
     public function printfactura2($idfactura=''){
+        
         $query=$this->db->query("SELECT * FROM factura f
 INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
 INNER JOIN paciente p ON p.idpaciente=f.idpaciente

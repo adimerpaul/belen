@@ -19,7 +19,7 @@
                     <div class="col-3"><a href="" class="btn btn-warning m-1"> <i class="fa fa-recycle"></i> Reiniciar </a></div>
                     <div class="col-6">
                         <div class="text-right">
-                            <input type="checkbox" checked data-toggle="toggle">
+                            <input type="checkbox" name="tipo" checked data-toggle="toggle" data-size="small" data-onstyle="success" data-offstyle="warning" data-on="F" data-off="O">
                         </div>
                     </div>
                 </div>
