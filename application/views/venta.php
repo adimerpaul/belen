@@ -64,15 +64,18 @@
             <?php
             $query=$this->db->query("SELECT * FROM producto WHERE cantidad>=1 AND estado='ACTIVO'");
             foreach ($query->result() as $row){
-                echo "<tr>
-                            <td>$row->nombre</td>
-                            <td>$row->cantidad</td>
-                            <td>$row->precio</td>
+                if ($row->cantidad<10)
+                    echo '<tr class="table-danger">';        
+                else        
+                    echo '<tr>';
+                    echo '<td>'.$row->nombre.'</td>
+                          <td>'.$row->cantidad.'</td>
+                          <td>'.$row->precio.'</td>
                             <td>
-                                <button type='button' class='btn btn-success btn-sm' data-idproducto='$row->idproducto' data-precio='$row->precio' data-cantidad='$row->cantidad' data-nombre='$row->nombre' data-toggle='modal' data-target='#exampleModal'>
-                                    <i class='fa fa-plus'></i> Agregar
+                                <button type="button" class="btn btn-success btn-sm" data-idproducto='.$row->idproducto.' data-precio='.$row->precio.' data-cantidad='.$row->cantidad.' data-nombre='.$row->nombre.' data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fa fa-plus"></i> Agregar
                             </td>
-                        </tr>";
+                        </tr>';
             }
             ?>
             </tbody>
@@ -93,16 +96,14 @@
             </div>
             <div class="modal-body">
                 <form id="formulario">
-                    
-                        <div class="input-group mb-3">
-                            <label for="precio" class="col-sm-3 col-form-label">Precio</label>
-                            <input type="number" id="precio" name="precio" step="0.01" class="form-control is-valid" required>
-                            <input type="number" id="descuento" name="descuento" min="0" max="100" value="0" class="form-control is-invalid" placeholder="Descuento" required>
-                            <div class="input-group-append">
-                                <span class="input-group-text">%</span>
-                            </div>
+                    <div class="input-group mb-3">
+                        <label for="precio" class="col-sm-3 col-form-label">Precio</label>
+                        <input type="number" id="precio" name="precio" step="0.01" class="form-control is-valid" required>
+                        <input type="number" id="descuento" name="descuento" min="0" max="100" value="0" class="form-control is-invalid" placeholder="Descuento" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text">%</span>
                         </div>
-                    
+                    </div>
                     <div class="form-group row">
                         <label for="cantidad" class="col-sm-3 col-form-label">Cantidad</label>
                         <div class="col-sm-9">
