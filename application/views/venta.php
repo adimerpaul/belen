@@ -116,6 +116,7 @@
                             <input type="number" id="subtotal" name="subtotal" step="0.01" value="0" class="form-control" required>
                         </div>
                     </div>
+                    <div id="farmacologica" class="card-footer text-muted"></div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fa fa-close"></i> Cerrar</button>
                         <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Agregar</button>
@@ -185,7 +186,7 @@
                     type:'POST',
                     url:'Venta/datosproducto',
                     success:function (e) {
-                        //console.log(e);
+                        // console.log(e);
                         var dato=JSON.parse(e)[0];
                         $('#precio').val(dato.precio);
                         var precio=$('#precio').val();
@@ -201,7 +202,7 @@
                 //console.log('aaa');
             }
 //$('#cantidad').change(cambio());
-            $('#precio,#cantidad').keyup(function (e) {
+            $('#precio,#cantidad,#descuento').keyup(function (e) {
                 var precio=$('#precio').val();
                 var cantidad=$('#cantidad').val();
                 var descuento=$('#descuento').val();

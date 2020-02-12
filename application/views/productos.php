@@ -22,53 +22,55 @@
     <i class="fa fa-plus"></i> Registrar Producto
 </button>
 <div class="mt-1"></div>
-<table id="example" class="display nowrap" style="width:100%">
-    <thead>
-    <tr>
-        <th scope="col">Idproducto</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Cantidad</th>
-        <th scope="col">Accion farmacologica</th>
-        <th scope="col">Fecha de vencimiento</th>
-        <th scope="col">Estado</th>
-        <th scope="col">Opciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php
-    $query=$this->db->query("SELECT * FROM producto
-");
-    foreach ($query->result() as $row){
-        if($row->estado=="ACTIVO"){
-            $t="<div class='p-0 text-center bg-success text-white'>ACTIVO</div>";
-            $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-danger eli  p-1' ><i class='fa fa-trash-o'></i> INACTIVAR</a>";
-        }else{
-            $t="<div class='p-0 text-center bg-warning text-white'>INACTIVO</div>";
-            $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-success  p-1' ><i class='fa fa-check'></i> ACTIVAR</a>";
-        }
-        echo "
+<div class="table-responsive">
+    <table id="example" class="display nowrap" style="width:100%">
+        <thead>
         <tr>
-            <td>".$row->idproducto."</td>
-            <td>".$row->nombre."</td>
-            <td>".$row->precio."</td>
-            <td>".$row->cantidad."
-            <div class='progress'>
-              <div class='progress-bar' role='progressbar' style='width: $row->cantidad%;' aria-valuenow='$row->cantidad' aria-valuemin='0' aria-valuemax='100'>$row->cantidad</div>
-            </div>
-            </td>
-            <td>".$row->farmacologica."</td>
-            <td>".$row->fechavencimiento."</td>
-            <td>$t</td>
-            <td> 
-            <button  class='btn btn-sm btn-warning text-white p-1' data-idusuario='$row->idproducto' data-toggle=\"modal\" data-target=\"#modificar\" ><i class='fa fa-pencil'></i> Actualizar</button>
-           $b
-            </td>
-        </tr>";
-    }
-    ?>
-    </tbody>
-</table>
+            <th scope="col">Idproducto</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Accion farmacologica</th>
+            <th scope="col">Fecha de vencimiento</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        $query=$this->db->query("SELECT * FROM producto
+    ");
+        foreach ($query->result() as $row){
+            if($row->estado=="ACTIVO"){
+                $t="<div class='p-0 text-center bg-success text-white'>ACTIVO</div>";
+                $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-danger eli  p-1' ><i class='fa fa-trash-o'></i> INACTIVAR</a>";
+            }else{
+                $t="<div class='p-0 text-center bg-warning text-white'>INACTIVO</div>";
+                $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-success  p-1' ><i class='fa fa-check'></i> ACTIVAR</a>";
+            }
+            echo "
+            <tr>
+                <td>".$row->idproducto."</td>
+                <td>".$row->nombre."</td>
+                <td>".$row->precio."</td>
+                <td>".$row->cantidad."
+                <div class='progress'>
+                <div class='progress-bar' role='progressbar' style='width: $row->cantidad%;' aria-valuenow='$row->cantidad' aria-valuemin='0' aria-valuemax='100'>$row->cantidad</div>
+                </div>
+                </td>
+                <td>".$row->farmacologica."</td>
+                <td>".$row->fechavencimiento."</td>
+                <td>$t</td>
+                <td> 
+                <button  class='btn btn-sm btn-warning text-white p-1' data-idusuario='$row->idproducto' data-toggle=\"modal\" data-target=\"#modificar\" ><i class='fa fa-pencil'></i> Actualizar</button>
+            $b
+                </td>
+            </tr>";
+        }
+        ?>
+        </tbody>
+    </table>
+</div>
 <script >
     var eli=document.getElementsByClassName("eli");
     for (var i=0;i<eli.length;i++){
@@ -108,7 +110,9 @@
                         </div>
                         <div class="form-group col-md-12"  >
                             <label for="farmacologica" >farmacologica</label>
-                            <input type="text"  class="form-control" id="farmacologica" placeholder="farmacologica" name="farmacologica" required>
+                            <textarea name="farmacologica" class="form-control" id="farmacologica" rows="3"></textarea>
+                            <!-- <input type="text"  class="form-control" id="farmacologica" 
+                            placeholder="farmacologica" name="farmacologica" required> -->
                         </div>
                         <div class="form-group col-md-12"  >
                             <label for="fechavencimiento" >fecha vencimiento</label>
