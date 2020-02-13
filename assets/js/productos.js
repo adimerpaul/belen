@@ -28,6 +28,7 @@ $(document).ready(function() {
                 $('#stock2').val(datos.cantidad);
                 $('#farmacologica2').val(datos.farmacologica);
                 $('#fechavencimiento2').val(datos.fechavencimiento);
+                $('#distribuidora2').val(datos.distribuidora);
             }
         })
     })

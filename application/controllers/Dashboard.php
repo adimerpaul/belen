@@ -16,12 +16,19 @@ class Dashboard extends CI_Controller
         $data['css']="";
         $data['title']='Menu principal';
         $this->load->view('templates/header',$data);
-        //$this->load->view('dashboard');
+        $this->load->view('dashboard');
         $data['tipo']="info";
         $data['msg']="Bienvenido al sistema";
         $data['js']="";
         $this->load->view('templates/footer',$data);
 
         //echo $_SESSION['nombre'];
+    }
+    function datosclientes(){
+        $query=$this->db->query("SELECT p.apellidos as name,count(*) as y
+FROM factura f 
+INNER JOIN paciente p ON f.idpaciente=p.idpaciente
+GROUP BY p.apellidos");
+        echo json_encode($query->result_array());
     }
 }

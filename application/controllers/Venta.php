@@ -35,9 +35,16 @@ class Venta extends CI_Controller{
     }
     function cliente(){
         $ci=$_POST['ci'];
+        $query=$this->db->query("SELECT sum(total) as total
+FROM factura f 
+ INNER JOIN paciente p ON f.idpaciente=p.idpaciente
+WHERE p.ci='$ci'");
+        $total=$query->row()->total;
         $query=$this->db->query("SELECT * FROM paciente WHERE ci='$ci'");
         //$row=$query->row();
-        echo json_encode($query->result_array());
+        $datos=$query->result_array();
+        $datos['total']=$total;
+        echo json_encode($datos);
     }
     function insert()
     {
@@ -109,7 +116,7 @@ VALUES ('$nombre','$tipo');");
             iddosificacion,
             nrofactura,
             idusuario,
-            estado) VALUES(
+            tipo) VALUES(
             '$idpaciente',
             '$total',
             '',
@@ -118,40 +125,40 @@ VALUES ('$nombre','$tipo');");
             '".$_SESSION['idusuario']."',
             '$tipo')");
         }else{
-        $query=$this->db->query("SELECT * FROM dosificacion WHERE estado='ACTIVO' ORDER BY iddosificacion desc");
-        $row=$query->row();
-        if(!isset($row->desde)){
-            echo "No exite dosificacion, no se puede realizar la venta";
-            exit;
-        }
+            $query=$this->db->query("SELECT * FROM dosificacion WHERE estado='ACTIVO' ORDER BY iddosificacion desc");
+            $row=$query->row();
+            if(!isset($row->desde)){
+                echo "No exite dosificacion, no se puede realizar la venta";
+                exit;
+            }
 
-        $desde = $row->desde;
-        $hasta = $row->hasta;
-        $fecha=date("Y-m-d");
-        if(($fecha >= $desde) && ($fecha <= $hasta)) {
-        } else {
-            echo "No se puede completar por que las fecha de dosificacion no corresponde a este dia ";
-            exit;
-        }
-        $nrotramite = $row->nrotramite;
-        $nroautorizacion = $row->nroautorizacion;
-        $nrofactura = $row->nrofacturai;
-        $llave = $row->llave;
-        $leyenda = $row->leyenda;
-        $iddosificacion = $row->iddosificacion;
-        $query=$this->db->query("SELECT count(*) as cantidad FROM factura WHERE iddosificacion=$iddosificacion");
-        $row=$query->row();
-        $numerodefactura=$row->cantidad+$nrofactura;
-        $class2 = new ControlCode();
-        $nitci="170444028";
-        $fecha=date("Ymd");
-        //$monto="120.50";
+            $desde = $row->desde;
+            $hasta = $row->hasta;
+            $fecha=date("Y-m-d");
+            if(($fecha >= $desde) && ($fecha <= $hasta)) {
+            } else {
+                echo "No se puede completar por que las fecha de dosificacion no corresponde a este dia ";
+                exit;
+            }
+            $nrotramite = $row->nrotramite;
+            $nroautorizacion = $row->nroautorizacion;
+            $nrofactura = $row->nrofacturai;
+            $llave = $row->llave;
+            $leyenda = $row->leyenda;
+            $iddosificacion = $row->iddosificacion;
+            $query=$this->db->query("SELECT count(*) as cantidad FROM factura WHERE iddosificacion=$iddosificacion");
+            $row=$query->row();
+            $numerodefactura=$row->cantidad+$nrofactura;
+            $class2 = new ControlCode();
+            $nitci="170444028";
+            $fecha=date("Ymd");
+            //$monto="120.50";
 
 
-        $codigo=$class2->generate($nroautorizacion, $numerodefactura, $nitci,$fecha, $monto, $llave);
-        //echo $codigo;
+            $codigo=$class2->generate($nroautorizacion, $numerodefactura, $nitci,$fecha, $monto, $llave);
+            //echo $codigo;
 
-        $this->db->query("INSERT INTO factura(
+            $this->db->query("INSERT INTO factura(
 idpaciente,
 total,
 codigocontrol,
@@ -322,32 +329,6 @@ WHERE d.idfactura='$idfactura'");
         header("Location: ".base_url()."Venta");
     }
     public function printfactura2($idfactura=''){
-        
-        $query=$this->db->query("SELECT * FROM factura f
-INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
-INNER JOIN paciente p ON p.idpaciente=f.idpaciente
-WHERE f.idfactura='$idfactura'");
-        $row=$query->row();
-        $nrofactura=$row->nrofactura;
-        $nroautorizacion=$row->nroautorizacion;
-        $total=number_format($row->total,2);
-        $d = explode('.',$total);
-        $entero=$d[0];
-        $decimal=$d[1];
-        $fecha=$row->fecha;
-        $nombres=$row->nombres;
-        $apellidos=$row->apellidos;
-        $ci=$row->ci;
-        $codigocontrol=$row->codigocontrol;
-        $hasta=$row->hasta;
-        $leyenda=$row->leyenda;
-        $nit="170444028";
-
-        $c= new NumeroALetras();
-    //echo date('d/m/Y', strtotime($fecha));
-    //exit;
-        $testStr = "$nit|$nrofactura|$nroautorizacion|".date('d/m/Y',strtotime($fecha))."|$total|$total|$codigocontrol|$ci|0|0|0|0";
-        QRcode::png($testStr, 'temp/test.png', 'L', 4, 2);
         require_once('tcpdf.php');
 
 // create new PDF document
@@ -359,21 +340,169 @@ WHERE f.idfactura='$idfactura'");
         $pdf->AddPage();
         $pdf->SetFont('times', '', 9);
 
-        $query=$this->db->query("SELECT p.idproducto,nombre,d.cantidad,d.precio,d.subtotal 
+        $query=$this->db->query("SELECT * FROM factura f
+ INNER JOIN paciente p ON p.idpaciente=f.idpaciente
+ WHERE idfactura='$idfactura'");
+        $row=$query->row();
+        $estado=$row->tipo;
+//        $nrofactura=$row->nrofactura;
+//        $nroautorizacion=$row->nroautorizacion;
+
+
+        if ($estado=='ORDEN'){
+
+
+            $c= new NumeroALetras();
+            $query=$this->db->query("SELECT p.idproducto,nombre,d.cantidad,d.precio,d.subtotal 
 FROM detallefactura d 
 INNER JOIN producto p ON p.idproducto=d.idproducto
 WHERE d.idfactura='$idfactura'");
-        $t="";
-        foreach ($query->result() as $row){
-            $t=$t.'<tr>
+            $t="";
+            $total=number_format($row->total,2);
+            $d = explode('.',$total);
+            $entero=$d[0];
+            $decimal=$d[1];
+            $fecha=$row->fecha;
+//        $nombres=$row->nombres;
+            $apellidos=$row->apellidos;
+            $ci=$row->ci;
+//        $codigocontrol=$row->codigocontrol;
+//        $hasta=$row->hasta;
+            foreach ($query->result() as $row){
+                $t=$t.'<tr>
                 <td>'.$row->idproducto.'</td>
                 <td>'.$row->nombre.'</td>
                 <td>'.$row->cantidad.'</td>
                 <td>'.$row->precio.'</td>
                 <td>'.$row->subtotal.'</td>
                 </tr>';
-        }
-        $html='<table>
+            }
+
+            $html='<table>
+<tr align="center" >
+<td>
+Farmacia belen<br>
+        CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE NRO. 440(ZONA: CENTRAL)<br>
+        Teléfono 5210229 Celular: 60413300<br>
+</td>
+<td>
+        <small style="font-weight: bold;font-size: 15px">ORDEN DE VENTA</small> <br>
+        
+        ORURO-BOLIVIA<br>
+</td>
+<td>
+<table border="1">
+<tr>
+<td>
+ <b> ORIGINAL CLIENTE</b>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table border="">
+<tr>
+<td>
+<table>
+<tr>
+<td>
+ <b>Oruro:</b> '.$fecha.' <br>
+ <b>Señores (es)</b> '.$apellidos.' 
+</td>
+<td>
+ <b>CI/NIT:</b> '.$ci.'
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table border="0">
+<tr>
+<td><b>CODIGO</b></td>
+<td><b>DESCRIPCION</b></td>
+<td><b>CANTIDAD</b></td>
+<td><b>PRECIO UNITARIO</b></td>
+<td><b>PRECIO TOTAL</b></td>
+</tr>
+'.$t.'
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><b>TOTAL:</b></td>
+<td>'.$total.'</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><b>DESCUENTO:</b></td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><b>NETO TOTAL:</b></td>
+<td>'.$total.'</td>
+</tr>
+
+</table>
+<br>
+<b>SON: </b>'.$c->convertir($entero).' '.$decimal.'/100 Bs. <br>
+<div align="center">
+<img src="temp/test.png" alt="qr" width="70"> <br>
+Orden de venta muchas gracias por su compra!!!
+</div>
+<b>PUNTO:</b> '.gethostname().' <br>
+<b>USUARIO:</b> '.$_SESSION['nombre'].' <br>
+<b>NUMERO:</b> '.$idfactura.' <br>  
+';
+
+        }else{
+            $query=$this->db->query("SELECT * FROM factura f
+INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
+INNER JOIN paciente p ON p.idpaciente=f.idpaciente
+WHERE f.idfactura='$idfactura'");
+            $row=$query->row();
+            $nrofactura=$row->nrofactura;
+            $nroautorizacion=$row->nroautorizacion;
+            $total=number_format($row->total,2);
+            $d = explode('.',$total);
+            $entero=$d[0];
+            $decimal=$d[1];
+            $fecha=$row->fecha;
+            $nombres=$row->nombres;
+            $apellidos=$row->apellidos;
+            $ci=$row->ci;
+            $codigocontrol=$row->codigocontrol;
+            $hasta=$row->hasta;
+            $leyenda=$row->leyenda;
+            $nit="170444028";
+
+
+            //echo date('d/m/Y', strtotime($fecha));
+            //exit;
+            $testStr = "$nit|$nrofactura|$nroautorizacion|".date('d/m/Y',strtotime($fecha))."|$total|$total|$codigocontrol|$ci|0|0|0|0";
+            QRcode::png($testStr, 'temp/test.png', 'L', 4, 2);
+            $c= new NumeroALetras();
+            $query=$this->db->query("SELECT p.idproducto,nombre,d.cantidad,d.precio,d.subtotal 
+FROM detallefactura d 
+INNER JOIN producto p ON p.idproducto=d.idproducto
+WHERE d.idfactura='$idfactura'");
+            $t="";
+            foreach ($query->result() as $row){
+                $t=$t.'<tr>
+                <td>'.$row->idproducto.'</td>
+                <td>'.$row->nombre.'</td>
+                <td>'.$row->cantidad.'</td>
+                <td>'.$row->precio.'</td>
+                <td>'.$row->subtotal.'</td>
+                </tr>';
+            }
+            $html='<table>
 <tr align="center" >
 <td>
 Lo ultimo en tecnologia estetica sin cirugia<br>
@@ -462,7 +591,7 @@ ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANC
 <b>NUMERO:</b> '.$idfactura.' <br>  
 ';
 
-
+        }
         $pdf->writeHTML($html, true, false, true, false, '');
 
 //Close and output PDF document

@@ -57,8 +57,9 @@ class Productos extends CI_Controller{
         $stock = $_POST['stock'];
         $farmacologica = $_POST['farmacologica'];
         $fechavencimiento = $_POST['fechavencimiento'];
-        $query = $this->db->query("INSERT INTO producto(nombre,precio,cantidad,farmacologica,fechavencimiento) 
-VALUES ('$nombre','$precio','$stock','$farmacologica','$fechavencimiento');");
+        $distribuidora = $_POST['distribuidora'];
+        $query = $this->db->query("INSERT INTO producto(nombre,precio,cantidad,farmacologica,fechavencimiento,distribuidora)
+VALUES ('$nombre','$precio','$stock','$farmacologica','$fechavencimiento','$distribuidora');");
         header("Location: ".base_url().'Productos');
     }
     function datos(){
@@ -77,12 +78,15 @@ VALUES ('$nombre','$precio','$stock','$farmacologica','$fechavencimiento');");
         $stock = $_POST['stock'];
         $farmacologica = $_POST['farmacologica'];
         $fechavencimiento = $_POST['fechavencimiento'];
+        $distribuidora = $_POST['distribuidora'];
+
         $query = $this->db->query("UPDATE producto SET 
         nombre='$nombre',
         precio='$precio',
         cantidad='$stock',
         farmacologica='$farmacologica',
-        fechavencimiento='$fechavencimiento'
+        fechavencimiento='$fechavencimiento',
+        distribuidora='$distribuidora'
         WHERE
         idproducto='$idproducto';
 ");

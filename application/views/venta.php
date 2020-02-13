@@ -8,9 +8,13 @@
                 </div>
             </div>
             <div class="form-group row" id="r">
-                <label for="razon" class="col-sm-3 col-form-label">Razon Social</label>
-                <div class="col-sm-9">
+                <label for="razon" class="col-sm-2 col-form-label">Razon Social</label>
+                <div class="col-sm-6">
                     <input type="text" id="razon" name="razon"  class="form-control" placeholder="Nombre razon" required>
+                </div>
+                <label for="razon" class="col-sm-2 col-form-label">Gastado Mes</label>
+                <div class="col-sm-2">
+                        <h4 id="gastado"></h4>
                 </div>
             </div>
             <div class="form-group">
@@ -31,7 +35,7 @@
                         <th scope="col">Precio</th>
                         <th scope="col">Cantidad</th>
 
-                        <th scope="col">subtotal</th>
+                        <th scope="col">Subtotal</th>
                     </tr>
                     </thead>
                     <tbody id="detalle">
@@ -65,8 +69,8 @@
             $query=$this->db->query("SELECT * FROM producto WHERE cantidad>=1 AND estado='ACTIVO'");
             foreach ($query->result() as $row){
                 if ($row->cantidad<10)
-                    echo '<tr class="table-danger">';        
-                else        
+                    echo '<tr class="table-danger">';
+                else
                     echo '<tr>';
                     echo '<td>'.$row->nombre.'</td>
                           <td>'.$row->cantidad.'</td>
@@ -163,18 +167,27 @@
             });
         } );
         $('#exampleModal').on('show.bs.modal', function (event) {
+
             var button = $(event.relatedTarget) // Button that triggered the modal
             var nombre = button.data('nombre');
             var precio = button.data('precio');
             var cantidad = button.data('cantidad');
             idproducto = button.data('idproducto');
-            $('#precio').val(precio);
-            $('#cantidad').val(1);
-            $('#subtotal').val(precio*1);
-            $('#farmacologica').html(button.data('farmacologica'));
-            var modal = $(this);
-            modal.find('.modal-title').text('Producto ' + nombre);
-            producto=nombre;
+            if ($('#ca'+idproducto).length){
+                // $('#exampleModal').modal('hide');
+                alert('ya insertaste el producto!!, no puedes insertar mas productos, puedes aumentar la cantidad que ya exite');
+                // return false;
+                // event.preventDefault();
+            }else{
+                $('#precio').val(precio);
+                $('#cantidad').val(1);
+                $('#subtotal').val(precio*1);
+                $('#farmacologica').html(button.data('farmacologica'));
+                var modal = $(this);
+                modal.find('.modal-title').text('Producto ' + nombre);
+                producto=nombre;
+            }
+
             // modal.find('.modal-body input').val(recipient)
         })
             $('#idproducto').change(function (e) {
@@ -218,37 +231,86 @@
                     type: 'POST',
                     url: 'Venta/cliente',
                     success:function (e) {
-                        //console.log(e);
-                        var datos=JSON.parse(e)[0];
-                        if (datos !=null){
-                            $('#razon').val(datos.apellidos);
+                        console.log(e);
+                        var datos=JSON.parse(e);
+                        let gastado=(datos['total']);
+                        if (datos[0] !=null){
+                            $('#razon').val(datos[0].apellidos);
+                            $('#gastado').html(gastado);
                         }else{
                             $('#razon').val('');
+                            $('#gastado').html(gastado);
                         }
                     }
                 });
             });
             var total=0;
             var con=0;
+        function calcular_total() {
+            importe_total = 0;
+            // console.log('a');
+            $(".subtotal").each(
+                function(index, value) {
+                    importe_total = importe_total + eval($(this).val());
+                }
+            );
+            $('#to').html(importe_total);
+            $('#total').val(importe_total);
+        }
             $('#formulario').submit(function (e) {
                     var precio=$('#precio').val();
                     var cantidad=$('#cantidad').val();
                     var subtotal=$('#subtotal').val();
                     //console.log(comprador);
                     con++;
-                    total=parseFloat(total)+ parseFloat(subtotal);
-                    $( "#detalle" ).append( "<tr>" +
+                    // total=parseFloat(total)+ parseFloat(subtotal);
+                    $( "#detalle" ).append( "<tr class=''>" +
                         "                <th scope='row'>"+con+"</th>" +
                         "                <td>"+producto+"</td>" +
                         "                <td>"+precio+"<input name='p"+idproducto+"' value='"+precio+"' hidden></td>" +
-                        "                <td>"+cantidad+"<input name='c"+idproducto+"' value='"+cantidad+"' hidden></td>" +
-                        "                <td>"+subtotal+"<input name='s"+idproducto+"' value='"+subtotal+"' hidden></td>" +
+                        "                <td> <span id='ca"+idproducto+"'>"+cantidad+"</span> <button class='btn btn-success p-1 aumentar' data-precio='"+precio+"' data-idproducto="+idproducto+" ><i class='fa fa-plus'></i></button> <button class='btn btn-danger p-1 quitar' data-precio='"+precio+"' data-idproducto="+idproducto+"><i class='fa fa-minus'></i></button><input id='cad"+idproducto+"' name='c"+idproducto+"' value='"+cantidad+"' hidden></td>" +
+                        "                <td align='right'><span id='su"+idproducto+"'>"+subtotal+"</span><input id='sub"+idproducto+"' class='subtotal' name='s"+idproducto+"' value='"+subtotal+"' hidden> "+' <button class="btn btn-danger p-1 eliproducto"><i class="fa fa-trash"></i></button>'+"</td>" +
                         "            </tr>" );
 
-                $('#to').html(total);
-                $('#total').val(total);
+                // $('#to').html(total);
+                // $('#total').val(total);
+                calcular_total();
                 $('#exampleModal').modal('hide');
                 return false;
             });
+
+        $("#detalle").on("click",".eliproducto", function(e){
+            e.preventDefault();
+            $(this).closest('tr').remove();
+        });
+
+        $("#detalle").on("click",".aumentar", function(e){
+            let idproducto= parseInt( $(this).data('idproducto'));
+            let precio= parseFloat( $(this).data('precio'));
+            // console.log(precio)
+            let cantidad= parseInt( $('#ca'+idproducto).html());
+            cantidad=cantidad+1;
+            $('#ca'+idproducto).html(cantidad);
+            $('#cad'+idproducto).val(cantidad);
+            $('#su'+idproducto).html(cantidad*precio);
+            $('#sub'+idproducto).val(cantidad*precio);
+            calcular_total();
+            e.preventDefault();
+        });
+        $("#detalle").on("click",".quitar", function(e){
+
+            let idproducto= parseInt( $(this).data('idproducto'));
+            let precio= parseFloat( $(this).data('precio'));
+            let cantidad= parseInt( $('#ca'+idproducto).html());
+            if (cantidad>1){
+            cantidad=cantidad-1;
+            $('#ca'+idproducto).html(cantidad);
+            $('#cad'+idproducto).val(cantidad);
+                $('#su'+idproducto).html(cantidad*precio);
+                $('#sub'+idproducto).val(cantidad*precio);
+            }
+            calcular_total();
+            e.preventDefault();
+        });
     }
 </script>
