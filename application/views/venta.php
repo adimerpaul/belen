@@ -72,7 +72,7 @@
                           <td>'.$row->cantidad.'</td>
                           <td>'.$row->precio.'</td>
                             <td>
-                                <button type="button" class="btn btn-success btn-sm" data-idproducto='.$row->idproducto.' data-precio='.$row->precio.' data-cantidad='.$row->cantidad.' data-nombre='.$row->nombre.' data-toggle="modal" data-target="#exampleModal">
+                                <button type="button" class="btn btn-success btn-sm" data-idproducto="'.$row->idproducto.'" data-precio='.$row->precio.' data-cantidad='.$row->cantidad.' data-nombre="'.$row->nombre.'" data-farmacologica="'.$row->farmacologica.'" data-toggle="modal" data-target="#exampleModal">
                                     <i class="fa fa-plus"></i> Agregar
                             </td>
                         </tr>';
@@ -171,6 +171,7 @@
             $('#precio').val(precio);
             $('#cantidad').val(1);
             $('#subtotal').val(precio*1);
+            $('#farmacologica').html(button.data('farmacologica'));
             var modal = $(this);
             modal.find('.modal-title').text('Producto ' + nombre);
             producto=nombre;
