@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-02-2020 a las 22:05:17
--- Versión del servidor: 10.1.38-MariaDB
--- Versión de PHP: 7.3.3
+-- Tiempo de generación: 13-02-2020 a las 05:19:28
+-- Versión del servidor: 10.1.40-MariaDB
+-- Versión de PHP: 7.3.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -181,29 +181,35 @@ CREATE TABLE `detallefactura` (
 --
 
 INSERT INTO `detallefactura` (`idfactura`, `idproducto`, `cantidad`, `subtotal`, `precio`) VALUES
-(11, 5, 1, 160, 160),
+(1, 5, 1, 160, 160),
+(1, 9, 1, 20.5, 20.5),
+(2, 8, 1, 20, 20),
+(3, 8, 1, 20, 20),
+(4, 8, 1, 20, 20),
+(5, 8, 1, 20, 20),
+(7, 5, 1, 160, 160),
+(7, 9, 1, 20.5, 20.5),
+(8, 5, 1, 160, 160),
+(8, 9, 1, 20.5, 20.5),
+(9, 8, 1, 20, 20),
+(10, 8, 1, 20, 20),
 (11, 8, 1, 20, 20),
-(11, 9, 1, 20, 20),
 (12, 8, 1, 20, 20),
-(13, 5, 1, 160, 160),
 (13, 8, 1, 20, 20),
-(13, 9, 1, 20, 20),
-(14, 5, 1, 160, 160),
 (14, 8, 1, 20, 20),
-(14, 9, 1, 20, 20),
-(15, 5, 1, 160, 160),
 (15, 8, 1, 20, 20),
-(15, 9, 1, 20, 20),
-(16, 8, 20, 400, 20),
-(17, 8, 6, 120, 20),
-(18, 5, 1, 160, 160),
-(18, 8, 1, 0, 0),
-(18, 9, 2, 40, 20),
+(16, 8, 1, 20, 20),
+(17, 8, 1, 20, 20),
+(18, 8, 1, 20, 20),
 (19, 8, 1, 20, 20),
 (20, 8, 1, 20, 20),
-(21, 5, 1, 160, 160),
 (21, 8, 1, 20, 20),
-(21, 9, 1, 20, 20);
+(22, 5, 1, 160, 160),
+(22, 8, 1, 20, 20),
+(22, 9, 1, 20.5, 20.5),
+(23, 5, 1, 160, 160),
+(23, 8, 1, 20, 20),
+(23, 9, 1, 20.5, 20.5);
 
 -- --------------------------------------------------------
 
@@ -328,34 +334,37 @@ CREATE TABLE `factura` (
   `iddosificacion` int(11) NOT NULL,
   `nrofactura` int(11) NOT NULL,
   `idusuario` int(11) NOT NULL DEFAULT '1',
-  `estado` varchar(5) COLLATE utf8_spanish2_ci NOT NULL DEFAULT 'D'
+  `estado` varchar(5) COLLATE utf8_spanish2_ci NOT NULL DEFAULT 'D',
+  `tipo` varchar(15) COLLATE utf8_spanish2_ci NOT NULL DEFAULT 'FACTURA'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `factura`
 --
 
-INSERT INTO `factura` (`idfactura`, `idpaciente`, `fecha`, `total`, `codigocontrol`, `iddosificacion`, `nrofactura`, `idusuario`, `estado`) VALUES
-(2, 5, '2020-01-30 09:30:40', 160, 'A4-C9-1E-7C-92', 3, 189, 1, 'D'),
-(3, 5, '2020-01-30 09:31:03', 160, '48-7E-2D-BB-A4', 3, 190, 1, 'D'),
-(4, 5, '2020-01-30 09:32:21', 20, '69-79-4E-AE-77', 3, 191, 1, 'D'),
-(5, 5, '2020-01-30 09:38:14', 20, '9E-9D-B7-7B', 3, 192, 1, 'D'),
-(6, 14, '2020-01-30 09:40:16', 180, 'F1-31-58-AF-A1', 3, 193, 1, 'D'),
-(7, 14, '2020-01-30 09:41:56', 20, 'B1-1C-F3-8D-FF', 3, 194, 1, 'D'),
-(8, 14, '2020-01-30 09:42:15', 200, 'FC-BD-E4-43-F3', 3, 195, 1, 'D'),
-(9, 5, '2020-01-30 09:43:01', 200, '18-CC-24-AA-29', 3, 196, 1, 'D'),
-(10, 5, '2020-01-30 09:45:05', 180, 'A8-74-0E-8E-D0', 3, 197, 1, 'D'),
-(11, 5, '2020-01-30 09:46:10', 0, 'B6-AC-49-CF-0E', 3, 198, 1, 'A'),
-(12, 5, '2020-01-30 09:47:09', 20, 'E0-79-8F-3B-85', 3, 199, 1, 'D'),
-(13, 5, '2020-01-30 09:48:05', 200, '41-9A-04-96-27', 3, 200, 1, 'D'),
-(14, 5, '2020-01-30 09:49:26', 200, 'C2-D4-F5-62', 3, 201, 1, 'D'),
-(15, 14, '2020-01-30 09:51:28', 200, 'BB-7F-BB-46-93', 3, 202, 1, 'D'),
-(16, 14, '2020-01-30 10:03:45', 0, 'C2-D0-F3-29', 3, 203, 1, 'A'),
-(17, 14, '2020-01-30 10:22:44', 0, 'C3-28-FA-67', 3, 204, 1, 'A'),
-(18, 14, '2020-01-31 08:45:13', 200, '52-DC-29-47', 3, 205, 1, 'D'),
-(19, 14, '2020-01-31 15:15:19', 20, '81-D6-90-08', 3, 206, 5, 'D'),
-(20, 14, '2020-01-31 15:18:24', 20, '54-80-67-8B-36', 3, 207, 5, 'D'),
-(21, 14, '2020-01-31 15:18:38', 0, '8D-6C-9B-3F', 3, 208, 5, 'A');
+INSERT INTO `factura` (`idfactura`, `idpaciente`, `fecha`, `total`, `codigocontrol`, `iddosificacion`, `nrofactura`, `idusuario`, `estado`, `tipo`) VALUES
+(1, 14, '2020-02-05 20:39:59', 180.5, 'BD-5B-A3-88-8D', 3, 189, 1, 'D', 'FACTURA'),
+(2, 14, '2020-02-05 20:40:41', 20, '2C-0E-CD-57-A9', 3, 190, 1, 'D', 'FACTURA'),
+(3, 14, '2020-02-05 20:40:44', 20, '6E-27-E1-FD', 3, 191, 1, 'D', 'FACTURA'),
+(4, 14, '2020-02-05 21:05:19', 20, 'E7-3A-CE-E4', 3, 192, 1, 'D', 'FACTURA'),
+(5, 5, '2020-02-07 21:45:32', 20, 'B4-98-AE-5C', 3, 193, 1, 'D', 'FACTURA'),
+(7, 16, '2020-02-07 21:53:38', 180.5, 'F2-BE-79-D4-7B', 3, 194, 1, 'D', 'FACTURA'),
+(8, 16, '2020-02-07 21:53:50', 180.5, 'FC-BB-2F-1C', 3, 195, 1, 'D', 'FACTURA'),
+(9, 16, '2020-02-07 22:01:03', 20, '', 0, 0, 1, 'ORDEN', 'FACTURA'),
+(10, 14, '2020-02-10 08:30:38', 20, '0D-30-11-BD', 3, 196, 1, 'D', 'FACTURA'),
+(11, 17, '2020-02-10 08:30:50', 20, 'EB-41-9D-7F', 3, 197, 1, 'D', 'FACTURA'),
+(12, 17, '2020-02-10 08:49:41', 20, '', 0, 0, 1, 'ORDEN', 'FACTURA'),
+(13, 17, '2020-02-10 08:49:46', 20, '9E-C3-0B-6C-54', 3, 198, 1, 'D', 'FACTURA'),
+(14, 18, '2020-02-10 10:36:57', 20, '23-00-9B-28', 3, 199, 1, 'D', 'FACTURA'),
+(15, 18, '2020-02-10 10:45:26', 20, '', 0, 0, 1, 'ORDEN', 'FACTURA'),
+(16, 17, '2020-02-10 11:20:27', 20, '', 0, 0, 1, 'D', 'ORDEN'),
+(17, 17, '2020-02-10 11:20:32', 20, '85-03-0F-83-16', 3, 200, 1, 'D', 'FACTURA'),
+(18, 14, '2020-02-12 21:41:26', 20, '', 0, 0, 1, 'ORDEN', 'FACTURA'),
+(19, 14, '2020-02-12 21:44:59', 20, '', 0, 0, 1, 'D', 'ORDEN'),
+(20, 14, '2020-02-12 21:45:06', 20, 'D8-D6-94-83', 3, 201, 1, 'D', 'FACTURA'),
+(21, 14, '2020-02-12 21:45:14', 20, '0D-02-51-18-D7', 3, 202, 1, 'D', 'FACTURA'),
+(22, 14, '2020-02-12 21:45:21', 200.5, '33-6B-88-D7-A1', 3, 203, 1, 'D', 'FACTURA'),
+(23, 14, '2020-02-12 21:45:29', 200.5, '', 0, 0, 1, 'D', 'ORDEN');
 
 -- --------------------------------------------------------
 
@@ -517,7 +526,13 @@ INSERT INTO `ingreso` (`idingreso`, `fecha`, `idusuario`, `tipo`) VALUES
 (36, '2020-01-31 15:20:04', 1, 'SALIDA'),
 (37, '2020-01-31 15:20:11', 5, 'ENTRADA'),
 (38, '2020-01-31 15:53:25', 5, 'SALIDA'),
-(39, '2020-02-08 17:00:05', 1, 'ENTRADA');
+(39, '2020-02-05 20:26:26', 1, 'ENTRADA'),
+(40, '2020-02-07 21:36:33', 1, 'ENTRADA'),
+(41, '2020-02-10 08:30:27', 1, 'ENTRADA'),
+(42, '2020-02-12 21:41:13', 1, 'ENTRADA'),
+(43, '2020-02-12 22:03:21', 1, 'ENTRADA'),
+(44, '2020-02-12 22:35:20', 1, 'ENTRADA'),
+(45, '2020-02-12 22:55:56', 1, 'ENTRADA');
 
 -- --------------------------------------------------------
 
@@ -646,7 +661,11 @@ INSERT INTO `paciente` (`idpaciente`, `ci`, `nombres`, `apellidos`, `zona`, `dir
 (4, '123456789', '', 'CINE GRAN REX', '', '', '2019-04-25', '', '', 1, '', '', '2020-01-28 20:17:37'),
 (5, '7336199', 'ADIMER PAUL', 'CHAMBI', NULL, NULL, NULL, NULL, '', NULL, '', '', '2020-01-28 20:17:37'),
 (7, '1115447', 'MIGUEL', 'REYNOLDS', 'CENTRICA', 'CALLE BOLIVAR', '2000-04-29', '561245', '6124545', 1, '', 'Periódico', '2020-01-28 20:17:37'),
-(14, '0', '', 'SN', NULL, NULL, NULL, NULL, '', NULL, '', '', '2020-01-30 12:37:51');
+(14, '0', '', 'SN', NULL, NULL, NULL, NULL, '', NULL, '', '', '2020-01-30 12:37:51'),
+(15, '2020', NULL, 'jose jose', NULL, NULL, NULL, NULL, '', NULL, '', '', '2020-02-08 01:51:16'),
+(16, '3030', NULL, 'MARIA FERENANDEZ', NULL, NULL, NULL, NULL, '', NULL, '', '', '2020-02-08 01:53:38'),
+(17, '4040', NULL, 'asd', NULL, NULL, NULL, NULL, '', NULL, '', '', '2020-02-10 12:30:50'),
+(18, '5050', NULL, 'das', NULL, NULL, NULL, NULL, '', NULL, '', '', '2020-02-10 14:36:57');
 
 -- --------------------------------------------------------
 
@@ -660,19 +679,22 @@ CREATE TABLE `producto` (
   `precio` float NOT NULL,
   `cantidad` int(11) NOT NULL,
   `estado` varchar(55) COLLATE utf8_spanish2_ci NOT NULL DEFAULT 'ACTIVO',
-  `farmacologica` varchar(512) COLLATE utf8_spanish2_ci NOT NULL,
-  `fechavencimiento` date NOT NULL
+  `farmacologica` varchar(255) COLLATE utf8_spanish2_ci NOT NULL,
+  `fechavencimiento` date NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `distribuidora` varchar(150) COLLATE utf8_spanish2_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `producto`
 --
 
-INSERT INTO `producto` (`idproducto`, `nombre`, `precio`, `cantidad`, `estado`, `farmacologica`, `fechavencimiento`) VALUES
-(3, 'MENTISAN', 20, 0, 'ACTIVO', '', '0000-00-00'),
-(5, 'PROTECTOR SOLAR COREANO', 160, 30, 'ACTIVO', '', '0000-00-00'),
-(8, 'BATIDORA', 20, 93, 'ACTIVO', '', '0000-00-00'),
-(9, 'SUERO FISIOLOGICO', 20, 114, 'ACTIVO', '', '0000-00-00');
+INSERT INTO `producto` (`idproducto`, `nombre`, `precio`, `cantidad`, `estado`, `farmacologica`, `fechavencimiento`, `fecha`, `distribuidora`) VALUES
+(3, 'MENTISAN', 15.2, 0, 'ACTIVO', 'adecivos', '2020-02-06', '2020-02-13 02:27:07', 'FARMACORP'),
+(5, 'PROTECTOR SOLAR COREANO', 160, 24, 'ACTIVO', 'adecivos', '2020-01-01', '2020-02-13 02:27:07', 'FARMACORP'),
+(8, 'BATIDORA', 20, 71, 'ACTIVO', 'adecivos', '2020-06-13', '2020-02-13 02:27:07', 'FARMACORP'),
+(9, 'SUERO FISIOLOGICO', 20.5, 105, 'ACTIVO', 'adecivos', '2020-04-15', '2020-02-13 02:27:07', 'FARMACORP'),
+(10, 'SUERO DEXTROSA 5% ', 12.5, 150, 'ACTIVO', 'adecivos', '2020-03-12', '2020-02-13 02:42:40', 'SANTA MARTA');
 
 -- --------------------------------------------------------
 
@@ -1198,7 +1220,7 @@ ALTER TABLE `deudas`
 -- AUTO_INCREMENT de la tabla `dosificacion`
 --
 ALTER TABLE `dosificacion`
-  MODIFY `iddosificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `iddosificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `egreso`
@@ -1222,7 +1244,7 @@ ALTER TABLE `facial`
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `idfactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `idfactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `formapresentacion`
@@ -1246,7 +1268,7 @@ ALTER TABLE `historial`
 -- AUTO_INCREMENT de la tabla `ingreso`
 --
 ALTER TABLE `ingreso`
-  MODIFY `idingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `idingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `laboratorio`
@@ -1264,25 +1286,25 @@ ALTER TABLE `medicamento`
 -- AUTO_INCREMENT de la tabla `medida`
 --
 ALTER TABLE `medida`
-  MODIFY `idmedida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idmedida` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `montos`
 --
 ALTER TABLE `montos`
-  MODIFY `idmonto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `idmonto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `paciente`
 --
 ALTER TABLE `paciente`
-  MODIFY `idpaciente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idpaciente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `idproducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idproducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `reactivo`
