@@ -193,7 +193,7 @@ VALUES(
 )");
             }
         }
-        header("Location: ".base_url()."Venta/printfactura2/".$idfacura);
+        header("Location: ".base_url()."Venta/printfactura3/".$idfacura);
 
     }
     public function printfactura($idfactura){
@@ -329,6 +329,7 @@ WHERE d.idfactura='$idfactura'");
         header("Location: ".base_url()."Venta");
     }
     public function printfactura2($idfactura=''){
+//        echo "<script>console.log('a')</script>";
         require_once('tcpdf.php');
 
 // create new PDF document
@@ -597,5 +598,282 @@ ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANC
 //Close and output PDF document
         $pdf->Output('Factura.pdf', 'I');
 
+    }
+    public function printfactura3($idfactura=''){
+//        echo "<script>console.log('a')</script>";
+//        require_once('tcpdf.php');
+//
+//// create new PDF document
+//        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+//
+//// remove default header/footer
+//        $pdf->setPrintHeader(false);
+//        $pdf->setPrintFooter(false);
+//        $pdf->AddPage();
+//        $pdf->SetFont('times', '', 9);
+
+        $query=$this->db->query("SELECT * FROM factura f
+ INNER JOIN paciente p ON p.idpaciente=f.idpaciente
+ WHERE idfactura='$idfactura'");
+        $row=$query->row();
+        $estado=$row->tipo;
+//        $nrofactura=$row->nrofactura;
+//        $nroautorizacion=$row->nroautorizacion;
+
+
+        if ($estado=='ORDEN'){
+
+
+            $c= new NumeroALetras();
+            $query=$this->db->query("SELECT p.idproducto,nombre,d.cantidad,d.precio,d.subtotal 
+FROM detallefactura d 
+INNER JOIN producto p ON p.idproducto=d.idproducto
+WHERE d.idfactura='$idfactura'");
+            $t="";
+            $total=number_format($row->total,2);
+            $d = explode('.',$total);
+            $entero=$d[0];
+            $decimal=$d[1];
+            $fecha=$row->fecha;
+//        $nombres=$row->nombres;
+            $apellidos=$row->apellidos;
+            $ci=$row->ci;
+//        $codigocontrol=$row->codigocontrol;
+//        $hasta=$row->hasta;
+            foreach ($query->result() as $row){
+                $t=$t.'<tr>
+                <td>'.$row->idproducto.'</td>
+                <td>'.$row->nombre.'</td>
+                <td>'.$row->cantidad.'</td>
+                <td>'.$row->precio.'</td>
+                <td>'.$row->subtotal.'</td>
+                </tr>';
+            }
+
+            $html='<table>
+<tr align="center" >
+<td>
+Farmacia belen<br>
+        CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE NRO. 440(ZONA: CENTRAL)<br>
+        Teléfono 5210229 Celular: 60413300<br>
+</td>
+<td>
+        <small style="font-weight: bold;font-size: 15px">ORDEN DE VENTA</small> <br>
+        
+        ORURO-BOLIVIA<br>
+</td>
+<td>
+<table border="1">
+<tr>
+<td>
+ <b> ORIGINAL CLIENTE</b>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table border="">
+<tr>
+<td>
+<table>
+<tr>
+<td>
+ <b>Oruro:</b> '.$fecha.' <br>
+ <b>Señores (es)</b> '.$apellidos.' 
+</td>
+<td>
+ <b>CI/NIT:</b> '.$ci.'
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table border="0">
+<tr>
+<td><b>CODIGO</b></td>
+<td><b>DESCRIPCION</b></td>
+<td><b>CANTIDAD</b></td>
+<td><b>PRECIO UNITARIO</b></td>
+<td><b>PRECIO TOTAL</b></td>
+</tr>
+'.$t.'
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><b>TOTAL:</b></td>
+<td>'.$total.'</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><b>DESCUENTO:</b></td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><b>NETO TOTAL:</b></td>
+<td>'.$total.'</td>
+</tr>
+
+</table>
+<br>
+<b>SON: </b>'.$c->convertir($entero).' '.$decimal.'/100 Bs. <br>
+<div align="center">
+<img src="temp/test.png" alt="qr" width="70"> <br>
+Orden de venta muchas gracias por su compra!!!
+</div>
+<b>PUNTO:</b> '.gethostname().' <br>
+<b>USUARIO:</b> '.$_SESSION['nombre'].' <br>
+<b>NUMERO:</b> '.$idfactura.' <br>  
+';
+
+        }else{
+            $query=$this->db->query("SELECT * FROM factura f
+INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
+INNER JOIN paciente p ON p.idpaciente=f.idpaciente
+WHERE f.idfactura='$idfactura'");
+            $row=$query->row();
+            $nrofactura=$row->nrofactura;
+            $nroautorizacion=$row->nroautorizacion;
+            $total=number_format($row->total,2);
+            $d = explode('.',$total);
+            $entero=$d[0];
+            $decimal=$d[1];
+            $fecha=$row->fecha;
+            $nombres=$row->nombres;
+            $apellidos=$row->apellidos;
+            $ci=$row->ci;
+            $codigocontrol=$row->codigocontrol;
+            $hasta=$row->hasta;
+            $leyenda=$row->leyenda;
+            $nit="170444028";
+
+
+            //echo date('d/m/Y', strtotime($fecha));
+            //exit;
+            $testStr = "$nit|$nrofactura|$nroautorizacion|".date('d/m/Y',strtotime($fecha))."|$total|$total|$codigocontrol|$ci|0|0|0|0";
+            QRcode::png($testStr, 'temp/test.png', 'L', 4, 2);
+            $c= new NumeroALetras();
+            $query=$this->db->query("SELECT p.idproducto,nombre,d.cantidad,d.precio,d.subtotal 
+FROM detallefactura d 
+INNER JOIN producto p ON p.idproducto=d.idproducto
+WHERE d.idfactura='$idfactura'");
+            $t="";
+            foreach ($query->result() as $row){
+                $t=$t.'<tr>
+                <td>'.$row->idproducto.'</td>
+                <td>'.$row->nombre.'</td>
+                <td>'.$row->cantidad.'</td>
+                <td>'.$row->precio.'</td>
+                <td>'.$row->subtotal.'</td>
+                </tr>';
+            }
+            $html='<table>
+<tr align="center" >
+<td>
+Lo ultimo en tecnologia estetica sin cirugia<br>
+        CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE NRO. 440(ZONA: CENTRAL)<br>
+        Teléfono 5210229 Celular: 60413300<br>
+</td>
+<td>
+        <small style="font-weight: bold;font-size: 15px">FACTURA</small> <br>
+        
+        ORURO-BOLIVIA<br>
+</td>
+<td>
+<table border="1">
+<tr>
+<td>
+<b>NIT: 170444028 </b><br>
+FACTURA N° '.$nrofactura.' <br>
+AUTORIZACION N° '.$nroautorizacion.' <br>
+ <b> ORIGINAL CLIENTE</b>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table border="">
+<tr>
+<td>
+<table>
+<tr>
+<td>
+ <b>Oruro:</b> '.$fecha.' <br>
+ <b>Señores (es)</b> '.$apellidos.' 
+</td>
+<td>
+ <b>CI/NIT:</b> '.$ci.'
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<table border="0">
+<tr>
+<td><b>CODIGO</b></td>
+<td><b>DESCRIPCION</b></td>
+<td><b>CANTIDAD</b></td>
+<td><b>PRECIO UNITARIO</b></td>
+<td><b>PRECIO TOTAL</b></td>
+</tr>
+'.$t.'
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><b>TOTAL:</b></td>
+<td>'.$total.'</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><b>DESCUENTO:</b></td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td><b>NETO TOTAL:</b></td>
+<td>'.$total.'</td>
+</tr>
+
+</table>
+<br>
+<b>SON: </b>'.$c->convertir($entero).' '.$decimal.'/100 Bs. <br>
+<b>CODIGO DE CONTROL:</b> '.$codigocontrol.' <br>
+<b>FECHA LIMITE DE EMISION:</b> '.$hasta.' <br>
+<div align="center">
+<img src="'.base_url().'temp/test.png" alt="qr" width="140"> <br>
+ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY
+</div>
+'.$leyenda.' <br>
+<b>PUNTO:</b> '.gethostname().' <br>
+<b>USUARIO:</b> '.$_SESSION['nombre'].' <br>
+<b>NUMERO:</b> '.$idfactura.' <br>  
+';
+
+        }
+//        $pdf->writeHTML($html, true, false, true, false, '');
+//
+////Close and output PDF document
+//        $pdf->Output('Factura.pdf', 'I');
+        echo $html;
+        echo "<script>
+window.onload=function(e) {
+  window.print();
+}
+</script>";
+//$this->view->load('imprimirventa');
     }
 }

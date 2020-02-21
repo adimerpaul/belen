@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-6">
-        <form method="post" action="<?=base_url()?>Venta/imprimir" target="_blank">
+        <form method="post" id="vender" action="<?=base_url()?>Venta/imprimir" target="_blank">
             <div class="form-group row">
                 <label for="ci" class="col-sm-3 col-form-label">CI/NIT</label>
                 <div class="col-sm-9">
@@ -9,12 +9,12 @@
             </div>
             <div class="form-group row" id="r">
                 <label for="razon" class="col-sm-2 col-form-label">Razon Social</label>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <input type="text" id="razon" name="razon"  class="form-control" placeholder="Nombre razon" required>
                 </div>
-                <label for="razon" class="col-sm-2 col-form-label">Gastado Mes</label>
-                <div class="col-sm-2">
-                        <h4 id="gastado"></h4>
+                <label for="razon" class="col-sm-3 col-form-label">Gastado Mes</label>
+                <div class="col-sm-3">
+                        <div class="p-2 m-2" id="gastado"></div>
                 </div>
             </div>
             <div class="form-group">
@@ -38,8 +38,7 @@
                         <th scope="col">Subtotal</th>
                     </tr>
                     </thead>
-                    <tbody id="detalle">
-                    </tbody>
+                    <tbody id="detalle"></tbody>
                     <tfoot class="thead-dark">
                     <th scope="col"></th>
                     <th scope="col"></th>
@@ -111,7 +110,8 @@
                     <div class="form-group row">
                         <label for="cantidad" class="col-sm-3 col-form-label">Cantidad</label>
                         <div class="col-sm-9">
-                            <input type="number" id="cantidad" name="cantidad" value="1" class="form-control" required>
+                            <input type="number" id="cantidad" name="cantidad" step="0.01"  value="1" class="form-control" required>
+                            <span class="bg bg-danger text-white p-1" id="mensajecantidad" hidden>NO tienes esa cantidad de productos</span>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -166,12 +166,13 @@
                 }
             });
         } );
+        var stock;
         $('#exampleModal').on('show.bs.modal', function (event) {
-
+            $('#mensajecantidad').attr('hidden','');
             var button = $(event.relatedTarget) // Button that triggered the modal
             var nombre = button.data('nombre');
             var precio = button.data('precio');
-            var cantidad = button.data('cantidad');
+            stock = button.data('cantidad');
             idproducto = button.data('idproducto');
             if ($('#ca'+idproducto).length){
                 // $('#exampleModal').modal('hide');
@@ -229,17 +230,18 @@
                 $.ajax({
                     data:datos,
                     type: 'POST',
-                    url: 'Venta/cliente',
+                    url: 'cliente',
                     success:function (e) {
-                        console.log(e);
+                        // console.log(e);
                         var datos=JSON.parse(e);
-                        let gastado=(datos['total']);
+                        let gastado=parseFloat(datos['total']);
+                        $('#gastado').html(gastado.toFixed(2));
                         if (datos[0] !=null){
                             $('#razon').val(datos[0].apellidos);
-                            $('#gastado').html(gastado);
+
                         }else{
                             $('#razon').val('');
-                            $('#gastado').html(gastado);
+
                         }
                     }
                 });
@@ -257,6 +259,18 @@
             $('#to').html(importe_total);
             $('#total').val(importe_total);
         }
+        var callback = function() {
+            // console.log();
+            if ($(this).val()<=stock){
+                $('#mensajecantidad').attr('hidden','');
+            }else {
+                $('#mensajecantidad').removeAttr('hidden');
+            }
+        };
+
+        $("#cantidad").keyup(callback);
+        $('#cantidad').change(callback);
+
             $('#formulario').submit(function (e) {
                     var precio=$('#precio').val();
                     var cantidad=$('#cantidad').val();
@@ -311,6 +325,14 @@
             }
             calcular_total();
             e.preventDefault();
+        });
+        $('#vender').submit(function () {
+            // console.log($('#detalle').html()=='');
+            if ($('#detalle').html()==""){
+                alert('Porfavor seleccione productos a vender!');
+                return false;
+            }
+
         });
     }
 </script>
