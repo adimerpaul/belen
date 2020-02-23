@@ -123,7 +123,7 @@
                     <div id="farmacologica" class="card-footer text-muted"></div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal"> <i class="fa fa-close"></i> Cerrar</button>
-                        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Agregar</button>
+                        <button type="submit" class="btn btn-success" id="botonventa"> <i class="fa fa-check"></i> Agregar</button>
                     </div>
                 </form>
             </div>
@@ -174,9 +174,11 @@
             var precio = button.data('precio');
             stock = button.data('cantidad');
             idproducto = button.data('idproducto');
+            $('#botonventa').show();
             if ($('#ca'+idproducto).length){
                 // $('#exampleModal').modal('hide');
                 alert('ya insertaste el producto!!, no puedes insertar mas productos, puedes aumentar la cantidad que ya exite');
+                $('#botonventa').hide();
                 // return false;
                 // event.preventDefault();
             }else{
@@ -230,7 +232,7 @@
                 $.ajax({
                     data:datos,
                     type: 'POST',
-                    url: 'cliente',
+                    url: 'Venta/cliente',
                     success:function (e) {
                         // console.log(e);
                         var datos=JSON.parse(e);

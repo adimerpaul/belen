@@ -420,36 +420,35 @@ Farmacia belen<br>
 </tr>
 </table>
 <table border="0">
-<tr>
-<td><b>CODIGO</b></td>
-<td><b>DESCRIPCION</b></td>
-<td><b>CANTIDAD</b></td>
-<td><b>PRECIO UNITARIO</b></td>
-<td><b>PRECIO TOTAL</b></td>
-</tr>
-'.$t.'
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td><b>TOTAL:</b></td>
-<td>'.$total.'</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td><b>DESCUENTO:</b></td>
-<td>0</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td><b>NETO TOTAL:</b></td>
-<td>'.$total.'</td>
-</tr>
-
+    <tr>
+        <td><b>CODIGO</b></td>
+        <td><b>DESCRIPCION</b></td>
+        <td><b>CANTIDAD</b></td>
+        <td><b>PRECIO UNITARIO</b></td>
+        <td><b>PRECIO TOTAL</b></td>
+    </tr>
+    '.$t.'
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><b>TOTAL:</b></td>
+        <td>'.$total.'</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><b>DESCUENTO:</b></td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><b>NETO TOTAL:</b></td>
+        <td>'.$total.'</td>
+    </tr>
 </table>
 <br>
 <b>SON: </b>'.$c->convertir($entero).' '.$decimal.'/100 Bs. <br>
@@ -766,7 +765,7 @@ INNER JOIN producto p ON p.idproducto=d.idproducto
 WHERE d.idfactura='$idfactura'");
             $t="";
             foreach ($query->result() as $row){
-                $t=$t.'<tr>
+                $t=$t.'<tr align="center">
                 <td>'.$row->idproducto.'</td>
                 <td>'.$row->nombre.'</td>
                 <td>'.$row->cantidad.'</td>
@@ -774,80 +773,64 @@ WHERE d.idfactura='$idfactura'");
                 <td>'.$row->subtotal.'</td>
                 </tr>';
             }
-            $html='<table>
-<tr align="center" >
-<td>
-Lo ultimo en tecnologia estetica sin cirugia<br>
-        CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE NRO. 440(ZONA: CENTRAL)<br>
-        Teléfono 5210229 Celular: 60413300<br>
-</td>
-<td>
-        <small style="font-weight: bold;font-size: 15px">FACTURA</small> <br>
-        
-        ORURO-BOLIVIA<br>
-</td>
-<td>
-<table border="1">
+            $html='
+<table style="width: 100%">
+<tr align="center">
+    <td style="width: 33.33%">
+        <div>Lo ultimo en tecnologia estetica sin cirugia</div>
+        <div>CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE NRO. 440(ZONA: CENTRAL)</div>
+        <div>Teléfono 5210229 Celular: 60413300</div>
+    </td>
+    <td style="width: 33.33%">
+        <div><b>FACTURA</b></div>
+        <div>ORURO-BOLIVIA</div>
+    </td>
+    <td style="width: 33.33%">
+        <div style="border: 2px solid black">
+            <div><b>NIT: 170444028 </b></div>
+            <div>FACTURA N° '.$nrofactura.'</div>
+            <div>AUTORIZACION N° '.$nroautorizacion.'</div>
+            <div><b>ORIGINAL CLIENTE</b></div>
+        </div> 
+    </td>
 <tr>
-<td>
-<b>NIT: 170444028 </b><br>
-FACTURA N° '.$nrofactura.' <br>
-AUTORIZACION N° '.$nroautorizacion.' <br>
- <b> ORIGINAL CLIENTE</b>
-</td>
+</table>
+<table style="width: 100%">
+<tr>
+    <td>
+    <b>Oruro:</b> '.$fecha.' <br>
+    </td>
+    <td>
+    <b>CI/NIT:</b> '.$ci.'
+    </td>
+</tr>
+<tr>
+    <td colspan="2">
+        <b>Señores (es)</b> '.$apellidos.'
+    </td>
 </tr>
 </table>
-</td>
-</tr>
-</table>
-<table border="">
-<tr>
-<td>
-<table>
-<tr>
-<td>
- <b>Oruro:</b> '.$fecha.' <br>
- <b>Señores (es)</b> '.$apellidos.' 
-</td>
-<td>
- <b>CI/NIT:</b> '.$ci.'
-</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-<table border="0">
-<tr>
-<td><b>CODIGO</b></td>
-<td><b>DESCRIPCION</b></td>
-<td><b>CANTIDAD</b></td>
-<td><b>PRECIO UNITARIO</b></td>
-<td><b>PRECIO TOTAL</b></td>
-</tr>
-'.$t.'
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td><b>TOTAL:</b></td>
-<td>'.$total.'</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td><b>DESCUENTO:</b></td>
-<td>0</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td><b>NETO TOTAL:</b></td>
-<td>'.$total.'</td>
-</tr>
-
+<table border="0" style="width: 100%">
+    <tr align="center" style="background-color: #BDCAD5; height: 30px">
+        <td><b>CODIGO</b></td>
+        <td><b>DESCRIPCION</b></td>
+        <td><b>CANTIDAD</b></td>
+        <td><b>PRECIO UNITARIO</b></td>
+        <td><b>PRECIO TOTAL</b></td>
+    </tr>
+    '.$t.'
+    <tr align="center" style="height: 30px">
+        <td colspan="4"><b>TOTAL:</b></td>
+        <td>'.$total.'</td>
+    </tr>
+    <tr align="center" style="height: 30px">
+        <td colspan="4"><b>DESCUENTO:</b></td>
+        <td>0</td>
+    </tr>
+    <tr align="center" style="height: 30px">
+        <td colspan="4"><b>NETO TOTAL:</b></td>
+        <td>'.$total.'</td>
+    </tr>
 </table>
 <br>
 <b>SON: </b>'.$c->convertir($entero).' '.$decimal.'/100 Bs. <br>
@@ -871,7 +854,7 @@ ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANC
         echo $html;
         echo "<script>
 window.onload=function(e) {
-  window.print();
+    
 }
 </script>";
 //$this->view->load('imprimirventa');

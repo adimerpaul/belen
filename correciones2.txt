@@ -1,0 +1,24 @@
+PRODUCTO
+	 cantidad	(total de cantidad de lotes)	
+mentisan 45 cantidad
+
+
+LOTE (foreing key = producto_id)
+	cantidad
+	fecha vencimiento
+
+lote 1	0	10/06/2020
+lote 2	15	10/08/2020
+lote 3	20	10/10/2020
+
+relizar venta
+	reduce producto (cantidad)
+
+consulta limit 1 ultimo lote
+if (cantidad venta >=cantidad lote consulta)
+	cantidad venta = cantidad venta -cantidad lote consulta
+actualizar cantidad lote consulta
+
+if (cantidad venta >=)
+
+ventas por rango de fechas
