@@ -31,7 +31,6 @@
             <th scope="col">Precio</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Farmacologica</th>
-            <th scope="col">Fech. vencimiento</th>
             <th scope="col">Estado</th>
             <th scope="col">Opciones</th>
         </tr>
@@ -42,10 +41,10 @@
         foreach ($query->result() as $row){
             if($row->estado=="ACTIVO"){
                 $t="<div class='p-0 text-center bg-success text-white'>ACTIVO</div>";
-                $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-danger eli  p-1' ><i class='fa fa-trash-o'></i> INACTIVAR</a>";
+                $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-danger eli  p-1' ><i class='fa fa-trash-o'></i> Inactivar</a>";
             }else{
                 $t="<div class='p-0 text-center bg-warning text-white'>INACTIVO</div>";
-                $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-success  p-1' ><i class='fa fa-check'></i> ACTIVAR</a>";
+                $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-success  p-1' ><i class='fa fa-check'></i> Activar</a>";
             }
             echo "
             <tr>
@@ -58,11 +57,11 @@
                 </div>
                 </td>
                 <td>".$row->farmacologica."</td>
-                <td>".$row->fechavencimiento."</td>
                 <td>$t</td>
                 <td> 
-                <button  class='btn btn-sm btn-warning text-white p-1' data-idusuario='$row->idproducto' data-toggle=\"modal\" data-target=\"#modificar\" ><i class='fa fa-pencil'></i> Actualizar</button> <br>
-            $b
+                <button  class='btn btn-sm btn-warning text-white p-1' data-idusuario='$row->idproducto' data-toggle='modal' data-target='#modificar' ><i class='fa fa-pencil'></i> Actualizar</button> <br>
+                <button  class='btn btn-sm btn-info text-white p-1' data-idusuario='$row->idproducto' data-toggle='modal' data-target='#lote' ><i class='fa fa-product-hunt'></i> Agre. Lote</button> <br>
+                $b
                 </td>
             </tr>";
         }
@@ -79,7 +78,14 @@
             }
         })
     }
-
+    window.onload=function (e) {
+        e.preventDefault();
+        $('#lote').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var idproducto = button.data('idusuario') // Extract info from data-* attributes
+            $('#idproductolote2').val(idproducto);
+        })
+    }
 </script>
 <!-- Modal -->
 
@@ -158,7 +164,7 @@
                         <div class="form-group col-md-12" style="padding: 0px;margin: 0px;border: 0px" >
 
                             <label for="nombre2" >Nombre</label>
-                            <input type="text" id="idproducto2" name="idproducto">
+                            <input type="text" id="idproducto2" name="idproducto" hidden>
                             <input type="text" class="form-control" id="nombre2" placeholder="nombre" name="nombre" required>
                         </div>
                         <div class="form-group col-md-12"  >
@@ -188,6 +194,38 @@
                                 }
                                 ?>
                             </datalist>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning">Modificar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="lote" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agergar lote</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="<?=base_url()?>Productos/lote" style="padding: 0px;margin: 0px;border: 0px">
+                    <div class="form-row" style="padding: 0px;margin: 0px;border: 0px">
+                        <div class="form-group col-md-12"  >
+                            <label for="stock2" >Stock</label>
+                            <input type="text" id="idproductolote2" name="idproducto" hidden >
+                            <input type="text" class="form-control" id="stock2"  placeholder="000" name="stock" required>
+                        </div>
+                        <div class="form-group col-md-12"  >
+                            <label for="fechavencimiento2" >fecha vencimiento</label>
+                            <input type="date"  class="form-control" id="fechavencimiento2" placeholder="fecha vencimiento" name="fechavencimiento" required>
                         </div>
                     </div>
                     <div class="modal-footer">

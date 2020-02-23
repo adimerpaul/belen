@@ -34,7 +34,6 @@
                         <th scope="col">Detalle del Producto</th>
                         <th scope="col">Precio</th>
                         <th scope="col">Cantidad</th>
-
                         <th scope="col">Subtotal</th>
                     </tr>
                     </thead>

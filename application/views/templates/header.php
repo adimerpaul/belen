@@ -113,6 +113,11 @@
                                     <i class="ti-files"></i><span>Listado venta</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="<?=base_url()?>Rango" aria-expanded="true">
+                                    <i class="ti-bar-chart"></i><span>Rango de ventas</span>
+                                </a>
+                            </li>
 <!--                                        <li>-->
 <!--                                            <a href="--><?//= base_url() ?><!--Consentimientos" aria-expanded="true">-->
 <!--                                                <i class="ti-files"></i><span> Consentimiento</span>-->

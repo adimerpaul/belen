@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-02-2020 a las 05:19:28
+-- Tiempo de generación: 23-02-2020 a las 20:41:43
 -- Versión del servidor: 10.1.40-MariaDB
 -- Versión de PHP: 7.3.5
 
@@ -209,7 +209,8 @@ INSERT INTO `detallefactura` (`idfactura`, `idproducto`, `cantidad`, `subtotal`,
 (22, 9, 1, 20.5, 20.5),
 (23, 5, 1, 160, 160),
 (23, 8, 1, 20, 20),
-(23, 9, 1, 20.5, 20.5);
+(23, 9, 1, 20.5, 20.5),
+(24, 8, 1, 20, 20);
 
 -- --------------------------------------------------------
 
@@ -364,7 +365,8 @@ INSERT INTO `factura` (`idfactura`, `idpaciente`, `fecha`, `total`, `codigocontr
 (20, 14, '2020-02-12 21:45:06', 20, 'D8-D6-94-83', 3, 201, 1, 'D', 'FACTURA'),
 (21, 14, '2020-02-12 21:45:14', 20, '0D-02-51-18-D7', 3, 202, 1, 'D', 'FACTURA'),
 (22, 14, '2020-02-12 21:45:21', 200.5, '33-6B-88-D7-A1', 3, 203, 1, 'D', 'FACTURA'),
-(23, 14, '2020-02-12 21:45:29', 200.5, '', 0, 0, 1, 'D', 'ORDEN');
+(23, 14, '2020-02-12 21:45:29', 200.5, '', 0, 0, 1, 'D', 'ORDEN'),
+(24, 5, '2020-02-23 15:18:42', 20, '77-34-7E-7D', 3, 204, 1, 'D', 'FACTURA');
 
 -- --------------------------------------------------------
 
@@ -532,7 +534,8 @@ INSERT INTO `ingreso` (`idingreso`, `fecha`, `idusuario`, `tipo`) VALUES
 (42, '2020-02-12 21:41:13', 1, 'ENTRADA'),
 (43, '2020-02-12 22:03:21', 1, 'ENTRADA'),
 (44, '2020-02-12 22:35:20', 1, 'ENTRADA'),
-(45, '2020-02-12 22:55:56', 1, 'ENTRADA');
+(45, '2020-02-12 22:55:56', 1, 'ENTRADA'),
+(46, '2020-02-23 13:40:04', 1, 'ENTRADA');
 
 -- --------------------------------------------------------
 
@@ -577,6 +580,30 @@ INSERT INTO `laboratorio` (`idlaboratorio`, `nombre`, `idtipolaboratorio`) VALUE
 (24, 'LEUCOCITOS y PIOCITOS', 5),
 (25, 'EXAMEN GENERAL DE ORINA', 6),
 (26, 'CULTIVO Y ANTIBIOGRAMA', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `lote`
+--
+
+CREATE TABLE `lote` (
+  `idlote` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `cantidad` int(11) NOT NULL,
+  `idproducto` int(11) NOT NULL,
+  `fechavencimiento` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `lote`
+--
+
+INSERT INTO `lote` (`idlote`, `fecha`, `cantidad`, `idproducto`, `fechavencimiento`) VALUES
+(1, '2020-02-23 18:36:00', 50, 11, '2020-02-02'),
+(2, '2020-02-23 18:41:50', 10, 3, '2020-06-01'),
+(3, '2020-02-23 18:54:45', 100, 11, '2020-10-01'),
+(4, '2020-02-23 19:01:39', 10, 8, '2020-03-22');
 
 -- --------------------------------------------------------
 
@@ -690,11 +717,12 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`idproducto`, `nombre`, `precio`, `cantidad`, `estado`, `farmacologica`, `fechavencimiento`, `fecha`, `distribuidora`) VALUES
-(3, 'MENTISAN', 15.2, 0, 'ACTIVO', 'adecivos', '2020-02-06', '2020-02-13 02:27:07', 'FARMACORP'),
+(3, 'MENTISAN', 18, 10, 'ACTIVO', 'adecivos', '2020-06-01', '2020-02-13 02:27:07', 'FARMACORP'),
 (5, 'PROTECTOR SOLAR COREANO', 160, 24, 'ACTIVO', 'adecivos', '2020-01-01', '2020-02-13 02:27:07', 'FARMACORP'),
-(8, 'BATIDORA', 20, 71, 'ACTIVO', 'adecivos', '2020-06-13', '2020-02-13 02:27:07', 'FARMACORP'),
+(8, 'BATIDORA', 20, 80, 'ACTIVO', 'adecivos', '2020-03-22', '2020-02-13 02:27:07', 'FARMACORP'),
 (9, 'SUERO FISIOLOGICO', 20.5, 105, 'ACTIVO', 'adecivos', '2020-04-15', '2020-02-13 02:27:07', 'FARMACORP'),
-(10, 'SUERO DEXTROSA 5% ', 12.5, 150, 'ACTIVO', 'adecivos', '2020-03-12', '2020-02-13 02:42:40', 'SANTA MARTA');
+(10, 'SUERO DEXTROSA 5% ', 12.5, 150, 'ACTIVO', 'adecivos', '2020-03-12', '2020-02-13 02:42:40', 'SANTA MARTA'),
+(11, 'PARECETAMOL', 10, 150, 'ACTIVO', 'para el dolor de cabeza y fiebre', '2020-10-01', '2020-02-23 18:36:00', 'SANTA MARTA');
 
 -- --------------------------------------------------------
 
@@ -1088,6 +1116,13 @@ ALTER TABLE `laboratorio`
   ADD KEY `tipolaboratorio` (`idtipolaboratorio`);
 
 --
+-- Indices de la tabla `lote`
+--
+ALTER TABLE `lote`
+  ADD PRIMARY KEY (`idlote`),
+  ADD KEY `idproducto` (`idproducto`);
+
+--
 -- Indices de la tabla `medicamento`
 --
 ALTER TABLE `medicamento`
@@ -1244,7 +1279,7 @@ ALTER TABLE `facial`
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `idfactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `idfactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `formapresentacion`
@@ -1268,13 +1303,19 @@ ALTER TABLE `historial`
 -- AUTO_INCREMENT de la tabla `ingreso`
 --
 ALTER TABLE `ingreso`
-  MODIFY `idingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `idingreso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `laboratorio`
 --
 ALTER TABLE `laboratorio`
   MODIFY `idlaboratorio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT de la tabla `lote`
+--
+ALTER TABLE `lote`
+  MODIFY `idlote` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `medicamento`
@@ -1304,7 +1345,7 @@ ALTER TABLE `paciente`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `idproducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idproducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `reactivo`
@@ -1455,6 +1496,12 @@ ALTER TABLE `ingreso`
 --
 ALTER TABLE `laboratorio`
   ADD CONSTRAINT `laboratorio_ibfk_1` FOREIGN KEY (`idtipolaboratorio`) REFERENCES `tipolaboratorio` (`idtipolaboratorio`);
+
+--
+-- Filtros para la tabla `lote`
+--
+ALTER TABLE `lote`
+  ADD CONSTRAINT `lote_ibfk_1` FOREIGN KEY (`idproducto`) REFERENCES `producto` (`idproducto`);
 
 --
 -- Filtros para la tabla `medida`

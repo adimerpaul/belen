@@ -47,9 +47,7 @@
 <figure class="highcharts-figure">
     <div id="container"></div>
     <p class="highcharts-description">
-        Chart showing browser market shares. Clicking on individual columns
-        brings up more detailed data. This chart makes use of the drilldown
-        feature in Highcharts to easily switch between datasets.
+        Cantidad de compras por clientes,este reporte muestra los 10 primeros clientes que mas compraron
     </p>
 </figure>
 <script type="text/javascript">
@@ -99,7 +97,9 @@
         $query=$this->db->query("SELECT p.apellidos as name,count(*) as y
 FROM factura f 
 INNER JOIN paciente p ON f.idpaciente=p.idpaciente
-GROUP BY p.apellidos");
+WHERE f.estado IN ('D','ORDEN')
+GROUP BY p.apellidos
+LIMIT 10");
         $datos="";
         foreach ($query->result() as $row){
             $datos=$datos."{'name':'$row->name','y':$row->y},";

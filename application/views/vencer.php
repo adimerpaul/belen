@@ -25,28 +25,45 @@
         <th scope="col">Nombre</th>
         <th scope="col">Cantidad</th>
         <th scope="col">Accion farmacologica</th>
-        <th scope="col">Fecha de vencimiento</th>
-        <th scope="col">Dias a vencer</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Fech. vencimi.</th>
         <th scope="col">Estado</th>
     </tr>
     </thead>
     <tbody>
     <?php
-    $query=$this->db->query("SELECT *,
-(IF(fechavencimiento<NOW(), 'VENCIDO', 'POR VENCER')) as estado2,
-IF(DATEDIFF(DATE_ADD(NOW(), INTERVAL 90 DAY), fechavencimiento)>90,
-0,
-90-DATEDIFF(DATE_ADD(NOW(), INTERVAL 90 DAY), fechavencimiento)) as dias
+    $query=$this->db->query("SELECT *
 FROM producto 
-WHERE cantidad>=1
-AND  fechavencimiento<=DATE_ADD(NOW(), INTERVAL 90 DAY)
+WHERE cantidad>=1 AND estado='ACTIVO'
 ");
     foreach ($query->result() as $row){
-        if($row->estado2=="POR VENCER"){
-            $t="<div class='p-0 text-center bg-warning text-white'>POR VENCER</div>";
 
-        }else{
-            $t="<div class='p-0 text-center bg-danger text-white'>VENCIDO</div>";
+//        if($row->estado2=="POR VENCER"){
+//            $t="<div class='p-0 text-center bg-warning text-white'>POR VENCER</div>";
+//
+//        }else{
+//            $t="<div class='p-0 text-center bg-danger text-white'>VENCIDO</div>";
+//        }
+        $query2=$this->db->query("SELECT * FROM lote WHERE idproducto='$row->idproducto'");
+        $cantidad="";
+        $fechavecimiento="";
+        $estado="";
+        if ($query2->num_rows()>0){
+            foreach ($query2->result() as $row2){
+                $cantidad=$cantidad."$row2->cantidad<br>";
+                $fechavecimiento=$fechavecimiento."$row2->fechavencimiento<br>";
+
+                $hoy= new DateTime(date('Y-m-d'));
+                $fecha= new DateTime($row2->fechavencimiento);
+                $dias=$fecha->diff($hoy);
+                if($fecha<$hoy){
+                    $estado=$estado."<small class='bg bg-danger text-white p-1'>VENCIDO </small><br>";
+                }elseif ($dias->days<=90){
+                    $estado=$estado."<small class='bg bg-warning text-white p-1'>POR VENCER </small><br>";
+                }else{
+                    $estado=$estado."<small class='bg bg-success text-white p-1'>VIGENTE </small><br>";
+                }
+            }
         }
         echo "
         <tr>
@@ -57,9 +74,9 @@ AND  fechavencimiento<=DATE_ADD(NOW(), INTERVAL 90 DAY)
             </div>
             </td>
             <td>".$row->farmacologica."</td>
-            <td>".$row->fechavencimiento."</td>
-            <td>".$row->dias."</td>
-            <td>$t</td>
+            <td>".$cantidad."</td>
+            <td>".$fechavecimiento."</td>
+            <td>$estado</td>
         </tr>";
     }
     ?>
