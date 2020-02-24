@@ -14,17 +14,19 @@
                 </div>
                 <label for="razon" class="col-sm-3 col-form-label">Gastado Mes</label>
                 <div class="col-sm-3">
-                    <div class="p-2 m-2" id="gastado"></div>
+                    <div class="m-2" id="gastado"></div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-3"><label for="exampleInputPassword1">PRODUCTOS </label></div>
-                    <div class="col-3"><a href="" class="btn btn-warning m-1"> <i class="fa fa-recycle"></i> Reiniciar </a></div>
+                    <div class="col-3">
+                        <a href="" class="btn btn-warning m-1"> <i class="fa fa-recycle"></i> Reiniciar </a>
+                    </div>
                     <div class="col-6">
-                        <div class="text-right">
-                            <input type="checkbox" name="tipo" checked data-toggle="toggle" data-size="small" data-onstyle="success" data-offstyle="warning" data-on="F" data-off="O">
-                        </div>
+                        
+                    </div>
+                    <div class="col-3">
+                        <input type="checkbox" name="tipo" checked data-toggle="toggle" data-size="small" data-onstyle="success" data-offstyle="warning" data-on="F" data-off="O">
                     </div>
                 </div>
                 <table class="table">
@@ -249,13 +251,15 @@
                         // console.log(e);
                         var datos=JSON.parse(e);
                         let gastado=parseFloat(datos['total']);
-                        $('#gastado').html('Bs. '+gastado.toFixed(2));
+                        if (gastado>0)
+                            $('#gastado').html('Bs. '+gastado.toFixed(2));
+                        else
+                            $('#gastado').html('No realizo compras');
                         if (datos[0] !=null){
                             $('#razon').val(datos[0].apellidos);
 
                         }else{
                             $('#razon').val('');
-
                         }
                     }
                 });

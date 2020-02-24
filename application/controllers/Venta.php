@@ -379,10 +379,11 @@ WHERE d.idfactura='$idfactura'");
                 </tr>';
             }
 
-            $html='<table>
+            $html='
+<table>
 <tr align="center" >
 <td>
-Farmacia belen<br>
+Farmacia <b>"BELEN"</b><br>
         CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE NRO. 440(ZONA: CENTRAL)<br>
         Teléfono 5210229 Celular: 60413300<br>
 </td>
@@ -640,7 +641,7 @@ WHERE d.idfactura='$idfactura'");
 //        $codigocontrol=$row->codigocontrol;
 //        $hasta=$row->hasta;
             foreach ($query->result() as $row){
-                $t=$t.'<tr>
+                $t=$t.'<tr align="center">
                 <td>'.$row->idproducto.'</td>
                 <td>'.$row->nombre.'</td>
                 <td>'.$row->cantidad.'</td>
@@ -649,87 +650,92 @@ WHERE d.idfactura='$idfactura'");
                 </tr>';
             }
 
-            $html='<table>
-<tr align="center" >
-<td>
-Farmacia belen<br>
-        CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE NRO. 440(ZONA: CENTRAL)<br>
-        Teléfono 5210229 Celular: 60413300<br>
-</td>
-<td>
-        <small style="font-weight: bold;font-size: 15px">ORDEN DE VENTA</small> <br>
-        
-        ORURO-BOLIVIA<br>
-</td>
-<td>
-<table border="1">
-<tr>
-<td>
- <b> ORIGINAL CLIENTE</b>
-</td>
-</tr>
+            $html='
+<table style="width: 100%; font-size: 12px;">
+    <tr align="center" >
+        <td style="width: 33.33%">
+            <div>Farmacia <b>"BELEN"</b></div>
+            <div>Antofagasta entre San Felipe</div>
+            <div>y pasaje San Felipe Nro 16</div>
+            <div>Zona: Este Oruro - Bolivia</div>
+        </td>
+        <td style="width: 33.33%">
+            <div><small style="font-weight: bold;font-size: 20px">ORDEN DE VENTA</small></div>
+            <table style="border: #BDCAD5 2px solid; border-radius: 10px;">
+                <tr align="center">
+                    <td colspan="3">
+                        ORURO
+                    </td>
+                </tr>
+                <tr>
+                    <td>DIA</td>
+                    <td>MES</td>
+                    <td>AÑO</td>
+                </tr>
+                <tr>
+                    <td><b>'.date('d').'</b></td>
+                    <td><b>'.date('m').'</b></td>
+                    <td><b>'.date('Y').'</b></td>
+                </tr>
+            </table>
+        </td>
+        <td style="width: 33.33%">
+            <b>ORIGINAL CLIENTE</b>
+        </td>
+    </tr>
 </table>
-</td>
-</tr>
+<table style="width: 100%">
+    <tr>
+        <td>
+            <b>NIT/CI:</b> '.$ci.'
+        </td>
+        <td>
+            <b>Señor (es)</b> '.$apellidos.'
+        </td>
+    </tr>
 </table>
-<table border="">
-<tr>
-<td>
-<table>
-<tr>
-<td>
- <b>Oruro:</b> '.$fecha.' <br>
- <b>Señores (es)</b> '.$apellidos.' 
-</td>
-<td>
- <b>CI/NIT:</b> '.$ci.'
-</td>
-</tr>
+<table style="width: 100%">
+    <tr style="background-color: #BDCAD5; height: 35px;" align="center">
+        <td><b>CODIGO</b></td>
+        <td><b>DESCRIPCION</b></td>
+        <td><b>CANTIDAD</b></td>
+        <td><b>PRECIO UNITARIO</b></td>
+        <td><b>PRECIO TOTAL</b></td>
+    </tr>
+    '.$t.'
+    <tr align="center" style="background-color: #EFF3F5">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><b>TOTAL:</b></td>
+        <td>'.$total.'</td>
+    </tr>
+    <tr align="center" style="background-color: #EFF3F5">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><b>DESCUENTO:</b></td>
+        <td>0</td>
+    </tr>
+    <tr align="center" style="background-color: #EFF3F5">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><b>NETO TOTAL:</b></td>
+        <td>'.$total.'</td>
+    </tr>
 </table>
-</td>
-</tr>
-</table>
-<table border="0">
-<tr>
-<td><b>CODIGO</b></td>
-<td><b>DESCRIPCION</b></td>
-<td><b>CANTIDAD</b></td>
-<td><b>PRECIO UNITARIO</b></td>
-<td><b>PRECIO TOTAL</b></td>
-</tr>
-'.$t.'
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td><b>TOTAL:</b></td>
-<td>'.$total.'</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td><b>DESCUENTO:</b></td>
-<td>0</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td><b>NETO TOTAL:</b></td>
-<td>'.$total.'</td>
-</tr>
-
-</table>
-<br>
-<b>SON: </b>'.$c->convertir($entero).' '.$decimal.'/100 Bs. <br>
-<div align="center">
-<img src="temp/test.png" alt="qr" width="70"> <br>
-Orden de venta muchas gracias por su compra!!!
+<div>
+    <b>SON: </b>'.$c->convertir($entero).' '.$decimal.'/100 Bs. <br>
 </div>
-<b>PUNTO:</b> '.gethostname().' <br>
-<b>USUARIO:</b> '.$_SESSION['nombre'].' <br>
-<b>NUMERO:</b> '.$idfactura.' <br>  
+<div align="center">
+    Orden de Venta, muchas gracias por su preferencia!!!
+</div>
+<div style="font-size: 12px;">
+    <b>PUNTO:</b> '.gethostname().' <br>
+    <b>USUARIO:</b> '.$_SESSION['nombre'].' <br>
+    <b>NUMERO:</b> '.$idfactura.' <br>  
+</div>
 ';
 
         }else{
@@ -774,41 +780,57 @@ WHERE d.idfactura='$idfactura'");
                 </tr>';
             }
             $html='
-<table style="width: 100%">
-<tr align="center">
+<table style="width: 100%;">
+<tr align="center" style="font-size: 12px;">
     <td style="width: 33.33%">
-        <div>Lo ultimo en tecnologia estetica sin cirugia</div>
-        <div>CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE NRO. 440(ZONA: CENTRAL)</div>
-        <div>Teléfono 5210229 Celular: 60413300</div>
+        <div>Farmacia "<b>BELEN</b>"</div>
+        <div>JUAN CARLOS SOTO VILLCA</div>
+        <div>CASA MATRIZ</div>
+        <div>Antofagasta entre San Felipe</div>
+        <div>y pasaje San Felipe Nro. 16</div>
+        <div>Zona: Este Oruro - Bolivia</div>
     </td>
     <td style="width: 33.33%">
-        <div><b>FACTURA</b></div>
-        <div>ORURO-BOLIVIA</div>
+        <div><b style="font-size: 25px;">FACTURA</b></div>
+        <table style="border: #BDCAD5 2px solid; border-radius: 10px;">
+            <tr align="center">
+                <td colspan="3">
+                    ORURO
+                </td>
+            </tr>
+            <tr>
+                <td>DIA</td>
+                <td>MES</td>
+                <td>AÑO</td>
+            </tr>
+            <tr>
+                <td><b>'.date('d').'</b></td>
+                <td><b>'.date('m').'</b></td>
+                <td><b>'.date('Y').'</b></td>
+            </tr>
+        </table>
     </td>
     <td style="width: 33.33%">
-        <div style="border: 2px solid black">
-            <div><b>NIT: 170444028 </b></div>
-            <div>FACTURA N° '.$nrofactura.'</div>
+        <div>
+            <div><b>NIT: 7296413013 </b></div>
+            <div>FACTURA</div>
+            <div style="color: red;"><b>N° '.$nrofactura.'</b></div>
             <div>AUTORIZACION N° '.$nroautorizacion.'</div>
             <div><b>ORIGINAL CLIENTE</b></div>
+            <div>Venta al por menor de productos farmacéuticos, medicinales, cosméticos y artículos de tocador</div>
         </div> 
     </td>
 <tr>
 </table>
 <table style="width: 100%">
-<tr>
-    <td>
-    <b>Oruro:</b> '.$fecha.' <br>
-    </td>
-    <td>
-    <b>CI/NIT:</b> '.$ci.'
-    </td>
-</tr>
-<tr>
-    <td colspan="2">
-        <b>Señores (es)</b> '.$apellidos.'
-    </td>
-</tr>
+    <tr>
+        <td>
+            <b>NIT/CI:</b> '.$ci.'
+        </td>
+        <td>
+            <b>Señor (es)</b> '.$apellidos.'
+        </td>
+    </tr>
 </table>
 <table border="0" style="width: 100%">
     <tr align="center" style="background-color: #BDCAD5; height: 30px">
@@ -819,31 +841,34 @@ WHERE d.idfactura='$idfactura'");
         <td><b>PRECIO TOTAL</b></td>
     </tr>
     '.$t.'
-    <tr align="center" style="height: 30px">
+    <tr align="center" style="height: 30px; background-color: #EFF3F5;">
         <td colspan="4"><b>TOTAL:</b></td>
         <td>'.$total.'</td>
     </tr>
-    <tr align="center" style="height: 30px">
+    <tr align="center" style="height: 30px; background-color: #EFF3F5;">
         <td colspan="4"><b>DESCUENTO:</b></td>
         <td>0</td>
     </tr>
-    <tr align="center" style="height: 30px">
+    <tr align="center" style="height: 30px; background-color: #EFF3F5;">
         <td colspan="4"><b>NETO TOTAL:</b></td>
         <td>'.$total.'</td>
     </tr>
 </table>
-<br>
-<b>SON: </b>'.$c->convertir($entero).' '.$decimal.'/100 Bs. <br>
-<b>CODIGO DE CONTROL:</b> '.$codigocontrol.' <br>
-<b>FECHA LIMITE DE EMISION:</b> '.$hasta.' <br>
-<div align="center">
-<img src="'.base_url().'temp/test.png" alt="qr" width="140"> <br>
-ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY
+<div style="font-size: 14px;">
+    <b>SON: </b>'.$c->convertir($entero).' '.$decimal.'/100 Bs. <br>
+    <b>CODIGO DE CONTROL:</b> '.$codigocontrol.' <br>
+    <b>FECHA LIMITE DE EMISION:</b> '.$hasta.' <br>
 </div>
-'.$leyenda.' <br>
-<b>PUNTO:</b> '.gethostname().' <br>
-<b>USUARIO:</b> '.$_SESSION['nombre'].' <br>
-<b>NUMERO:</b> '.$idfactura.' <br>  
+<div align="center" style="font-size: 12px;">
+    <img src="'.base_url().'temp/test.png" alt="qr" width="140"> <br>
+    ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY
+</div>
+<div align="center">'.$leyenda.'</div>
+<div style="font-size: 12px;">
+    <b>PUNTO:</b> '.gethostname().' <br>
+    <b>USUARIO:</b> '.$_SESSION['nombre'].' <br>
+    <b>NUMERO:</b> '.$idfactura.' <br>  
+</div>
 ';
 
         }
@@ -854,7 +879,7 @@ ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANC
         echo $html;
         echo "<script>
 window.onload=function(e) {
-    
+    window.print();    
 }
 </script>";
 //$this->view->load('imprimirventa');

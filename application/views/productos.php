@@ -30,7 +30,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Precio</th>
             <th scope="col">Cantidad</th>
-            <th scope="col">Farmacologica</th>
+            <th scope="col">Farmacológica</th>
             <th scope="col">Estado</th>
             <th scope="col">Opciones</th>
         </tr>
@@ -114,7 +114,7 @@
                             <input type="text"  class="form-control" id="stock" value="0" placeholder="stock" name="stock" required>
                         </div>
                         <div class="form-group col-md-12"  >
-                            <label for="farmacologica" >farmacologica</label>
+                            <label for="farmacologica" >Farmacológica</label>
                             <textarea name="farmacologica" class="form-control" id="farmacologica" rows="2"></textarea>
                             <!-- <input type="text"  class="form-control" id="farmacologica"
                             placeholder="farmacologica" name="farmacologica" required> -->
@@ -176,7 +176,7 @@
                             <input type="text" class="form-control" id="stock2" value="0" placeholder="stock" name="stock" required>
                         </div>
                         <div class="form-group col-md-12"  >
-                            <label for="farmacologica2" >farmacologica</label>
+                            <label for="farmacologica2" >Farmacológica</label>
                             <input type="text"  class="form-control" id="farmacologica2" placeholder="farmacologica" name="farmacologica" required>
                         </div>
                         <div class="form-group col-md-12"  >

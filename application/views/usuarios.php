@@ -25,7 +25,7 @@
 <table id="example" class="display nowrap" style="width:100%">
     <thead>
     <tr>
-        <th>Idusuario</th>
+        <th>#</th>
         <th>Nombre</th>
         <th>Email</th>
         <th>Tipo</th>
@@ -75,7 +75,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Registrar Historia clinica</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Usuario en Belen</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
