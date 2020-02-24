@@ -115,7 +115,7 @@
                         </div>
                         <div class="form-group col-md-12"  >
                             <label for="farmacologica" >farmacologica</label>
-                            <textarea name="farmacologica" class="form-control" id="farmacologica" rows="3"></textarea>
+                            <textarea name="farmacologica" class="form-control" id="farmacologica" rows="2"></textarea>
                             <!-- <input type="text"  class="form-control" id="farmacologica"
                             placeholder="farmacologica" name="farmacologica" required> -->
                         </div>
