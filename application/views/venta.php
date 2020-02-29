@@ -70,7 +70,7 @@
                     echo '<tr class="table-danger">';
                 else
                     echo '<tr>';
-                    echo '<td>'.$row->nombre.'</td>
+                    echo '<td>'.$row->nombrecomercial.' '.$row->nombre.'</td>
                           <td>'.$row->cantidad.'</td>
                           <td>'.$row->precio.'</td>
                             <td>

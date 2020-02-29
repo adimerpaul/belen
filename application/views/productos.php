@@ -25,43 +25,47 @@
 <div class="table-responsive">
     <table id="example" class="display nowrap" style="width:100%">
         <thead>
-        <tr>
-            <th scope="col">Distribuidora</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Farmacológica</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Opciones</th>
-        </tr>
+            <tr>
+                <th scope="col">Distribuidora</th>
+                <th scope="col">Nombre Génerico</th>
+                <th scope="col">Nombre Comercial</th>
+                <th scope="col">Forma farmaceútica</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Farmacológica</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Opciones</th>
+            </tr>
         </thead>
         <tbody>
         <?php
         $query=$this->db->query("SELECT * FROM producto");
         foreach ($query->result() as $row){
             if($row->estado=="ACTIVO"){
-                $t="<div class='p-0 text-center bg-success text-white'>ACTIVO</div>";
+                $t="<div class='alert alert-success'>ACTIVO</div>";
                 $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-danger eli  p-1' ><i class='fa fa-trash-o'></i> Inactivar</a>";
             }else{
-                $t="<div class='p-0 text-center bg-warning text-white'>INACTIVO</div>";
+                $t="<div class='alert alert-danger'>INACTIVO</div>";
                 $b="<a href='".base_url()."Productos/delete/$row->idproducto' class='btn btn-sm btn-success  p-1' ><i class='fa fa-check'></i> Activar</a>";
             }
             echo "
             <tr>
                 <td>".$row->distribuidora."</td>
                 <td>".$row->nombre."</td>
+                <td>".$row->nombrecomercial."</td>
+                <td>".$row->formafarmaceutica."</td>
                 <td>".$row->precio."</td>
                 <td>".$row->cantidad."
-                <div class='progress'>
-                <div class='progress-bar' role='progressbar' style='width: $row->cantidad%;' aria-valuenow='$row->cantidad' aria-valuemin='0' aria-valuemax='100'>$row->cantidad</div>
+                    <div class='progress'>
+                    <div class='progress-bar' role='progressbar' style='width: $row->cantidad%;' aria-valuenow='$row->cantidad' aria-valuemin='0' aria-valuemax='100'>$row->cantidad</div>
                 </div>
                 </td>
                 <td>".$row->farmacologica."</td>
                 <td>$t</td>
                 <td> 
-                <button  class='btn btn-sm btn-warning text-white p-1' data-idusuario='$row->idproducto' data-toggle='modal' data-target='#modificar' ><i class='fa fa-pencil'></i> Actualizar</button> <br>
-                <button  class='btn btn-sm btn-info text-white p-1' data-idusuario='$row->idproducto' data-toggle='modal' data-target='#lote' ><i class='fa fa-product-hunt'></i> Agre. Lote</button> <br>
-                $b
+                    <button class='btn btn-sm btn-warning text-white p-1' data-idusuario='$row->idproducto' data-toggle='modal' data-target='#modificar'><i class='fa fa-pencil'></i> Actualizar</button> <br>
+                    <button class='btn btn-sm btn-info text-white p-1' data-idusuario='$row->idproducto' data-toggle='modal' data-target='#lote'><i class='fa fa-product-hunt'></i> Agre. Lote</button> <br>
+                    $b
                 </td>
             </tr>";
         }
@@ -69,11 +73,11 @@
         </tbody>
     </table>
 </div>
-<script >
+<script>
     var eli=document.getElementsByClassName("eli");
     for (var i=0;i<eli.length;i++){
-        eli[i].addEventListener('click',function (e) {
-            if (!confirm("Seguro de inactivar?, no esta disponible para ventas")){
+        eli[i].addEventListener('click', function (e) {
+            if (!confirm("Seguro de inactivar?, no estará disponible para realizar ventas")){
                 e.preventDefault();
             }
         })
@@ -101,31 +105,69 @@
             <div class="modal-body">
                 <form method="post" action="<?=base_url()?>Productos/insert" style="padding: 0px;margin: 0px;border: 0px">
                     <div class="form-row" style="padding: 0px;margin: 0px;border: 0px">
-                        <div class="form-group col-md-12"  >
-                            <label for="nombre" >nombre</label>
-                            <input type="text"  class="form-control" id="nombre" placeholder="nombre" name="nombre" required>
-                        </div>
-                        <div class="form-group col-md-12"  >
-                            <label for="precio" >precio</label>
-                            <input type="number"  class="form-control" id="precio" min="0.10" placeholder="precio" name="precio" step="0.10" required>
-                        </div>
-                        <div class="form-group col-md-12"  >
-                            <label for="stock" >stock</label>
-                            <input type="text"  class="form-control" id="stock" value="0" placeholder="stock" name="stock" required>
-                        </div>
-                        <div class="form-group col-md-12"  >
-                            <label for="farmacologica" >Farmacológica</label>
-                            <textarea name="farmacologica" class="form-control" id="farmacologica" rows="2"></textarea>
-                            <!-- <input type="text"  class="form-control" id="farmacologica"
-                            placeholder="farmacologica" name="farmacologica" required> -->
-                        </div>
-                        <div class="form-group col-md-12"  >
-                            <label for="fechavencimiento" >fecha vencimiento</label>
-                            <input type="date"  class="form-control" id="fechavencimiento" placeholder="fecha vencimiento" name="fechavencimiento" required>
+                        <div class="form-group col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Nombre Generico</span>
+                                </div>
+                                <input type="text" class="form-control" id="nombre" placeholder="nombre" name="nombre">
+                            </div>
                         </div>
                         <div class="form-group col-md-12">
-                            <label for="distribuidora" >Distribuidora</label>
-                            <input type="text" placeholder="Distribuidora" name="distribuidora" class="form-control" list="productName"/>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Nombre Comercial</span>
+                                </div>
+                                <input type="text" class="form-control" id="nombrecomercial" placeholder="nombre comercial" name="nombrecomercial" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Forma Farmaceutica</span>
+                                </div>
+                                <input type="text" class="form-control" id="formafarmaceutica" placeholder="forma farmaceutica" name="formafarmaceutica" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Precio</span>
+                                </div>
+                                <input type="number" class="form-control" id="precio" min="0.10" placeholder="precio" name="precio" step="0.10" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Stock</span>
+                                </div>
+                                <input type="text" class="form-control" id="stock" value="0" placeholder="stock" name="stock" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Farmacológica</span>
+                                </div>
+                                <textarea name="farmacologica" class="form-control" id="farmacologica" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Fecha Vencimiento</span>
+                                </div>
+                                <input type="date"  class="form-control" id="fechavencimiento" placeholder="fecha vencimiento" name="fechavencimiento" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Distribuidora</span>
+                                </div>
+                                <input type="text" placeholder="Distribuidora" name="distribuidora" class="form-control" list="productName"/>
+                            </div>
                             <datalist id="productName">
                                 <?php
                                 $query=$this->db->query("SELECT distribuidora FROM producto GROUP BY distribuidora");
@@ -147,8 +189,6 @@
 </div>
 
 
-
-
 <div class="modal fade" id="modificar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -161,31 +201,70 @@
             <div class="modal-body">
                 <form method="post" action="<?=base_url()?>Productos/update" style="padding: 0px;margin: 0px;border: 0px">
                     <div class="form-row" style="padding: 0px;margin: 0px;border: 0px">
-                        <div class="form-group col-md-12" style="padding: 0px;margin: 0px;border: 0px" >
-
-                            <label for="nombre2" >Nombre</label>
+                        <div class="form-group col-md-12">
                             <input type="text" id="idproducto2" name="idproducto" hidden>
-                            <input type="text" class="form-control" id="nombre2" placeholder="nombre" name="nombre" required>
-                        </div>
-                        <div class="form-group col-md-12"  >
-                            <label for="precio2" >Precio</label>
-                            <input type="number" step="0.10" class="form-control" id="precio2" value="0" placeholder="precio" name="precio" required>
-                        </div>
-                        <div class="form-group col-md-12"  >
-                            <label for="stock2" >Stock</label>
-                            <input type="text" class="form-control" id="stock2" value="0" placeholder="stock" name="stock" required>
-                        </div>
-                        <div class="form-group col-md-12"  >
-                            <label for="farmacologica2" >Farmacológica</label>
-                            <input type="text"  class="form-control" id="farmacologica2" placeholder="farmacologica" name="farmacologica" required>
-                        </div>
-                        <div class="form-group col-md-12"  >
-                            <label for="fechavencimiento2" >fecha vencimiento</label>
-                            <input type="date"  class="form-control" id="fechavencimiento2" placeholder="fecha vencimiento" name="fechavencimiento" required>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Nombre Genérico</span>
+                                </div>
+                                <input type="text" class="form-control" id="nombre2" placeholder="nombre" name="nombre">
+                            </div>
                         </div>
                         <div class="form-group col-md-12">
-                            <label for="distribuidora" >Distribuidora</label>
-                            <input type="text" placeholder="Distribuidora" id="distribuidora2" name="distribuidora" class="form-control" list="productName"/>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Nombre Comercial</span>
+                                </div>
+                                <input type="text" class="form-control" id="nombrecomercial2" placeholder="nombre comercial" name="nombrecomercial" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Forma Farmaceútica</span>
+                                </div>
+                                <input type="text" class="form-control" id="formafarmaceutica2" placeholder="forma farmaceutica" name="formafarmaceutica" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Precio</span>
+                                </div>
+                                <input type="number" step="0.10" class="form-control" id="precio2" value="0" placeholder="precio" name="precio" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Stock</span>
+                                </div>
+                                <input type="text" class="form-control" id="stock2" value="0" placeholder="stock" name="stock" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12"  >
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Farmacológica</span>
+                                </div>
+                                <input type="text"  class="form-control" id="farmacologica2" placeholder="farmacologica" name="farmacologica" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12"  >
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Fecha Vencimiento</span>
+                                </div>
+                                <input type="date"  class="form-control" id="fechavencimiento2" placeholder="fecha vencimiento" name="fechavencimiento" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Distribuidora</span>
+                                </div>
+                                <input type="text" placeholder="Distribuidora" id="distribuidora2" name="distribuidora" class="form-control" list="productName"/>
+                            </div>
                             <datalist id="productName">
                                 <?php
                                 $query=$this->db->query("SELECT distribuidora FROM producto GROUP BY distribuidora");
@@ -198,7 +277,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-warning">Modificar</button>
+                        <button type="submit" class="btn btn-warning">Actualizar</button>
                     </div>
                 </form>
 
@@ -206,11 +285,13 @@
         </div>
     </div>
 </div>
+
+
 <div class="modal fade" id="lote" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agergar lote</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo LOTE</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -224,7 +305,7 @@
                             <input type="text" class="form-control" id="stock2"  placeholder="000" name="stock" required>
                         </div>
                         <div class="form-group col-md-12"  >
-                            <label for="fechavencimiento2" >fecha vencimiento</label>
+                            <label for="fechavencimiento2" >Fecha Vencimiento</label>
                             <input type="date"  class="form-control" id="fechavencimiento2" placeholder="fecha vencimiento" name="fechavencimiento" required>
                         </div>
                     </div>
@@ -233,7 +314,6 @@
                         <button type="submit" class="btn btn-warning">Modificar</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>

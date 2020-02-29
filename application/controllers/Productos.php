@@ -13,15 +13,15 @@ class Productos extends CI_Controller{
         $data['tipo']="info";
         $data['msg']="Gestionar productos";
         $data['js']="
-<script src='".base_url()."assets/js/jquery.dataTables.min.js'></script>
-<script src='".base_url()."assets/js/dataTables.buttons.min.js'></script>
-<script src='".base_url()."assets/js/buttons.flash.min.js'></script>
-<script src='".base_url()."assets/js/jszip.min.js'></script>
-<script src='".base_url()."assets/js/pdfmake.min.js'></script>
-<script src='".base_url()."assets/js/vfs_fonts.js'></script>
-<script src='".base_url()."assets/js/buttons.html5.min.js'></script>
-<script src='".base_url()."assets/js/buttons.print.min.js'></script>
-<script src='".base_url()."assets/js/productos.js'></script>";
+            <script src='".base_url()."assets/js/jquery.dataTables.min.js'></script>
+            <script src='".base_url()."assets/js/dataTables.buttons.min.js'></script>
+            <script src='".base_url()."assets/js/buttons.flash.min.js'></script>
+            <script src='".base_url()."assets/js/jszip.min.js'></script>
+            <script src='".base_url()."assets/js/pdfmake.min.js'></script>
+            <script src='".base_url()."assets/js/vfs_fonts.js'></script>
+            <script src='".base_url()."assets/js/buttons.html5.min.js'></script>
+            <script src='".base_url()."assets/js/buttons.print.min.js'></script>
+            <script src='".base_url()."assets/js/productos.js'></script>";
         $this->load->view('templates/footer',$data);
     }
     function vencer(){
@@ -36,15 +36,15 @@ class Productos extends CI_Controller{
         $data['tipo']="warning";
         $data['msg']="Productos a vencer";
         $data['js']="
-<script src='".base_url()."assets/js/jquery.dataTables.min.js'></script>
-<script src='".base_url()."assets/js/dataTables.buttons.min.js'></script>
-<script src='".base_url()."assets/js/buttons.flash.min.js'></script>
-<script src='".base_url()."assets/js/jszip.min.js'></script>
-<script src='".base_url()."assets/js/pdfmake.min.js'></script>
-<script src='".base_url()."assets/js/vfs_fonts.js'></script>
-<script src='".base_url()."assets/js/buttons.html5.min.js'></script>
-<script src='".base_url()."assets/js/buttons.print.min.js'></script>
-<script src='".base_url()."assets/js/productos.js'></script>";
+            <script src='".base_url()."assets/js/jquery.dataTables.min.js'></script>
+            <script src='".base_url()."assets/js/dataTables.buttons.min.js'></script>
+            <script src='".base_url()."assets/js/buttons.flash.min.js'></script>
+            <script src='".base_url()."assets/js/jszip.min.js'></script>
+            <script src='".base_url()."assets/js/pdfmake.min.js'></script>
+            <script src='".base_url()."assets/js/vfs_fonts.js'></script>
+            <script src='".base_url()."assets/js/buttons.html5.min.js'></script>
+            <script src='".base_url()."assets/js/buttons.print.min.js'></script>
+            <script src='".base_url()."assets/js/productos.js'></script>";
         $this->load->view('templates/footer',$data);
     }
     function insert()
@@ -58,8 +58,10 @@ class Productos extends CI_Controller{
         $farmacologica = $_POST['farmacologica'];
         $fechavencimiento = $_POST['fechavencimiento'];
         $distribuidora = $_POST['distribuidora'];
-        $this->db->query("INSERT INTO producto(nombre,precio,cantidad,farmacologica,fechavencimiento,distribuidora)
-VALUES ('$nombre','$precio','$stock','$farmacologica','$fechavencimiento','$distribuidora');");
+        $nombrecomercial = $_POST['nombrecomercial'];
+        $formafarmaceutica = $_POST['formafarmaceutica'];
+        $this->db->query("INSERT INTO producto(nombre,nombrecomercial,formafarmaceutica,precio,cantidad,farmacologica,fechavencimiento,distribuidora)
+        VALUES ('$nombre','$nombrecomercial','$formafarmaceutica','$precio','$stock','$farmacologica','$fechavencimiento','$distribuidora');");
         $idproducto=$this->db->insert_id();
         $this->db->query("INSERT INTO lote SET cantidad='$stock',idproducto='$idproducto',fechavencimiento='$fechavencimiento'");
         header("Location: ".base_url().'Productos');

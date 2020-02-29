@@ -740,9 +740,9 @@ WHERE d.idfactura='$idfactura'");
 
         }else{
             $query=$this->db->query("SELECT * FROM factura f
-INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
-INNER JOIN paciente p ON p.idpaciente=f.idpaciente
-WHERE f.idfactura='$idfactura'");
+                INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
+                INNER JOIN paciente p ON p.idpaciente=f.idpaciente
+                WHERE f.idfactura='$idfactura'");
             $row=$query->row();
             $nrofactura=$row->nrofactura;
             $nroautorizacion=$row->nroautorizacion;
@@ -759,13 +759,12 @@ WHERE f.idfactura='$idfactura'");
             $leyenda=$row->leyenda;
             $nit="170444028";
 
-
             //echo date('d/m/Y', strtotime($fecha));
             //exit;
             $testStr = "$nit|$nrofactura|$nroautorizacion|".date('d/m/Y',strtotime($fecha))."|$total|$total|$codigocontrol|$ci|0|0|0|0";
             QRcode::png($testStr, 'temp/test.png', 'L', 4, 2);
             $c= new NumeroALetras();
-            $query=$this->db->query("SELECT p.idproducto,nombre,d.cantidad,d.precio,d.subtotal 
+            $query=$this->db->query("SELECT p.idproducto,nombre,nombrecomercial,formafarmaceutica,d.cantidad,d.precio,d.subtotal 
 FROM detallefactura d 
 INNER JOIN producto p ON p.idproducto=d.idproducto
 WHERE d.idfactura='$idfactura'");
@@ -773,7 +772,7 @@ WHERE d.idfactura='$idfactura'");
             foreach ($query->result() as $row){
                 $t=$t.'<tr align="center">
                 <td>'.$row->idproducto.'</td>
-                <td>'.$row->nombre.'</td>
+                <td>'.$row->nombre.' '.$row->nombrecomercial.' '.$row->formafarmaceutica.'</td>
                 <td>'.$row->cantidad.'</td>
                 <td>'.$row->precio.'</td>
                 <td>'.$row->subtotal.'</td>
@@ -879,7 +878,7 @@ WHERE d.idfactura='$idfactura'");
         echo $html;
         echo "<script>
 window.onload=function(e) {
-    window.print();    
+    
 }
 </script>";
 //$this->view->load('imprimirventa');

@@ -33,9 +33,9 @@
     <tbody>
     <?php
     $query=$this->db->query("SELECT *
-FROM producto 
-WHERE cantidad>=1 AND estado='ACTIVO'
-");
+                            FROM producto 
+                            WHERE cantidad>0 AND estado='ACTIVO'
+    ");
     foreach ($query->result() as $row){
 
 //        if($row->estado2=="POR VENCER"){
@@ -50,18 +50,18 @@ WHERE cantidad>=1 AND estado='ACTIVO'
         $estado="";
         if ($query2->num_rows()>0){
             foreach ($query2->result() as $row2){
-                $cantidad=$cantidad."$row2->cantidad<br>";
-                $fechavecimiento=$fechavecimiento."$row2->fechavencimiento<br>";
+                $cantidad=$cantidad."<div>$row2->cantidad</div>";
+                $fechavecimiento=$fechavecimiento."<div>$row2->fechavencimiento</div>";
 
-                $hoy= new DateTime(date('Y-m-d'));
-                $fecha= new DateTime($row2->fechavencimiento);
-                $dias=$fecha->diff($hoy);
-                if($fecha<$hoy){
-                    $estado=$estado."<small class='bg bg-danger text-white p-1'>VENCIDO </small><br>";
-                }elseif ($dias->days<=90){
-                    $estado=$estado."<small class='bg bg-warning text-white p-1'>POR VENCER </small><br>";
-                }else{
-                    $estado=$estado."<small class='bg bg-success text-white p-1'>VIGENTE </small><br>";
+                $anio = date('Y');
+                $fecha = strtotime($row2->fechavencimiento);
+                $vencimiento = date('Y', $fecha);
+                if($vencimiento==$anio){
+                    $estado=$estado."<small class='bg bg-danger text-white p-1' style='border-radius: 5px;'>VENCE ESTE AÑO</small><br>";
+                }elseif ($vencimiento==($anio+1)){
+                    $estado=$estado."<small class='bg bg-warning text-white p-1' style='border-radius: 5px;'>VENCE SIGUIENTE AÑO</small><br>";
+                }elseif ($vencimiento>($anio+1)){
+                    $estado=$estado."<small class='bg bg-success text-white p-1' style='border-radius: 5px;'>VIGENTE</small><br>";
                 }
             }
         }
