@@ -18,17 +18,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="row">
-                    <div class="col-3">
-                        <a href="" class="btn btn-warning m-1"> <i class="fa fa-recycle"></i> Reiniciar </a>
-                    </div>
-                    <div class="col-6">
-                        
-                    </div>
-                    <div class="col-3">
-                        <input type="checkbox" name="tipo" checked data-toggle="toggle" data-size="small" data-onstyle="success" data-offstyle="warning" data-on="F" data-off="O">
-                    </div>
-                </div>
+                <!-- <input type="checkbox" name="tipo" checked data-toggle="toggle" data-size="small" data-onstyle="success" data-offstyle="warning" data-on="F" data-off="O"> -->
                 <table class="table">
                     <thead class="thead-dark">
                     <tr>
@@ -49,7 +39,26 @@
                     </tfoot>
                 </table>
             </div>
-            <button type="submit" class="btn btn-primary">Terminar Venta <i class="fa fa-dollar"></i></button>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text border-success" style="background-color: #B3F4B0;">Pagado Bs.</span>
+                </div>
+                <input type="text" step="0.10" class="form-control border-success" placeholder="0" name="pagado" id="pagado" required>
+                <div class="input-group-prepend">
+                    <span class="input-group-text border-danger" style="background-color: #F5C6CB;">Descuento Bs.</span>
+                </div>
+                <input type="number" step="0.10" class="form-control border-danger" value="0" placeholder="0" name="descuentototal" id="descuentototal">
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text border-warning" style="background-color: #FFDF7D;">Devolución Bs.</span>
+                </div>
+                <input type="number" class="form-control border-warning" placeholder="0" name="devolucion" id="devolucion" disabled>
+            </div>
+            <div class="text-right">
+                <button type="submit" class="btn btn-lg btn-primary mr-1"><i class="fa fa-dollar"> Terminar Venta</i></button>
+                <a href="" class="btn btn-lg btn-secondary"> <i class="fa fa-recycle"></i> Reiniciar </a>
+            </div>
         </form>
     </div>
     <div class="col-sm-6">
@@ -196,76 +205,92 @@
                 $('#precio').val(precio);
                 $('#cantidad').val(1);
                 $('#subtotal').val(precio*1);
-
+                $('#descuento').val(0);
                 $('#cantidadMax').val(cantidadMax);
 
                 $('#farmacologica').html(button.data('farmacologica'));
                 var modal = $(this);
-                modal.find('.modal-title').text('Producto ' + nombre);
+                modal.find('.modal-title').text(nombre);
                 producto=nombre;
             }
 
             // modal.find('.modal-body input').val(recipient)
         })
-            $('#idproducto').change(function (e) {
-                var datos={
-                    'idproducto':$('#idproducto').val()
-                };
-                //console.log($('#idproducto').val());
-                $.ajax({
-                    data:datos,
-                    type:'POST',
-                    url:'Venta/datosproducto',
-                    success:function (e) {
-                        // console.log(e);
-                        var dato=JSON.parse(e)[0];
-                        $('#precio').val(dato.precio);
-                        var precio=$('#precio').val();
-                        var cantidad=$('#cantidad').val();
-                        $('#subtotal').val(precio*cantidad);
-                    }
-                });
-            });
-            function cambio(e){
-                /*var precio=$('#precio').val();
-                var cantidad=$('#cantidad').val();
-                $('#subtotal').val(precio*cantidad);*/
-                //console.log('aaa');
-            }
-//$('#cantidad').change(cambio());
-            $('#precio,#cantidad,#descuento').keyup(function (e) {
-                var precio=$('#precio').val();
-                var cantidad=$('#cantidad').val();
-                var descuento=$('#descuento').val();
-                $('#subtotal').val((precio*(1.00-descuento/100))*cantidad);
-            });
-            $('#ci').keyup(function (e) {
-                var datos={
-                    'ci':$('#ci').val()
-                };
-                $.ajax({
-                    data:datos,
-                    type: 'POST',
-                    url: 'Venta/cliente',
-                    success:function (e) {
-                        // console.log(e);
-                        var datos=JSON.parse(e);
-                        let gastado=parseFloat(datos['total']);
-                        if (gastado>0)
-                            $('#gastado').html('Bs. '+gastado.toFixed(2));
-                        else
-                            $('#gastado').html('No realizo compras');
-                        if (datos[0] !=null){
-                            $('#razon').val(datos[0].apellidos);
 
-                        }else{
-                            $('#razon').val('');
-                        }
-                    }
-                });
+        $('#idproducto').change(function (e) {
+            var datos={
+                'idproducto':$('#idproducto').val()
+            };
+            //console.log($('#idproducto').val());
+            $.ajax({
+                data:datos,
+                type:'POST',
+                url:'Venta/datosproducto',
+                success:function (e) {
+                    // console.log(e);
+                    var dato=JSON.parse(e)[0];
+                    $('#precio').val(dato.precio);
+                    var precio=$('#precio').val();
+                    var cantidad=$('#cantidad').val();
+                    $('#subtotal').val(precio*cantidad);
+                }
             });
-            var total=0;
-            var con=0;
+        });
+        function cambio(e){
+            /*var precio=$('#precio').val();
+            var cantidad=$('#cantidad').val();
+            $('#subtotal').val(precio*cantidad);*/
+            //console.log('aaa');
+        }
+        //$('#cantidad').change(cambio());
+        $('#precio,#cantidad,#descuento').keyup(function (e) {
+            var precio=$('#precio').val();
+            var cantidad=$('#cantidad').val();
+            var descuento=$('#descuento').val();
+            $('#subtotal').val((precio*(1.00-descuento/100))*cantidad);
+        });
+
+        //valor 0 para descuento
+        $('#descuentototal').keyup(function (e) {
+            var descuento=$('#descuentototal').val();
+            if (descuento=="")
+                $('#descuentototal').val("0");
+        });
+        
+        //calculo de descuento
+        $('#pagado,#descuentototal').keyup(function (e) {
+            var total = parseFloat($('#total').val());
+            var pagado = parseFloat($('#pagado').val());
+            var descuentototal = parseFloat($('#descuentototal').val());
+            $('#devolucion').val(pagado-total+descuentototal);
+        });
+
+        $('#ci').keyup(function (e) {
+            var datos={
+                'ci':$('#ci').val()
+            };
+            $.ajax({
+                data:datos,
+                type: 'POST',
+                url: 'Venta/cliente',
+                success:function (e) {
+                    // console.log(e);
+                    var datos=JSON.parse(e);
+                    let gastado=parseFloat(datos['total']);
+                    if (gastado>0)
+                        $('#gastado').html('Bs. '+gastado.toFixed(2));
+                    else
+                        $('#gastado').html('No realizo compras');
+                    if (datos[0] !=null){
+                        $('#razon').val(datos[0].apellidos);
+                    }else{
+                        $('#razon').val('No registrado');
+                    }
+                }
+            });
+        });
+        var total=0;
+        var con=0;
         function calcular_total() {
             importe_total = 0;
             // console.log('a');

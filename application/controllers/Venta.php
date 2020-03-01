@@ -36,9 +36,9 @@ class Venta extends CI_Controller{
     function cliente(){
         $ci=$_POST['ci'];
         $query=$this->db->query("SELECT sum(total) as total
-FROM factura f 
- INNER JOIN paciente p ON f.idpaciente=p.idpaciente
-WHERE p.ci='$ci'");
+                            FROM factura f 
+                            INNER JOIN paciente p ON f.idpaciente=p.idpaciente
+                            WHERE p.ci='$ci'");
         $total=$query->row()->total;
         $query=$this->db->query("SELECT * FROM paciente WHERE ci='$ci'");
         //$row=$query->row();
@@ -87,14 +87,16 @@ VALUES ('$nombre','$tipo');");
         header("Location: ".base_url().'Tratamientos');
     }
     function imprimir(){
-        if (!isset($_POST['tipo'])){
-            $tipo='ORDEN';
-        }
+        // if (!isset($_POST['tipo'])){
+        //     $tipo='ORDEN';
+        // }
+        $tipo="factura";
 
         $query=$this->db->query("SELECT *  FROM paciente WHERE ci='".$_POST['ci']."'");
         //$row=$query->row();
         //$nombres=$row->nombres;
         //$apellidos=$row->apellidos;
+        $descuento= number_format( $_POST['descuentototal'],2);
         $total= number_format( $_POST['total'],2);
         $monto=$total;
         $razon=$_POST['razon'];
@@ -159,19 +161,22 @@ VALUES ('$nombre','$tipo');");
             //echo $codigo;
 
             $this->db->query("INSERT INTO factura(
-idpaciente,
-total,
-codigocontrol,
-iddosificacion,
-nrofactura,
-idusuario) VALUES(
-'$idpaciente',
-'$total',
-'$codigo',
-'$iddosificacion',
-'$numerodefactura',
-'".$_SESSION['idusuario']."')");
+                idpaciente,
+                descuento,
+                total,
+                codigocontrol,
+                iddosificacion,
+                nrofactura,
+                idusuario) VALUES(
+                '$idpaciente',
+                '$descuento',
+                '$total',
+                '$codigo',
+                '$iddosificacion',
+                '$numerodefactura',
+                '".$_SESSION['idusuario']."')");
         }
+
         $idfacura=$this->db->insert_id();
 
         $query=$this->db->query("SELECT * FROM producto");
@@ -179,22 +184,22 @@ idusuario) VALUES(
             if(isset($_POST['p'.$row->idproducto])){
                 $this->db->query("UPDATE producto SET cantidad=cantidad-".$_POST['c'.$row->idproducto]." WHERE idproducto='$row->idproducto'");
                 $this->db->query("INSERT INTO detallefactura(
-idfactura,
-idproducto,
-precio,
-cantidad,
-subtotal) 
-VALUES(
-'$idfacura',
-'$row->idproducto',
-'".$_POST['p'.$row->idproducto]."',
-'".$_POST['c'.$row->idproducto]."',
-'".$_POST['s'.$row->idproducto]."'
-)");
+                idfactura,
+                idproducto,
+                precio,
+                cantidad,
+                subtotal) 
+                VALUES(
+                '$idfacura',
+                '$row->idproducto',
+                '".$_POST['p'.$row->idproducto]."',
+                '".$_POST['c'.$row->idproducto]."',
+                '".$_POST['s'.$row->idproducto]."'
+                )");
             }
+            
         }
         header("Location: ".base_url()."Venta/printfactura3/".$idfacura);
-
     }
     public function printfactura($idfactura){
         $nombre_impresora = "POS";
@@ -207,9 +212,9 @@ VALUES(
             Ahora vamos a imprimir un encabezado
         */
         $query=$this->db->query("SELECT * FROM factura f
-INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
-INNER JOIN paciente p ON p.idpaciente=f.idpaciente
-WHERE f.idfactura='$idfactura'");
+            INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
+            INNER JOIN paciente p ON p.idpaciente=f.idpaciente
+            WHERE f.idfactura='$idfactura'");
         $row=$query->row();
         $nrofactura=$row->nrofactura;
         $nroautorizacion=$row->nroautorizacion;
@@ -269,8 +274,8 @@ WHERE f.idfactura='$idfactura'");
         /*Alinear a la izquierda para la cantidad y el nombre*/
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $query=$this->db->query("SELECT * FROM detallefactura d 
-INNER JOIN producto p ON p.idproducto=d.idproducto
-WHERE d.idfactura='$idfactura'");
+                INNER JOIN producto p ON p.idproducto=d.idproducto
+                WHERE d.idfactura='$idfactura'");
         foreach ($query->result() as $row){
             $printer->text("$row->nombre\n");
             $printer->text( "$row->cantidad           $row->precio $row->subtotal   \n");
@@ -342,8 +347,8 @@ WHERE d.idfactura='$idfactura'");
         $pdf->SetFont('times', '', 9);
 
         $query=$this->db->query("SELECT * FROM factura f
- INNER JOIN paciente p ON p.idpaciente=f.idpaciente
- WHERE idfactura='$idfactura'");
+                INNER JOIN paciente p ON p.idpaciente=f.idpaciente
+                WHERE idfactura='$idfactura'");
         $row=$query->row();
         $estado=$row->tipo;
 //        $nrofactura=$row->nrofactura;
@@ -355,9 +360,9 @@ WHERE d.idfactura='$idfactura'");
 
             $c= new NumeroALetras();
             $query=$this->db->query("SELECT p.idproducto,nombre,d.cantidad,d.precio,d.subtotal 
-FROM detallefactura d 
-INNER JOIN producto p ON p.idproducto=d.idproducto
-WHERE d.idfactura='$idfactura'");
+                    FROM detallefactura d 
+                    INNER JOIN producto p ON p.idproducto=d.idproducto
+                    WHERE d.idfactura='$idfactura'");
             $t="";
             $total=number_format($row->total,2);
             $d = explode('.',$total);
@@ -382,8 +387,7 @@ WHERE d.idfactura='$idfactura'");
             $html='
 <table>
 <tr align="center" >
-<td>
-Farmacia <b>"BELEN"</b><br>
+<td>Farmacia <b>"BELEN"</b><br>
         CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE NRO. 440(ZONA: CENTRAL)<br>
         Teléfono 5210229 Celular: 60413300<br>
 </td>
@@ -422,7 +426,7 @@ Farmacia <b>"BELEN"</b><br>
 </table>
 <table border="0">
     <tr>
-        <td><b>CODIGO</b></td>
+        <td><b>CÓDIGO</b></td>
         <td><b>DESCRIPCION</b></td>
         <td><b>CANTIDAD</b></td>
         <td><b>PRECIO UNITARIO</b></td>
@@ -464,9 +468,9 @@ Orden de venta muchas gracias por su compra!!!
 
         }else{
             $query=$this->db->query("SELECT * FROM factura f
-INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
-INNER JOIN paciente p ON p.idpaciente=f.idpaciente
-WHERE f.idfactura='$idfactura'");
+                INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
+                INNER JOIN paciente p ON p.idpaciente=f.idpaciente
+                WHERE f.idfactura='$idfactura'");
             $row=$query->row();
             $nrofactura=$row->nrofactura;
             $nroautorizacion=$row->nroautorizacion;
@@ -506,7 +510,7 @@ WHERE d.idfactura='$idfactura'");
             $html='<table>
 <tr align="center" >
 <td>
-Lo ultimo en tecnologia estetica sin cirugia<br>
+        Lo ultimo en tecnologia estetica sin cirugia<br>
         CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE NRO. 440(ZONA: CENTRAL)<br>
         Teléfono 5210229 Celular: 60413300<br>
 </td>
@@ -548,7 +552,7 @@ AUTORIZACION N° '.$nroautorizacion.' <br>
 </table>
 <table border="0">
 <tr>
-<td><b>CODIGO</b></td>
+<td><b>CÓDIGO</b></td>
 <td><b>DESCRIPCION</b></td>
 <td><b>CANTIDAD</b></td>
 <td><b>PRECIO UNITARIO</b></td>
@@ -613,8 +617,8 @@ ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANC
 //        $pdf->SetFont('times', '', 9);
 
         $query=$this->db->query("SELECT * FROM factura f
- INNER JOIN paciente p ON p.idpaciente=f.idpaciente
- WHERE idfactura='$idfactura'");
+            INNER JOIN paciente p ON p.idpaciente=f.idpaciente
+            WHERE idfactura='$idfactura'");
         $row=$query->row();
         $estado=$row->tipo;
 //        $nrofactura=$row->nrofactura;
@@ -652,7 +656,7 @@ WHERE d.idfactura='$idfactura'");
 
             $html='
 <table style="width: 100%; font-size: 12px;">
-    <tr align="center" >
+    <tr align="center">
         <td style="width: 33.33%">
             <div>Farmacia <b>"BELEN"</b></div>
             <div>Antofagasta entre San Felipe</div>
@@ -696,7 +700,7 @@ WHERE d.idfactura='$idfactura'");
 </table>
 <table style="width: 100%">
     <tr style="background-color: #BDCAD5; height: 35px;" align="center">
-        <td><b>CODIGO</b></td>
+        <td><b>CÓDIGO</b></td>
         <td><b>DESCRIPCION</b></td>
         <td><b>CANTIDAD</b></td>
         <td><b>PRECIO UNITARIO</b></td>
@@ -747,6 +751,7 @@ WHERE d.idfactura='$idfactura'");
             $nrofactura=$row->nrofactura;
             $nroautorizacion=$row->nroautorizacion;
             $total=number_format($row->total,2);
+            $descuento=number_format($row->descuento,2);
             $d = explode('.',$total);
             $entero=$d[0];
             $decimal=$d[1];
@@ -765,9 +770,9 @@ WHERE d.idfactura='$idfactura'");
             QRcode::png($testStr, 'temp/test.png', 'L', 4, 2);
             $c= new NumeroALetras();
             $query=$this->db->query("SELECT p.idproducto,nombre,nombrecomercial,formafarmaceutica,d.cantidad,d.precio,d.subtotal 
-FROM detallefactura d 
-INNER JOIN producto p ON p.idproducto=d.idproducto
-WHERE d.idfactura='$idfactura'");
+                FROM detallefactura d 
+                INNER JOIN producto p ON p.idproducto=d.idproducto
+                WHERE d.idfactura='$idfactura'");
             $t="";
             foreach ($query->result() as $row){
                 $t=$t.'<tr align="center">
@@ -779,6 +784,7 @@ WHERE d.idfactura='$idfactura'");
                 </tr>';
             }
             $html='
+<br>            
 <table style="width: 100%;">
 <tr align="center" style="font-size: 12px;">
     <td style="width: 33.33%">
@@ -833,7 +839,7 @@ WHERE d.idfactura='$idfactura'");
 </table>
 <table border="0" style="width: 100%">
     <tr align="center" style="background-color: #BDCAD5; height: 30px">
-        <td><b>CODIGO</b></td>
+        <td><b>CÓDIGO</b></td>
         <td><b>DESCRIPCION</b></td>
         <td><b>CANTIDAD</b></td>
         <td><b>PRECIO UNITARIO</b></td>
@@ -842,15 +848,15 @@ WHERE d.idfactura='$idfactura'");
     '.$t.'
     <tr align="center" style="height: 30px; background-color: #EFF3F5;">
         <td colspan="4"><b>TOTAL:</b></td>
-        <td>'.$total.'</td>
+        <td>Bs. '.$total.'</td>
     </tr>
     <tr align="center" style="height: 30px; background-color: #EFF3F5;">
         <td colspan="4"><b>DESCUENTO:</b></td>
-        <td>0</td>
+        <td>Bs. '.$descuento.'</td>
     </tr>
     <tr align="center" style="height: 30px; background-color: #EFF3F5;">
         <td colspan="4"><b>NETO TOTAL:</b></td>
-        <td>'.$total.'</td>
+        <td>Bs. '.number_format($total-$descuento, 2, '.', '').'</td>
     </tr>
 </table>
 <div style="font-size: 14px;">
@@ -868,6 +874,11 @@ WHERE d.idfactura='$idfactura'");
     <b>USUARIO:</b> '.$_SESSION['nombre'].' <br>
     <b>NUMERO:</b> '.$idfactura.' <br>  
 </div>
+<hr>
+<div align="center">
+    <button class="oculto-impresion" style="background-color: green; color: white; border-radius: 10px; padding: 15px;" onclick="window.print()">Imprimir</button>
+    <button class="oculto-impresion" style="background-color: black; color: white; border-radius: 10px; padding: 15px;" onclick="window.close()">Salir</button>
+</div>
 ';
 
         }
@@ -875,12 +886,24 @@ WHERE d.idfactura='$idfactura'");
 //
 ////Close and output PDF document
 //        $pdf->Output('Factura.pdf', 'I');
-        echo $html;
-        echo "<script>
-window.onload=function(e) {
+echo $html;
+echo "
+<script>
+    window.onload=function(e) {
     
-}
-</script>";
+    }
+
+</script>
+<style>
+    @media print{
+        .oculto-impresion{
+
+        display: none !important;
+
+        } 
+    }
+</style>"
+;
 //$this->view->load('imprimirventa');
     }
 }
