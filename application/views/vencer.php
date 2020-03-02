@@ -45,7 +45,7 @@
 //        }else{
 //            $t="<div class='p-0 text-center bg-danger text-white'>VENCIDO</div>";
 //        }
-        $query2=$this->db->query("SELECT * FROM lote WHERE idproducto='$row->idproducto'");
+        $query2=$this->db->query("SELECT * FROM lote WHERE idproducto='$row->idproducto' and cantidad<>0");
         $cantidad="";
         $fechavecimiento="";
         $estado="";

@@ -184,18 +184,33 @@ VALUES ('$nombre','$tipo');");
             if(isset($_POST['p'.$row->idproducto])){
                 $this->db->query("UPDATE producto SET cantidad=cantidad-".$_POST['c'.$row->idproducto]." WHERE idproducto='$row->idproducto'");
                 $this->db->query("INSERT INTO detallefactura(
-                idfactura,
-                idproducto,
-                precio,
-                cantidad,
-                subtotal) 
-                VALUES(
-                '$idfacura',
-                '$row->idproducto',
-                '".$_POST['p'.$row->idproducto]."',
-                '".$_POST['c'.$row->idproducto]."',
-                '".$_POST['s'.$row->idproducto]."'
+                    idfactura,
+                    idproducto,
+                    precio,
+                    cantidad,
+                    subtotal) 
+                    VALUES(
+                    '$idfacura',
+                    '$row->idproducto',
+                    '".$_POST['p'.$row->idproducto]."',
+                    '".$_POST['c'.$row->idproducto]."',
+                    '".$_POST['s'.$row->idproducto]."'
                 )");
+
+                //para actualizar lotes
+
+                // $cantidadProducto = $_POST['c'.$row->idproducto];
+                
+                // while($cantidadProducto<=0){
+                //     $queryLote = $this->db->query("SELECT * FROM lote WHERE idproducto='$row->idproducto' and cantidad <> 0 ORDER BY fechavencimiento LIMIT 1");
+                //     $idlote = $queryLote->idlote;
+                //     $cantidadlote = $queryLote->cantidad;
+                //     if ($cantidadLote>=$cantidadProducto)
+                //         $this->db->query("UPDATE lote SET cantidad=cantidad-".$_POST['c'.$row->idproducto]." WHERE idlote='$idlote'");
+                //     else
+                //         $this->db->query("UPDATE lote SET cantidad=0 WHERE idlote='$idlote'");
+                //     $cantidadProducto=$cantidadProducto-$cantidadlote;
+                // }
             }
             
         }
