@@ -27,6 +27,7 @@
         <th scope="col">Accion farmacologica</th>
         <th scope="col">Cantidad</th>
         <th scope="col">Fech. vencimi.</th>
+        <th scope="col">Usuario</th>
         <th scope="col">Estado</th>
     </tr>
     </thead>
@@ -52,7 +53,6 @@
             foreach ($query2->result() as $row2){
                 $cantidad=$cantidad."<div>$row2->cantidad</div>";
                 $fechavecimiento=$fechavecimiento."<div>$row2->fechavencimiento</div>";
-
                 $anio = date('Y');
                 $fecha = strtotime($row2->fechavencimiento);
                 $vencimiento = date('Y', $fecha);
@@ -76,6 +76,7 @@
             <td>".$row->farmacologica."</td>
             <td>".$cantidad."</td>
             <td>".$fechavecimiento."</td>
+            <td>$row->nombreusuario</td>
             <td>$estado</td>
         </tr>";
     }

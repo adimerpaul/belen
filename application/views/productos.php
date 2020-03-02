@@ -31,7 +31,7 @@
                 <th scope="col">Nombre Comercial</th>
                 <th scope="col">Forma farmaceútica</th>
                 <th scope="col">Precio</th>
-                <th scope="col">Cantidad</th>
+<!--                <th scope="col">Cantidad</th>-->
                 <th scope="col">Farmacológica</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Opciones</th>
@@ -55,11 +55,11 @@
                 <td>".$row->nombrecomercial."</td>
                 <td>".$row->formafarmaceutica."</td>
                 <td>".$row->precio."</td>
-                <td>".$row->cantidad."
+                <!--td>".$row->cantidad."
                     <div class='progress'>
                     <div class='progress-bar' role='progressbar' style='width: $row->cantidad%;' aria-valuenow='$row->cantidad' aria-valuemin='0' aria-valuemax='100'>$row->cantidad</div>
                 </div>
-                </td>
+                </td--->
                 <td>".$row->farmacologica."</td>
                 <td>$t</td>
                 <td> 
