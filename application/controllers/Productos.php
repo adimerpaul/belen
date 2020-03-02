@@ -78,12 +78,15 @@ class Productos extends CI_Controller{
         $idusuario = $_SESSION['idusuario'];
         $nombreusuario = $_SESSION['nombre'];
 
-        $this->db->query("INSERT INTO lote SET cantidad='$stock',idproducto='$idproducto',fechavencimiento='$fechavencimiento'");
+        $this->db->query("INSERT INTO lote SET
+         cantidad='$stock',
+         idproducto='$idproducto',
+         fechavencimiento='$fechavencimiento',
+        idusuario='$idusuario',
+        nombreusuario='$nombreusuario'");
         $this->db->query("UPDATE producto SET 
         cantidad=cantidad+'$stock',
-        fechavencimiento='$fechavencimiento',
-        idusuario='$idusuario',
-        nombreusuario='$nombreusuario'
+        fechavencimiento='$fechavencimiento'
         WHERE
        idproducto='$idproducto';");
         header("Location: ".base_url().'Productos');

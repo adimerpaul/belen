@@ -49,10 +49,12 @@
         $cantidad="";
         $fechavecimiento="";
         $estado="";
+        $usuarios="";
         if ($query2->num_rows()>0){
             foreach ($query2->result() as $row2){
                 $cantidad=$cantidad."<div>$row2->cantidad</div>";
                 $fechavecimiento=$fechavecimiento."<div>$row2->fechavencimiento</div>";
+                $usuarios=$usuarios."<div>$row2->nombreusuario</div>";
                 $anio = date('Y');
                 $fecha = strtotime($row2->fechavencimiento);
                 $vencimiento = date('Y', $fecha);
@@ -76,7 +78,7 @@
             <td>".$row->farmacologica."</td>
             <td>".$cantidad."</td>
             <td>".$fechavecimiento."</td>
-            <td>$row->nombreusuario</td>
+            <td>$usuarios</td>
             <td>$estado</td>
         </tr>";
     }
