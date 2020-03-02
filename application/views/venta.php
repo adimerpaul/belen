@@ -182,13 +182,14 @@
             });
         } );
         var stock;
+        var preciototal=0;
         $('#exampleModal').on('show.bs.modal', function (event) {
             $('#mensajecantidad').attr('hidden','');
 
             var button = $(event.relatedTarget) // Button that triggered the modal
             var nombre = button.data('nombre');
             var precio = button.data('precio');
-
+            preciototal=precio;
             var cantidadMax = button.data('cantidad');
 
             stock = button.data('cantidad');
@@ -243,12 +244,22 @@
             //console.log('aaa');
         }
         //$('#cantidad').change(cambio());
-        $('#precio,#cantidad,#descuento').keyup(function (e) {
+        $('#precio,#cantidad').keyup(function (e) {
             var precio=$('#precio').val();
             var cantidad=$('#cantidad').val();
-            var descuento=$('#descuento').val();
-            $('#subtotal').val((precio*(1.00-descuento/100))*cantidad);
+            $('#subtotal').val(precio*cantidad);
         });
+        var porcenta=function () {
+            // console.log('aa');
+            var descuento=$('#descuento').val();
+            var cantidad=$('#cantidad').val();
+            $('#precio').val(preciototal*(1.00-descuento/100));
+            var precio=$('#precio').val();
+            // $('#subtotal').val((precio*(1.00-descuento/100))*cantidad);
+            $('#subtotal').val(precio*cantidad);
+        }
+        $('#descuento').change(porcenta);
+        $('#descuento').keyup(porcenta);
 
         //valor 0 para descuento
         $('#descuentototal').keyup(function (e) {

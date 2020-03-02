@@ -34,6 +34,11 @@ function index(){
 <script src='".base_url()."assets/js/buttons.print.min.js'></script>
 <script src='".base_url()."assets/js/usuario.js'></script>";
         $this->load->view('templates/footer',$data);
-
+}
+function detalle($idfactura){
+    $query=$this->db->query("SELECT * FROM detallefactura d
+ INNER JOIN producto p ON p.idproducto=d.idproducto
+ WHERE  d.idfactura='$idfactura'");
+    echo json_encode($query->result_array());
 }
 }

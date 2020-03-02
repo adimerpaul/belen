@@ -50,11 +50,6 @@
     $query=$this->db->query("SELECT f.fecha,total,p.apellidos,estado,f.idfactura FROM factura f INNER JOIN paciente p ON p.idpaciente=f.idpaciente
 WHERE date(f.fecha)>='$fecha1' AND date(f.fecha)<='$fecha2'");
     foreach ($query->result() as $row){
-        if ($row->estado=="ACTIVO"){
-            $estado="<div class='bg text-white text-center  bg-success'>ACTIVO</div>";
-        }else{
-            $estado="<div class='bg text-white text-center bg-danger'>INACTIVO</div>";
-        }
         echo "
         <tr>
             <td>".$row->fecha."</td>
@@ -62,7 +57,7 @@ WHERE date(f.fecha)>='$fecha1' AND date(f.fecha)<='$fecha2'");
             <td>".$row->apellidos."</td>
             <td>".$row->estado."</td>
             <td>
-                <button class='btn btn-info p-1' data-toggle='modal' data-target='#exampleModal' data-idventa='$row->idfactura'> <i class='fa fa-file'></i> Detalle</button>
+                <button class='btn btn-info p-1' data-toggle='modal' data-target='#exampleModal' data-idfactura='$row->idfactura'> <i class='fa fa-file'></i> Detalle</button>
             </td>
         </tr>";
     }
@@ -80,11 +75,30 @@ WHERE date(f.fecha)>='$fecha1' AND date(f.fecha)<='$fecha2'");
                 </button>
             </div>
             <div class="modal-body">
-
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Subtotal</th>
+                    </tr>
+                    </thead>
+                    <tbody id="detalle">
+                    </tbody>
+                    <tfoot class="thead-dark">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col">TOTAL</th>
+                            <th scope="col"><div id="total"></div></th>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"> <i class="fa fa-close"></i>Cerrar</button>
+<!--                <button type="button" class="btn btn-primary">Save changes</button>-->
             </div>
         </div>
     </div>
@@ -93,12 +107,34 @@ WHERE date(f.fecha)>='$fecha1' AND date(f.fecha)<='$fecha2'");
     window.onload=function () {
         $('#exampleModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
-            var recipient = button.data('whatever') // Extract info from data-* attributes
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var modal = $(this)
-            modal.find('.modal-title').text('New message to ' + recipient)
-            modal.find('.modal-body input').val(recipient)
+            var idfactura = button.data('idfactura');
+            $.ajax({
+                url:'Rango/detalle/'+idfactura,
+                success:function (e) {
+                    // console.log(e);
+                    var datos=JSON.parse(e);
+                    $('#detalle').html('');
+                    var cont=0;
+                    var total=0;
+                    // console.log(datos);
+                    datos.forEach(function (e) {
+                        // console.log(e);
+                        cont++;
+                        $('#detalle').append('<tr>' +
+                            '<td>'+cont+'</td>' +
+                            '<td>'+e.nombre+'</td>' +
+                            '<td>'+e.cantidad+'</td>' +
+                            '<td>'+e.subtotal+'</td>' +
+                            '</tr>');
+                        total+= parseFloat(e.subtotal);
+                    })
+                    $('#total').html(total);
+                }
+            });
+            // console.log(idfactura);
+            // var modal = $(this)
+            // modal.find('.modal-title').text('New message to ' + recipient)
+            // modal.find('.modal-body input').val(recipient)
         })
     }
 </script>

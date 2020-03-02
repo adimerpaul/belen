@@ -16,6 +16,8 @@
     label::first-letter {
         text-transform: uppercase;
     }
+    th { font-size: 12px;border: 0px;padding: 0px;margin: 0px }
+    td { font-size: 11px;border: 0px;padding: 0px;margin: 0px }
 </style>
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target=".bs-example-modal-lg">
@@ -23,13 +25,13 @@
 </button>
 <div class="mt-1"></div>
 <div class="table-responsive">
-    <table id="example" class="display nowrap" style="width:100%">
+    <table id="example" class="display nowrap" style="width:100%;padding: 0px;margin: 0px;border: 0px">
         <thead>
             <tr>
                 <th scope="col">Distribuidora</th>
-                <th scope="col">Nombre Génerico</th>
-                <th scope="col">Nombre Comercial</th>
-                <th scope="col">Forma farmaceútica</th>
+                <th scope="col">Nom. Géner.</th>
+                <th scope="col">Nom. Comer.</th>
+                <th scope="col">Form. Farma.</th>
                 <th scope="col">Precio</th>
 <!--                <th scope="col">Cantidad</th>-->
                 <th scope="col">Farmacológica</th>
