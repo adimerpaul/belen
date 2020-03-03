@@ -87,7 +87,13 @@ WHERE date(f.fecha)>='$fecha1' AND date(f.fecha)<='$fecha2'");
                     <tbody id="detalle">
                     </tbody>
                     <tfoot class="thead-dark">
-                        <tr>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">DESCUENTO</th>
+                        <th scope="col"><div id="descuento"></div></th>
+                    </tr>
+                    <tr>
                             <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col">TOTAL</th>
@@ -109,7 +115,7 @@ WHERE date(f.fecha)>='$fecha1' AND date(f.fecha)<='$fecha2'");
             var button = $(event.relatedTarget) // Button that triggered the modal
             var idfactura = button.data('idfactura');
             $.ajax({
-                url:'Rango/detalle/'+idfactura,
+                url:'<?=base_url()?>Rango/detalle/'+idfactura,
                 success:function (e) {
                     // console.log(e);
                     var datos=JSON.parse(e);
@@ -129,6 +135,7 @@ WHERE date(f.fecha)>='$fecha1' AND date(f.fecha)<='$fecha2'");
                         total+= parseFloat(e.subtotal);
                     })
                     $('#total').html(total);
+                    $('#descuento').html(datos[0].descuento);
                 }
             });
             // console.log(idfactura);

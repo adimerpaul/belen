@@ -64,8 +64,8 @@ class Productos extends CI_Controller{
         $nombreusuario = $_SESSION['nombre'];
         $this->db->query("INSERT INTO producto(nombre,nombrecomercial,formafarmaceutica,precio,cantidad,farmacologica,fechavencimiento,distribuidora,idusuario,nombreusuario)
         VALUES ('$nombre','$nombrecomercial','$formafarmaceutica','$precio','$stock','$farmacologica','$fechavencimiento','$distribuidora','$idusuario','$nombreusuario');");
-        $idproducto=$this->db->insert_id();
-        $this->db->query("INSERT INTO lote SET cantidad='$stock',idproducto='$idproducto',fechavencimiento='$fechavencimiento',idusuario='$idusuario',nombreusuario='$nombreusuario'");
+//        $idproducto=$this->db->insert_id();
+//        $this->db->query("INSERT INTO lote SET cantidad='$stock',idproducto='$idproducto',fechavencimiento='$fechavencimiento',idusuario='$idusuario',nombreusuario='$nombreusuario'");
         header("Location: ".base_url().'Productos');
     }
     function lote(){

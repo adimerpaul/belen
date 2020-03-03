@@ -128,7 +128,15 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Forma Farmaceutica</span>
                                 </div>
-                                <input type="text" class="form-control" id="formafarmaceutica" placeholder="forma farmaceutica" name="formafarmaceutica" required>
+                                <input type="text" list="formaName" class="form-control" id="formafarmaceutica" placeholder="forma farmaceutica" name="formafarmaceutica" required>
+                                <datalist id="formaName">
+                                    <?php
+                                    $query=$this->db->query("SELECT formafarmaceutica FROM producto GROUP BY formafarmaceutica");
+                                    foreach ($query->result() as $row){
+                                        echo "<option value='$row->formafarmaceutica'>$row->formafarmaceutica</option>";
+                                    }
+                                    ?>
+                                </datalist>
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -139,7 +147,7 @@
                                 <input type="number" class="form-control" id="precio" min="0.10" placeholder="precio" name="precio" step="0.10" required>
                             </div>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" hidden>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Stock</span>
@@ -155,7 +163,7 @@
                                 <textarea name="farmacologica" class="form-control" id="farmacologica" rows="2"></textarea>
                             </div>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" hidden>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Fecha Vencimiento</span>

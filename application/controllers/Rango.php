@@ -38,6 +38,7 @@ function index(){
 function detalle($idfactura){
     $query=$this->db->query("SELECT * FROM detallefactura d
  INNER JOIN producto p ON p.idproducto=d.idproducto
+ INNER JOIN factura f ON d.idfactura=f.idfactura
  WHERE  d.idfactura='$idfactura'");
     echo json_encode($query->result_array());
 }
