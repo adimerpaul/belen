@@ -26,6 +26,7 @@
         <th scope="col">Cantidad</th>
         <th scope="col">Accion farmacologica</th>
         <th scope="col">Cantidad</th>
+        <th scope="col">Registro</th>
         <th scope="col">Fech. vencimi.</th>
         <th scope="col">Usuario</th>
         <th scope="col">Estado</th>
@@ -53,6 +54,7 @@
         if ($query2->num_rows()>0){
             foreach ($query2->result() as $row2){
                 $cantidad=$cantidad."<div>$row2->cantidad</div>";
+                $fecharegistro="<div>$row2->fecha</div>";
                 $fechavecimiento=$fechavecimiento."<div>$row2->fechavencimiento</div>";
                 $usuarios=$usuarios."<div>$row2->nombreusuario</div>";
                 $anio = date('Y');
@@ -77,6 +79,7 @@
             </td>
             <td>".$row->farmacologica."</td>
             <td>".$cantidad."</td>
+            <td>".$fecharegistro."</td>
             <td>".$fechavecimiento."</td>
             <td>$usuarios</td>
             <td>$estado</td>
@@ -89,7 +92,7 @@
     var eli=document.getElementsByClassName("eli");
     for (var i=0;i<eli.length;i++){
         eli[i].addEventListener('click',function (e) {
-            if (!confirm("Seguro de inactivar?, no esta disponible para ventas")){
+            if (!confirm("Seguro que decea inactivar el producto?, ya no estara disponible para realizar ventas")){
                 e.preventDefault();
             }
         })
