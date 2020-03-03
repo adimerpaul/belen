@@ -48,13 +48,14 @@
 //        }
         $query2=$this->db->query("SELECT * FROM lote WHERE idproducto='$row->idproducto' and cantidad<>0");
         $cantidad="";
+        $fecharegistro="";
         $fechavecimiento="";
         $estado="";
         $usuarios="";
         if ($query2->num_rows()>0){
             foreach ($query2->result() as $row2){
                 $cantidad=$cantidad."<div>$row2->cantidad</div>";
-                $fecharegistro="<div>$row2->fecha</div>";
+                $fecharegistro=$fecharegistro."<div>$row2->fecha</div>";
                 $fechavecimiento=$fechavecimiento."<div>$row2->fechavencimiento</div>";
                 $usuarios=$usuarios."<div>$row2->nombreusuario</div>";
                 $anio = date('Y');
