@@ -64,8 +64,10 @@ class Productos extends CI_Controller{
         $nombreusuario = $_SESSION['nombre'];
         $this->db->query("INSERT INTO producto(nombre,nombrecomercial,formafarmaceutica,precio,cantidad,farmacologica,fechavencimiento,distribuidora,idusuario,nombreusuario)
         VALUES ('$nombre','$nombrecomercial','$formafarmaceutica','$precio','$stock','$farmacologica','$fechavencimiento','$distribuidora','$idusuario','$nombreusuario');");
-//        $idproducto=$this->db->insert_id();
+        $idproducto=$this->db->insert_id();
 //        $this->db->query("INSERT INTO lote SET cantidad='$stock',idproducto='$idproducto',fechavencimiento='$fechavencimiento',idusuario='$idusuario',nombreusuario='$nombreusuario'");
+        $this->db->query("INSERT INTO lote(cantidad,idproducto,fechavencimiento,idusuario,nombreusuario)
+        VALUES ('$stock','$idproducto','$fechavencimiento','$idusuario','$nombreusuario');");
         header("Location: ".base_url().'Productos');
     }
     function lote(){
@@ -84,11 +86,12 @@ class Productos extends CI_Controller{
          fechavencimiento='$fechavencimiento',
         idusuario='$idusuario',
         nombreusuario='$nombreusuario'");
-        $this->db->query("UPDATE producto SET 
-        cantidad=cantidad+'$stock',
+
+        $this->db->query("UPDATE producto SET
+        cantidad=cantidad+$stock,
         fechavencimiento='$fechavencimiento'
         WHERE
-       idproducto='$idproducto';");
+        idproducto='$idproducto';");
         header("Location: ".base_url().'Productos');
     }
     function datos(){
@@ -104,20 +107,20 @@ class Productos extends CI_Controller{
         $nombre = strtoupper($_POST['nombre']);
         $idproducto=$_POST['idproducto'];
         $precio = $_POST['precio'];
-        $stock = $_POST['stock'];
         $farmacologica = $_POST['farmacologica'];
-        $fechavencimiento = $_POST['fechavencimiento'];
+        $nombrecomercial = $_POST['nombrecomercial'];
+        $formafarmaceutica = $_POST['formafarmaceutica'];
         $distribuidora = $_POST['distribuidora'];
 
         $query = $this->db->query("UPDATE producto SET 
         nombre='$nombre',
         precio='$precio',
-        cantidad='$stock',
         farmacologica='$farmacologica',
-        fechavencimiento='$fechavencimiento',
+        nombrecomercial='$nombrecomercial',
+        formafarmaceutica='$formafarmaceutica',
         distribuidora='$distribuidora'
         WHERE
-       idproducto='$idproducto';");
+        idproducto='$idproducto';");
         header("Location: ".base_url().'Productos');
     }
     function delete($id){

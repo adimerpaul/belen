@@ -138,7 +138,7 @@
             </div>
             <div class="modal-footer">
                 <div class="alert alert-warning" id="messageCtrlProduct">
-                    El producto ya fue agregado para vender, 
+                    El producto ya fue agregado para vender,
                     <b>puede aumentar o reducir la cantidad en los productos a vender</b>
                 </div>
             </div>
@@ -267,7 +267,7 @@
             if (descuento=="")
                 $('#descuentototal').val("0");
         });
-        
+
         //calculo de descuento
         $('#pagado,#descuentototal').keyup(function (e) {
             var total = parseFloat($('#total').val());
@@ -291,11 +291,11 @@
                     if (gastado>0)
                         $('#gastado').html('Bs. '+gastado.toFixed(2));
                     else
-                        $('#gastado').html('No realizo compras');
+                        $('#gastado').html('No esta registrado');
                     if (datos[0] !=null){
                         $('#razon').val(datos[0].apellidos);
                     }else{
-                        $('#razon').val('No registrado');
+                        $('#razon').val('');
                     }
                 }
             });
@@ -363,15 +363,15 @@
 
             let descuento = parseInt( $(this).data('descuento'));
             let cantidadMax = parseInt( $(this).data('cantidadmax'));
-            
+
             let cantidad= parseInt( $('#ca'+idproducto).html());
-            if (cantidad<cantidadMax){    
+            if (cantidad<cantidadMax){
                 cantidad=cantidad+1;
                 $('#ca'+idproducto).html(cantidad);
                 $('#cad'+idproducto).val(cantidad);
                 $('#su'+idproducto).html(cantidad*(precio*(1.00-descuento/100)));
                 $('#sub'+idproducto).val(cantidad*(precio*(1.00-descuento/100)));
-                
+
             }
             calcular_total();
             e.preventDefault();

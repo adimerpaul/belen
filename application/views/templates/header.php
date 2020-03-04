@@ -70,6 +70,11 @@
                                 <i class="ti-file"></i><span> Informe</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="<?=base_url()?>Productos" aria-expanded="true">
+                                <i class="ti-briefcase"></i><span>Productos </span>
+                            </a>
+                        </li>
                         <?php else: //header('Location: '.base_url());?>
                         <?php endif; ?>
                         <?php if ($_SESSION['tipo']=='ADMIN') :?>

@@ -25,6 +25,8 @@ $(document).ready(function() {
                 $('#idproducto2').val(datos.idproducto);
                 $('#nombre2').val(datos.nombre);
                 $('#precio2').val(datos.precio);
+                $('#nombrecomercial2').val(datos.nombrecomercial);
+                $('#formafarmaceutica2').val(datos.formafarmaceutica);
                 $('#stock2').val(datos.cantidad);
                 $('#farmacologica2').val(datos.farmacologica);
                 $('#fechavencimiento2').val(datos.fechavencimiento);

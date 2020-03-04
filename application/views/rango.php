@@ -90,6 +90,12 @@ WHERE date(f.fecha)>='$fecha1' AND date(f.fecha)<='$fecha2'");
                     <tr>
                         <th scope="col"></th>
                         <th scope="col"></th>
+                        <th scope="col">SUBTOTAL</th>
+                        <th scope="col"><div id="subtotal"></div></th>
+                    </tr>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                         <th scope="col">DESCUENTO</th>
                         <th scope="col"><div id="descuento"></div></th>
                     </tr>
@@ -98,7 +104,7 @@ WHERE date(f.fecha)>='$fecha1' AND date(f.fecha)<='$fecha2'");
                             <th scope="col"></th>
                             <th scope="col">TOTAL</th>
                             <th scope="col"><div id="total"></div></th>
-                        </tr>
+                    </tr>
                     </tfoot>
                 </table>
             </div>
@@ -134,8 +140,9 @@ WHERE date(f.fecha)>='$fecha1' AND date(f.fecha)<='$fecha2'");
                             '</tr>');
                         total+= parseFloat(e.subtotal);
                     })
-                    $('#total').html(total);
+                    $('#subtotal').html(total);
                     $('#descuento').html(datos[0].descuento);
+                    $('#total').html((total-datos[0].descuento).toFixed(2));
                 }
             });
             // console.log(idfactura);

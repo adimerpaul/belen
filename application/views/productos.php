@@ -33,7 +33,7 @@
                 <th scope="col">Nom. Comer.</th>
                 <th scope="col">Form. Farma.</th>
                 <th scope="col">Precio</th>
-<!--                <th scope="col">Cantidad</th>-->
+                <th scope="col">Cantidad</th>
                 <th scope="col">Farmacológica</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Opciones</th>
@@ -41,7 +41,7 @@
         </thead>
         <tbody>
         <?php
-        $query=$this->db->query("SELECT * FROM producto");
+        $query=$this->db->query("SELECT * FROM producto order by idproducto desc");
         foreach ($query->result() as $row){
             if($row->estado=="ACTIVO"){
                 $t="<div class='alert alert-success'>ACTIVO</div>";
@@ -57,11 +57,11 @@
                 <td>".$row->nombrecomercial."</td>
                 <td>".$row->formafarmaceutica."</td>
                 <td>".$row->precio."</td>
-                <!--td>".$row->cantidad."
+                <td>".$row->cantidad."
                     <div class='progress'>
                     <div class='progress-bar' role='progressbar' style='width: $row->cantidad%;' aria-valuenow='$row->cantidad' aria-valuemin='0' aria-valuemax='100'>$row->cantidad</div>
                 </div>
-                </td--->
+                </td>
                 <td>".$row->farmacologica."</td>
                 <td>$t</td>
                 <td> 
@@ -147,7 +147,7 @@
                                 <input type="number" class="form-control" id="precio" min="0.10" placeholder="precio" name="precio" step="0.10" required>
                             </div>
                         </div>
-                        <div class="form-group col-md-12" hidden>
+                        <div class="form-group col-md-12">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Stock</span>
@@ -163,7 +163,7 @@
                                 <textarea name="farmacologica" class="form-control" id="farmacologica" rows="2"></textarea>
                             </div>
                         </div>
-                        <div class="form-group col-md-12" hidden>
+                        <div class="form-group col-md-12">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Fecha Vencimiento</span>
@@ -233,7 +233,15 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Forma Farmaceútica</span>
                                 </div>
-                                <input type="text" class="form-control" id="formafarmaceutica2" placeholder="forma farmaceutica" name="formafarmaceutica" required>
+                                <input type="text" class="form-control" id="formafarmaceutica2" placeholder="forma farmaceutica" name="formafarmaceutica" list="formaName2" required>
+                                <datalist id="formaName2">
+                                    <?php
+                                    $query=$this->db->query("SELECT formafarmaceutica FROM producto GROUP BY formafarmaceutica");
+                                    foreach ($query->result() as $row){
+                                        echo "<option value='$row->formafarmaceutica'>$row->formafarmaceutica</option>";
+                                    }
+                                    ?>
+                                </datalist>
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -244,28 +252,12 @@
                                 <input type="number" step="0.10" class="form-control" id="precio2" value="0" placeholder="precio" name="precio" required>
                             </div>
                         </div>
-                        <div class="form-group col-md-12">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Stock</span>
-                                </div>
-                                <input type="text" class="form-control" id="stock2" value="0" placeholder="stock" name="stock" required>
-                            </div>
-                        </div>
                         <div class="form-group col-md-12"  >
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Farmacológica</span>
                                 </div>
                                 <input type="text"  class="form-control" id="farmacologica2" placeholder="farmacologica" name="farmacologica" required>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-12"  >
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Fecha Vencimiento</span>
-                                </div>
-                                <input type="date"  class="form-control" id="fechavencimiento2" placeholder="fecha vencimiento" name="fechavencimiento" required>
                             </div>
                         </div>
                         <div class="form-group col-md-12">

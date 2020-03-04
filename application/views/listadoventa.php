@@ -18,7 +18,6 @@
     }
 </style>
 
-<div class="mt-1"></div>
 <form action="<?=base_url()?>Listaventa/index" method="post">
     <div class="form-group row">
         <label for="mes" class="col-sm-1 col-form-label">Mes:</label>
@@ -74,12 +73,12 @@
     </thead>
     <tbody>
     <?php
-    $query=$this->db->query("SELECT f.idfactura,f.fecha,f.nrofactura,d.nroautorizacion,f.estado,p.ci,p.apellidos,p.nombres,f.total,f.codigocontrol 
-FROM factura f 
-INNER JOIN paciente p ON f.idpaciente=p.idpaciente
-INNER JOIN dosificacion d ON f.idpaciente=p.idpaciente
-WHERE MONTH(f.fecha)='$mes' AND YEAR(f.fecha)='$anio'
-");
+    $query=$this->db->query("SELECT f.idfactura,f.fecha,f.nrofactura,d.nroautorizacion,f.estado,p.ci,p.apellidos,p.nombres,f.total,f.codigocontrol,f.descuento
+            FROM factura f 
+            INNER JOIN paciente p ON f.idpaciente=p.idpaciente
+            INNER JOIN dosificacion d ON f.idpaciente=p.idpaciente
+            WHERE MONTH(f.fecha)='$mes' AND YEAR(f.fecha)='$anio'
+            ");
     $c=0;
     foreach ($query->result() as $row){
         $c++;
@@ -87,8 +86,8 @@ WHERE MONTH(f.fecha)='$mes' AND YEAR(f.fecha)='$anio'
             $row->total=0;
             $print="";
         }else{
-            $print="<a href='".base_url()."Venta/printfactura2/$row->idfactura' class='btn btn-sm btn-outline-info sinespaciotexto' ><i class='fa fa-print'></i> Imprimir</a>
-<a href='".base_url()."Listaventa/anular/$row->idfactura' class='btn btn-sm btn-outline-danger sinespaciotexto eli' ><i class='fa fa-trash-o'></i> Anular</a>";
+            $print="<a target='_blank' href='".base_url()."Venta/printfactura2/$row->idfactura' class='btn btn-sm btn-outline-info sinespaciotexto' ><i class='fa fa-print'></i> Imprimir</a>
+                    <a href='".base_url()."Listaventa/anular/$row->idfactura' class='btn btn-sm btn-outline-danger sinespaciotexto eli' ><i class='fa fa-trash-o'></i> Anular</a>";
         }
         //for ($i=0;$i<10000;$i++)
         echo "
@@ -105,9 +104,9 @@ WHERE MONTH(f.fecha)='$mes' AND YEAR(f.fecha)='$anio'
             <td>0</td>
             <td>0</td>
             <td>$row->total</td>
+            <td>$row->descuento</td>
             <td>0</td>
-            <td>$row->total</td>
-            <td>".number_format($row->total*0.13,2)."</td>
+            <td>".number_format(($row->total-$row->descuento)*0.13,4)."</td>
             <td>$row->codigocontrol</td>
             <td> 
            $print

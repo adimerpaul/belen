@@ -152,7 +152,7 @@ VALUES ('$nombre','$tipo');");
             $row=$query->row();
             $numerodefactura=$row->cantidad+$nrofactura;
             $class2 = new ControlCode();
-            $nitci="170444028";
+            $nitci="7296413013";
             $fecha=date("Ymd");
             //$monto="120.50";
 
@@ -198,21 +198,28 @@ VALUES ('$nombre','$tipo');");
                 )");
 
                 //para actualizar lotes
+                 $cantidadProducto = $_POST['c'.$row->idproducto];
 
-                // $cantidadProducto = $_POST['c'.$row->idproducto];
-                
-                // while($cantidadProducto<=0){
-                //     $queryLote = $this->db->query("SELECT * FROM lote WHERE idproducto='$row->idproducto' and cantidad <> 0 ORDER BY fechavencimiento LIMIT 1");
-                //     $idlote = $queryLote->idlote;
-                //     $cantidadlote = $queryLote->cantidad;
-                //     if ($cantidadLote>=$cantidadProducto)
-                //         $this->db->query("UPDATE lote SET cantidad=cantidad-".$_POST['c'.$row->idproducto]." WHERE idlote='$idlote'");
-                //     else
-                //         $this->db->query("UPDATE lote SET cantidad=0 WHERE idlote='$idlote'");
-                //     $cantidadProducto=$cantidadProducto-$cantidadlote;
-                // }
+                 while($cantidadProducto>0){
+                     $queryLote = $this->db->query("SELECT * FROM lote WHERE idproducto='".$row->idproducto."' and cantidad <> 0 ORDER BY fechavencimiento");
+                     if ($queryLote->num_rows()>0){
+                         $idlote = $queryLote->row()->idlote;
+                         $cantidadlote = $queryLote->row()->cantidad;
+//                         if ($cantidadlote>=$cantidadProducto){
+                             $this->db->query("UPDATE lote SET cantidad=cantidad-1 WHERE idlote='$idlote'");
+
+//                             $cantidadProducto=0;
+//                         }
+//                         else{
+//                             $this->db->query("UPDATE lote SET cantidad=0 WHERE idlote='$idlote'");
+//                             $cantidadProducto=$cantidadProducto-$cantidadlote;
+//                         }
+                     }
+                     $cantidadProducto--;
+
+                 }
             }
-            
+
         }
         header("Location: ".base_url()."Venta/printfactura3/".$idfacura);
     }
@@ -244,7 +251,7 @@ VALUES ('$nombre','$tipo');");
         $codigocontrol=$row->codigocontrol;
         $hasta=$row->hasta;
         $leyenda=$row->leyenda;
-        $nit="170444028";
+        $nit="7296413013";
 
 
         $connector = new WindowsPrintConnector($nombre_impresora);
@@ -490,6 +497,7 @@ Orden de venta muchas gracias por su compra!!!
             $nrofactura=$row->nrofactura;
             $nroautorizacion=$row->nroautorizacion;
             $total=number_format($row->total,2);
+            $descuento=number_format($row->descuento,2);
             $d = explode('.',$total);
             $entero=$d[0];
             $decimal=$d[1];
@@ -500,79 +508,76 @@ Orden de venta muchas gracias por su compra!!!
             $codigocontrol=$row->codigocontrol;
             $hasta=$row->hasta;
             $leyenda=$row->leyenda;
-            $nit="170444028";
-
+            $nit="7296413013";
 
             //echo date('d/m/Y', strtotime($fecha));
             //exit;
-            $testStr = "$nit|$nrofactura|$nroautorizacion|".date('d/m/Y',strtotime($fecha))."|$total|$total|$codigocontrol|$ci|0|0|0|0";
+            $testStr = "$nit|$nrofactura|$nroautorizacion|".date('d/m/Y',strtotime($fecha))."|$total|$descuento|$total-$descuento)|$codigocontrol|$ci|0|0|0|0";
             QRcode::png($testStr, 'temp/test.png', 'L', 4, 2);
             $c= new NumeroALetras();
-            $query=$this->db->query("SELECT p.idproducto,nombre,d.cantidad,d.precio,d.subtotal 
-FROM detallefactura d 
-INNER JOIN producto p ON p.idproducto=d.idproducto
-WHERE d.idfactura='$idfactura'");
+            $query=$this->db->query("SELECT p.idproducto,nombre,nombrecomercial,formafarmaceutica,d.cantidad,d.precio,d.subtotal 
+                FROM detallefactura d 
+                INNER JOIN producto p ON p.idproducto=d.idproducto
+                WHERE d.idfactura='$idfactura'");
             $t="";
             foreach ($query->result() as $row){
-                $t=$t.'<tr>
+                $t=$t.'<tr align="center">
                 <td>'.$row->idproducto.'</td>
-                <td>'.$row->nombre.'</td>
+                <td>'.$row->nombre.' '.$row->nombrecomercial.' '.$row->formafarmaceutica.'</td>
                 <td>'.$row->cantidad.'</td>
                 <td>'.$row->precio.'</td>
                 <td>'.$row->subtotal.'</td>
                 </tr>';
             }
-            $html='<table>
-<tr align="center" >
-<td>
-        Lo ultimo en tecnologia estetica sin cirugia<br>
-        CALLE BOLIVAR ENTRE POTOSI y 6 DE OCTUBRE NRO. 440(ZONA: CENTRAL)<br>
-        Teléfono 5210229 Celular: 60413300<br>
-</td>
-<td>
-        <small style="font-weight: bold;font-size: 15px">FACTURA</small> <br>
-        
-        ORURO-BOLIVIA<br>
-</td>
-<td>
-<table border="1">
-<tr>
-<td>
-<b>NIT: 170444028 </b><br>
-FACTURA N° '.$nrofactura.' <br>
-AUTORIZACION N° '.$nroautorizacion.' <br>
- <b> ORIGINAL CLIENTE</b>
-</td>
-</tr>
-</table>
-</td>
-</tr>
+            $html='
+<table>
+    <tr align="center">
+        <td>
+            Farmacia "BELEN"<br>
+            JUAN CARLOS SOTO VILLCA<br>
+            CASA MATRIZ<br>
+            Antofagasta entre San Felipe<br>
+            y pasaje San Felipe Nro. 16<br>
+            Zona: Este Oruro - Bolivia
+        </td>
+        <td>
+            <div><b>FACTURA</b></div>
+            <div>ORURO-BOLIVIA</div>
+            '.date('d m Y').'
+        </td>
+        <td>
+            <b>NIT: 7296413013 </b><br>
+            FACTURA N° '.$nrofactura.' <br>
+            AUTORIZACION N° '.$nroautorizacion.' <br>
+             <b> ORIGINAL CLIENTE</b><br>
+             Venta al por menor de productos farmacéuticos, medicinales, cosméticos y artículos de tocador<br>
+         </td>
+    </tr>
 </table>
 <table border="">
 <tr>
 <td>
 <table>
-<tr>
-<td>
- <b>Oruro:</b> '.$fecha.' <br>
- <b>Señores (es)</b> '.$apellidos.' 
-</td>
-<td>
- <b>CI/NIT:</b> '.$ci.'
-</td>
-</tr>
+    <tr>
+        <td>
+         <b>Señores (es)</b> '.$apellidos.' 
+        </td>
+        <td>
+         <b>CI/NIT:</b> '.$ci.'
+        </td>
+    </tr>
 </table>
 </td>
 </tr>
 </table>
 <table border="0">
-<tr>
-<td><b>CÓDIGO</b></td>
-<td><b>DESCRIPCION</b></td>
-<td><b>CANTIDAD</b></td>
-<td><b>PRECIO UNITARIO</b></td>
-<td><b>PRECIO TOTAL</b></td>
-</tr>
+    <tr align="center">
+    <td><b>CÓDIGO</b></td>
+    <td><b>DESCRIPCION</b></td>
+    <td><b>CANTIDAD</b></td>
+    <td><b>PRECIO UNITARIO</b></td>
+    <td><b>PRECIO TOTAL</b></td>
+    </tr>
 '.$t.'
 <tr>
 <td></td>
@@ -586,14 +591,14 @@ AUTORIZACION N° '.$nroautorizacion.' <br>
 <td></td>
 <td></td>
 <td><b>DESCUENTO:</b></td>
-<td>0</td>
+<td>'.$descuento.'</td>
 </tr>
 <tr>
 <td></td>
 <td></td>
 <td></td>
 <td><b>NETO TOTAL:</b></td>
-<td>'.$total.'</td>
+<td>'.number_format(($total-$descuento),2).'</td>
 </tr>
 
 </table>
@@ -777,11 +782,11 @@ WHERE d.idfactura='$idfactura'");
             $codigocontrol=$row->codigocontrol;
             $hasta=$row->hasta;
             $leyenda=$row->leyenda;
-            $nit="170444028";
+            $nit="7296413013";
 
             //echo date('d/m/Y', strtotime($fecha));
             //exit;
-            $testStr = "$nit|$nrofactura|$nroautorizacion|".date('d/m/Y',strtotime($fecha))."|$total|$total|$codigocontrol|$ci|0|0|0|0";
+            $testStr = "$nit|$nrofactura|$nroautorizacion|".date('d/m/Y',strtotime($fecha))."|$total|$descuento|".number_format($total-$descuento,2)."|$codigocontrol|$ci|0|0|0|0";
             QRcode::png($testStr, 'temp/test.png', 'L', 4, 2);
             $c= new NumeroALetras();
             $query=$this->db->query("SELECT p.idproducto,nombre,nombrecomercial,formafarmaceutica,d.cantidad,d.precio,d.subtotal 

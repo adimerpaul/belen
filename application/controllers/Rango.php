@@ -36,7 +36,7 @@ function index(){
         $this->load->view('templates/footer',$data);
 }
 function detalle($idfactura){
-    $query=$this->db->query("SELECT * FROM detallefactura d
+    $query=$this->db->query("SELECT p.nombre,d.cantidad,d.subtotal,f.descuento FROM detallefactura d
  INNER JOIN producto p ON p.idproducto=d.idproducto
  INNER JOIN factura f ON d.idfactura=f.idfactura
  WHERE  d.idfactura='$idfactura'");

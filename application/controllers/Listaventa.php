@@ -69,9 +69,9 @@ class Listaventa extends CI_Controller{
             Ahora vamos a imprimir un encabezado
         */
         $query=$this->db->query("SELECT * FROM factura f
-INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
-INNER JOIN paciente p ON p.idpaciente=f.idpaciente
-WHERE f.idfactura='$idfactura'");
+            INNER JOIN dosificacion d ON f.iddosificacion=d.iddosificacion
+            INNER JOIN paciente p ON p.idpaciente=f.idpaciente
+            WHERE f.idfactura='$idfactura'");
         $row=$query->row();
         $nrofactura=$row->nrofactura;
         $nroautorizacion=$row->nroautorizacion;
@@ -86,7 +86,7 @@ WHERE f.idfactura='$idfactura'");
         $codigocontrol=$row->codigocontrol;
         $hasta=$row->hasta;
         $leyenda=$row->leyenda;
-        $nit="170444028";
+        $nit="7296413013";
 
 
         $connector = new WindowsPrintConnector($nombre_impresora);
@@ -131,8 +131,8 @@ WHERE f.idfactura='$idfactura'");
         /*Alinear a la izquierda para la cantidad y el nombre*/
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $query=$this->db->query("SELECT * FROM detallefactura d 
-INNER JOIN producto p ON p.idproducto=d.idproducto
-WHERE d.idfactura='$idfactura'");
+                INNER JOIN producto p ON p.idproducto=d.idproducto
+                WHERE d.idfactura='$idfactura'");
         foreach ($query->result() as $row){
             $printer->text("$row->nombre\n");
             $printer->text( "$row->cantidad           $row->precio $row->subtotal   \n");
